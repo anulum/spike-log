@@ -1,0 +1,63 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Commercial license available
+# © Concepts 1996–2026 Miroslav Šotek. All rights reserved.
+# © Code 2020–2026 Miroslav Šotek. All rights reserved.
+# ORCID: 0009-0009-3560-0851
+# Contact: www.anulum.li | protoscience@anulum.li
+# SPIKE-LOG — source and configuration provenance
+
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pre-commit:
+    uses: $/.github/workflows/pre-commit.yml
+    permissions:
+      contents: read
+  docs:
+    uses: $/.github/workflows/docs.yml
+    permissions:
+      contents: read
+  codeql:
+    uses: $/.github/workflows/codeql.yml
+    permissions:
+      contents: read
+  security-audit:
+    uses: $/.github/workflows/security-audit.yml
+    permissions:
+      contents: read
+  sbom:
+    uses: $/.github/workflows/sbom.yml
+    permissions:
+      contents: read
+  scorecard:
+    uses: $/.github/workflows/scorecard.yml
+    permissions:
+      contents: read
+  complete:
+    name: Local scaffold gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions: {}
+    if: ${{ always() }}
+    needs: [pre-commit, docs, codeql, security-audit, sbom, scorecard]
+    steps:
+      - name: Require every analysis workflow
+        env:
+          REQUIRED_RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          results = json.loads(os.environ["REQUIRED_RESULTS"])
+          required = {"pre-commit", "docs", "codeql", "security-audit", "sbom", "scorecard"}
+          if set(results) != required or any(value["result"] != "success" for value in results.values()):
+              raise SystemExit(1)
+          PY
