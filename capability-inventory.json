@@ -1,0 +1,12 @@
+{
+  "capabilities": [],
+  "claims": [],
+  "evidence_maturity": "architecture_only",
+  "lifecycle": "local_scaffold",
+  "qualified_owned_schema_ids": [],
+  "repository_name": "SPIKE-LOG",
+  "source_metadata": {
+    "path": "repository-domain.json",
+    "sha256": "5e4e78a685125646f1bc91e17a641dd6988893d0aa58a8ffa22953922628eef5"
+  }
+}

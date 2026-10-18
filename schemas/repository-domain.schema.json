@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SPIKE-LOG initial local governance metadata design",
+  "$comment": "Prospective exact local-scaffold metadata, not registered C0/C3 evidence. Shape acceptance does not verify actual interpreter/lock/source authority/semantic specifier validity. Required guard independently validates expected identity, current authoritative source hashes and actual installed graph. Duplicate JSON keys and nonfinite/invalid Unicode input require strict parser refusal before this schema. All domain qualification remains separate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "repository_name",
+    "owner_group",
+    "lifecycle",
+    "evidence_maturity",
+    "capabilities",
+    "claims",
+    "qualified_owned_schema_ids",
+    "planned_owned_schema_ids",
+    "validation_profile",
+    "tooling_python",
+    "domain_runtime_dependencies"
+  ],
+  "properties": {
+    "repository_name": {
+      "const": "SPIKE-LOG"
+    },
+    "owner_group": {
+      "const": "SC-NEUROMORPHIC-COMPUTING-SYSTEMS"
+    },
+    "lifecycle": {
+      "const": "local_scaffold"
+    },
+    "evidence_maturity": {
+      "const": "architecture_only"
+    },
+    "capabilities": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "claims": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "qualified_owned_schema_ids": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "planned_owned_schema_ids": {
+      "const": [
+        "spike_log.container.v1"
+      ]
+    },
+    "validation_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "standard_sha256",
+        "profile_sha256"
+      ],
+      "properties": {
+        "id": {
+          "const": "gotm.enterprise-repository-tier0.local-scaffold"
+        },
+        "revision": {
+          "const": "2026-10-04"
+        },
+        "standard_sha256": {
+          "const": "8421674a61444474447fad2f4d2bfc54dc5a1ea12ae988785e57dbcab385938c"
+        },
+        "profile_sha256": {
+          "const": "f453a70eae008c41f8d26a1f495ec3636f64739bcedb9caac0bdf8774300905c"
+        }
+      }
+    },
+    "tooling_python": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design_baseline",
+        "actual_version",
+        "supported_range",
+        "development_lock_sha256"
+      ],
+      "properties": {
+        "design_baseline": {
+          "const": "3.13"
+        },
+        "actual_version": {
+          "type": "string",
+          "pattern": "^3\\.13\\.(0|[1-9][0-9]*)$"
+        },
+        "supported_range": {
+          "type": "string",
+          "minLength": 1
+        },
+        "development_lock_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "domain_runtime_dependencies": {
+      "type": "array",
+      "maxItems": 0
+    }
+  }
+}
