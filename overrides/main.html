@@ -1,0 +1,64 @@
+<!--
+SPDX-License-Identifier: AGPL-3.0-or-later
+Commercial license available
+© Concepts 1996–2026 Miroslav Šotek. All rights reserved.
+© Code 2020–2026 Miroslav Šotek. All rights reserved.
+ORCID: 0009-0009-3560-0851
+Contact: www.anulum.li | protoscience@anulum.li
+SPIKE-LOG — source and configuration provenance
+-->
+
+{% extends "base.html" %}
+{% block extrahead %}
+  {{ super() }}
+  <style id="spike-log-keyboard-navigation">
+    .md-typeset a:hover, .md-typeset a:focus {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .md-nav .md-nav__link:hover, .md-nav .md-nav__link:focus,
+    .md-nav--primary .md-nav__item--active > .md-nav__link:hover,
+    .md-nav--primary .md-nav__item--active > .md-nav__link:focus {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .md-search__output { visibility: hidden; }
+    #__search:checked ~ .md-header .md-search__output { visibility: visible; }
+    #__search:checked ~ .md-header .md-search__inner:has(.md-search__input:placeholder-shown) .md-search__output {
+      visibility: hidden;
+    }
+    #__drawer, #__search, .spike-log-toggle-name {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    #__drawer:focus-visible ~ .md-header label[for="__drawer"],
+    #__search:focus-visible ~ .md-header label[for="__search"],
+    #__drawer:focus-visible ~ .md-container .md-nav__title[for="__drawer"] {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+    @media screen and (max-width: 59.984375em) {
+      #__search { display: block; }
+      #__search:not(:checked) ~ .md-header .md-search { overflow: clip; }
+    }
+    @media screen and (max-width: 76.234375em) {
+      #__drawer { display: block; }
+      [data-md-toggle="drawer"]:not(:checked) ~ .md-container .md-sidebar--primary:focus-within {
+        box-shadow: var(--md-shadow-z3);
+        inset-inline-start: 0;
+      }
+    }
+  </style>
+{% endblock %}
+{% block header %}
+  {{ super()
+    | replace('<label class="md-header__button md-icon" for="__drawer">', '<label class="md-header__button md-icon" for="__drawer" aria-label="Navigation"><span class="spike-log-toggle-name">Navigation</span>')
+    | replace('<label class="md-header__button md-icon" for="__search">', '<label class="md-header__button md-icon" for="__search" aria-label="Search"><span class="spike-log-toggle-name">Search</span>')
+    | replace('role="dialog"', 'role="dialog" aria-label="Search"')
+    | replace('class="md-search-result__meta"', 'class="md-search-result__meta" role="status" aria-live="polite" aria-atomic="true"')
+    | safe }}
+{% endblock %}
