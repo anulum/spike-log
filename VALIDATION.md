@@ -73,8 +73,14 @@ do not add aggregate roles or imply that every role ran.
 
 The complete preflight Make target includes the full test suite and belongs
 to authorised CI or explicit pre-publication validation. Ordinary local work
-uses the relevant commands and serial targeted tests. This reference does not
-instruct a contributor to run the complete local plan.
+uses the relevant commands and serial targeted tests. Both the Make test
+command and configured test role measure all maintained Python under
+<code>tools</code> and <code>tests</code>, with branches and the unchanged 100%
+floor. The Make <code>TEST_SELECTION</code> and <code>TEST_BASETEMP</code> variables
+select an authorised cohort and owned temporary directory; neither narrows the
+coverage denominator. A passing targeted test can still fail complete-source
+coverage. This reference does not instruct a contributor to run the complete
+local plan.
 
 Produce a current local security input with `make produce-audit`, then verify it
 offline with `make dependency-security`. Production is explicit and restricted

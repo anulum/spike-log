@@ -126,8 +126,14 @@ rules with the NumPy convention. `make test` defaults to serial execution
 (`TEST_WORKERS=0`) at niceness 19. Allocated CI may set `TEST_WORKERS`
 explicitly. The complete test and preflight targets belong to authorised
 external validation; local changes use serial targeted public-boundary tests.
-The required coverage gate is100percent; targeted pass counts do not establish
-that this gate has passed.
+The required coverage gate measures both <code>tools</code> and <code>tests</code>,
+with branches and a 100% floor. <code>TEST_SELECTION</code> selects an
+authorised targeted test or cohort and <code>TEST_BASETEMP</code> selects its
+owned temporary directory. Defaults remain the complete <code>tests</code>
+tree and <code>.tool-cache/tests</code>. Selecting fewer tests preserves the
+complete coverage denominator and floor: passing selected tests can therefore
+still produce a failing coverage exit. Targeted pass counts do not establish
+that the complete gate has passed.
 
 `run_process` terminates and reaps only descendants that stay in the child's
 original process group. Trusted commands must preserve that membership.
