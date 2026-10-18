@@ -13,6 +13,6 @@ SPIKE-LOG — source and configuration provenance
 2. Implement the complete container writer/reader and all record, replay, inspect, verify and slice paths against the selected byte profile.
 3. Integrate real file conversion and simulator capture adapters with full original event/source identity.
 4. Add the source-owned hardware capture lane after actual instrument, clock, loss, reset and transport qualification.
-5. Qualify every supported language/codec/consumer boundary, reproducibility and bounded-memory behavior; publish only evidence earned by the actual implementation.
+5. Qualify every supported language/codec/consumer boundary, reproducibility and bounded-memory behaviour; publish only evidence earned by the actual implementation.
 
 A planned step is not an implemented capability. Unknown codec, incomplete capture, corruption or unavailable source qualification remains visible and prevents the affected complete claim.
