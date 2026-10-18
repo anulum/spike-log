@@ -1,0 +1,15 @@
+<!--
+SPDX-License-Identifier: AGPL-3.0-or-later
+Commercial license available
+© Concepts 1996–2026 Miroslav Šotek. All rights reserved.
+© Code 2020–2026 Miroslav Šotek. All rights reserved.
+ORCID: 0009-0009-3560-0851
+Contact: www.anulum.li | protoscience@anulum.li
+SPIKE-LOG — source and configuration provenance
+-->
+
+# Notice
+
+Spike Log is maintained by ANULUM. Concepts © 1996–2026 Miroslav Šotek; code © 2020–2026 Miroslav Šotek. All rights reserved under the applicable licence. ORCID: 0009-0009-3560-0851.
+
+The source is licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE). Commercial licensing is available through protoscience@anulum.li. Standard licence texts retain their original authorship. Canonical branding assets retain their existing AGPL attribution; their actual hashes are checked by the repository tooling. Development distributions retain their own licences in the installed graph and `dependency-provenance.json`.

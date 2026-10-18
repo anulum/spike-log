@@ -1,0 +1,18 @@
+{
+  "creators": [
+    {
+      "affiliation": "ANULUM",
+      "name": "Šotek, Miroslav",
+      "orcid": "0009-0009-3560-0851"
+    }
+  ],
+  "description": "Repository validation infrastructure and architecture for planned lossless spike containers, indexing, replay and slicing. No qualified spike-container runtime is released.",
+  "keywords": [
+    "spike container",
+    "repository validation",
+    "neuromorphic computing"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "title": "Spike Log",
+  "upload_type": "software"
+}
