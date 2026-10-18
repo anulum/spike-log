@@ -37,6 +37,7 @@ def test_targeted_entry_retains_complete_coverage_scope(tmp_path: Path, entry_po
     child_temp = tmp_path / "child-tests"
     environment = os.environ.copy()
     environment["COVERAGE_FILE"] = str(tmp_path / "native-coverage-data")
+    environment["PYTHONWARNINGS"] = "always::ResourceWarning"
     environment["PYTEST_ADDOPTS"] = shlex.join(
         [
             "--cov-report=json:" + str(report_path),
@@ -76,6 +77,7 @@ def test_targeted_entry_retains_complete_coverage_scope(tmp_path: Path, entry_po
     )
     assert result.returncode == expected_exit, (result.stdout, result.stderr)
     assert "1 passed" in result.stdout, (result.stdout, result.stderr)
+    assert "ResourceWarning:" not in result.stderr, result.stderr
     report = json.loads(report_path.read_bytes())
     expected_sources = {
         str(path.relative_to(SOURCE))
