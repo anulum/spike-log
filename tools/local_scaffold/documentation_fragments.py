@@ -12,10 +12,10 @@ from __future__ import annotations
 
 import re
 import string
+from collections.abc import Iterator
 from html.parser import HTMLParser
-from typing import Final
+from typing import Final, Protocol
 from urllib.parse import urlsplit
-from xml.etree.ElementTree import Element
 
 from markdown import Markdown
 from markdown.extensions import Extension
@@ -25,6 +25,54 @@ from mkdocs.exceptions import PluginError
 
 UNRESERVED: Final = frozenset(string.ascii_letters + string.digits + "-._~")
 ESCAPE: Final = re.compile(r"%([0-9a-fA-F]{2})")
+
+
+class FragmentElement(Protocol):
+    """Describe the existing renderer tree without importing an XML parser."""
+
+    def iter(self, tag: str, /) -> Iterator[FragmentElement]:
+        """Iterate existing descendants matching the supplied element name.
+
+        Parameters
+        ----------
+        tag : str
+            Element name selected by the authored renderer hook.
+
+        Returns
+        -------
+        Iterator[FragmentElement]
+            Existing matching elements in document order.
+        """
+        ...
+
+    def get(self, key: str, default: str, /) -> str:
+        """Read an existing attribute with an explicit string fallback.
+
+        Parameters
+        ----------
+        key : str
+            Attribute name selected by the authored renderer hook.
+        default : str
+            String returned when the attribute is absent.
+
+        Returns
+        -------
+        str
+            Existing attribute value or the supplied fallback.
+        """
+        ...
+
+    def set(self, key: str, value: str, /) -> None:
+        """Replace one attribute on an existing element.
+
+        Parameters
+        ----------
+        key : str
+            Attribute name selected by the authored renderer hook.
+        value : str
+            Normalized value assigned without parsing additional markup.
+        """
+        ...
 
 
 def decode_unreserved(match: re.Match[str]) -> str:
@@ -47,12 +95,12 @@ def decode_unreserved(match: re.Match[str]) -> str:
 class FragmentTreeprocessor(Treeprocessor):
     """Canonicalize local Markdown anchor fragments before MkDocs records them."""
 
-    def run(self, root: Element) -> None:
+    def run(self, root: FragmentElement) -> None:
         """Normalize unreserved fragment escapes in place.
 
         Parameters
         ----------
-        root : Element
+        root : FragmentElement
             Actual Markdown element tree; paths, queries, images and external URLs retain their spelling.
         """
         for element in root.iter("a"):

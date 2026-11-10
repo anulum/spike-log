@@ -7,12 +7,12 @@
 # SPIKE-LOG — source and configuration provenance
 
 site_name: Spike Log
-site_description: Local validation tooling and planned event-stream recording and replay
+site_description: Native event payload codecs and local validation tooling
 strict: true
 site_dir: .tool-cache/site
 exclude_docs: |
   /internal/
-watch: [tools]
+watch: [src, tools]
 hooks: [tools/local_scaffold/documentation_fragments.py]
 theme:
   name: material
@@ -22,6 +22,7 @@ theme:
 nav:
   - Overview: index.md
   - Architecture: ARCHITECTURE.md
+  - Native payload API: native-payloads.md
   - Validation tooling: validation-tooling.md
   - Threat model: THREAT_MODEL.md
   - Repository boundary: adr/0001-repository-boundary.md
@@ -30,7 +31,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [tools]
+          paths: [src, tools]
           options:
             allow_inspection: false
             docstring_style: numpy

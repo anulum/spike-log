@@ -28,8 +28,6 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.13.16"
-          cache: pip
-          cache-dependency-path: requirements-dev.txt
       - name: Install the complete hash-locked development graph
         run: make environment
       - name: Produce an explicit network-backed audit input
@@ -49,8 +47,6 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.13.16"
-          cache: pip
-          cache-dependency-path: requirements-dev.txt
       - name: Install the complete hash-locked development graph
         run: make environment
       - name: Validate local infrastructure
@@ -68,8 +64,6 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.13.16"
-          cache: pip
-          cache-dependency-path: requirements-dev.txt
       - name: Install the complete hash-locked development graph
         run: make environment
       - name: Fetch and verify immutable native producers
@@ -89,8 +83,6 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.13.16"
-          cache: pip
-          cache-dependency-path: requirements-dev.txt
       - name: Install the complete hash-locked development graph
         run: make environment
       - name: Fetch and verify immutable native producers

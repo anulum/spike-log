@@ -99,8 +99,9 @@
       }
     },
     "domain_runtime_dependencies": {
-      "type": "array",
-      "maxItems": 0
+      "const": [
+        "evidence-manifest-toolkit==0.0.0.dev0"
+      ]
     }
   }
 }

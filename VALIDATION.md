@@ -18,6 +18,16 @@ No published coverage, performance, physical-clock or installed codec result is 
 
 ## Local command reference
 
+Before installation, run <code>make check-environment-inputs</code> with
+the exact CPython 3.13.18 BASE_PYTHON, original ENVIRONMENT_INPUTS and independent
+ENVIRONMENT_OWNER_SOURCE selections described in
+[CONTRIBUTING.md](CONTRIBUTING.md). It checks frozen inputs without creating
+an environment, cache, uv binary or builder lock. The
+[bootstrap reference](docs/validation-tooling.md#environment-input-readiness)
+describes arguments, bounded reads, destination checks and the owning real
+API/CLI/Make tests. Input readiness does not establish installed-graph or
+security acceptance.
+
 Run these commands from the source root after <code>make environment</code>.
 Use the project <code>.venv/bin/python</code>; the root argument supplies
 inspected data rather than executable tool configuration.
@@ -93,7 +103,7 @@ installation binding, freshness and the immutable historical source declaration.
 
 The secret-scanner tests exercise the actual Make target, the configured native role and early public preflight refusal. They cover clean source, a detectable non-credential input, inline and fingerprint suppression, an absent producer and received suppression files or dangling links. Run this boundary with `python -m pytest -q tests/test_secret_scan.py`; it does not invoke the complete infrastructure test target.
 
-Run `python -m pytest -q tests/test_sbom_publication.py` for the actual SBOM Make boundary. Its positive case verifies all 103 locked development components; cache-parent, output-file and dangling-output controls must refuse before unrelated data is changed or created. This is local tooling evidence and carries no release or deployment claim.
+Run `python -m pytest -q tests/test_sbom_publication.py` for the actual SBOM Make boundary. Its positive case requires the complete106locked development producer and compares every component; cache-parent, output-file and dangling-output controls must refuse before unrelated data is changed or created. This is local tooling evidence and carries no release or deployment claim.
 
 The SBOM target uses reproducible generation. Run
 `.venv/bin/python -m pytest -q tests/test_sbom_reproducibility.py` for the
@@ -106,8 +116,19 @@ Run `python -m pytest -q tests/test_audit_producer_completion.py` for real audit
 Run `python -m pytest -q tests/test_cli.py` for actual missing-producer, cleanup-denial and interruption controls. The full-budget case sends real SIGTERM after the final allowed diagnostic is recorded; it must retain native unavailability, the bounded report and every original input.
 
 
-Current native Python collection covers tools and tests. Python outside these roots, hidden source path components and uppercase Python extensions refuse as scan_incomplete; adding a runtime, example root or new language requires complete native gate enrollment in the same change. Required Ruff lint, format and documentation checks ignore received Git exclusions: a received ignore rule cannot hide maintained source from those native roles, Make quality or the corresponding hooks.
+Current native Python collection covers tools, tests and the enrolled src/spike_log namespace. The exact empty py.typed marker is data and has its own ownership notice. Python outside those roots, hidden source path components and uppercase Python extensions refuse as scan_incomplete; adding another runtime, example root or language requires native gate enrollment in the same change. Required Ruff lint, format and documentation checks ignore received Git exclusions: a received ignore rule cannot hide maintained source from those native roles, Make quality or the corresponding hooks.
+
+The inventory and dependency checks use the same exact reviewed Poetry builder, project metadata, source package and typed-marker includes. Extra package files, dependencies, altered namespaces/build hooks and private include paths remain refused. This source/configuration check is separate from actual wheel-content and installed-consumer checks, full native qualification, release and publication.
+
+The native dependency audit queries the fixed OSV endpoint and requests every advisory identifier, alias and available fix version without long prose descriptions. Private version-two receipts record that source, endpoint and actual query interval. OSV supplies no global database revision, so receipts leave it unavailable rather than claiming a database snapshot. Historical version-one receipts remain stored and cannot supply current admission. The fixed capture limit and all finding checks remain in force. An adverse or incomplete audit refuses admission; packaging acceptance does not override its result.
 
 Native source collection also refuses site-packages and an implementation shadowed by a same-stem Python stub until both populations have complete type qualification. Ruff exclusions match only the declared private cache directories; public dist, venv or build directory names cannot silently remove source from lint, format or documentation checks.
 
 The parametrized tests/test_input_limits.py::test_actual_received_parent_substitution control uses the pinned native strace fixture to stop the public reader after a real lstat or directory open. It replaces the received root or nested parent with an owned symlink, resumes the same child and checks refusal or original-directory binding, descriptor cleanup and preservation of both source and outside bytes.
+
+Local wheel provenance uses explicit `--artifacts` and `--owner-source` data
+roots on the reconstruction command. The corresponding Make settings are
+`PROVENANCE_ARTIFACTS` and `PROVENANCE_OWNER_SOURCE`. The independently bound
+baseline selects registry, first-party or maintained-source records; received
+responses cannot change that selection. Missing local supply stays unavailable,
+with no PyPI substitute. See the [local source workflow](docs/validation-tooling.md#local-wheel-source-records).

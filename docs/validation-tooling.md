@@ -16,18 +16,22 @@ The available commands check the repository scaffold. Recording and replay
 remain planned. Start in the repository root on Linux with the locked
 development environment described in CONTRIBUTING.md.
 
-For a clean checkout, select Python 3.13.16 as the shell's `python`, then run
-`make environment`. That target checks the interpreter version and installs
-the complete development lock. For an existing environment, check its
-interpreter before using it:
+For a clean checkout, supply the independently selected original artifact
+directory and Common owner source described in
+CONTRIBUTING.md, and use CPython 3.13.18 as BASE_PYTHON.
+Run `make check-environment-inputs` with those selections before
+`make environment`. Input checks precede every environment, cache, uv or builder
+write. Artifact installation is offline and hash-required; no package-registry
+fallback supplies missing local wheels.
+
+The readiness command validates frozen project inputs and the original
+package/source operands. Its report does not establish that an installed
+environment satisfies the separately enrolled dependency profile. For an
+existing environment, check its interpreter and then run these two commands
+independently:
 
 ```sh
 .venv/bin/python --version
-```
-
-The required version is `Python 3.13.16`. Run these two checks independently:
-
-```sh
 .venv/bin/python tools/check_repository_metadata.py --root . --json
 .venv/bin/python tools/check_repository_inventory.py --root . --mode verify --json
 ```
@@ -347,9 +351,9 @@ correspondence, not signatures, remote attestation or physical custody.
 
 The POSIX publication tests use the pinned Ubuntu strace 6.8 fixture on Linux amd64. `make prepare-test-fixtures` prepares that fixture independently. Preparation verifies the package, executable and original third-party copyright; `dpkg-deb` extracts into the repository cache without installing a host package. The fixture traces only its own child processes and exercises real syscall errors and interruption boundaries. A missing fixture is unavailable, and cannot yield a passing test result.
 
-The dependency refusal fixtures use a complete owned copy of all 103 genuine installed producers. A qualified cache avoids copying that environment on every run. Each use verifies the interpreter, complete installed versions and original METADATA digests. Exclusive locks protect intentional producer changes, and each case restores and rechecks the complete graph. An incomplete or changed cache remains a failure; the tests preserve it for inspection.
+The retained dependency-refusal cache was constructed from the original103-producer graph. It cannot qualify the106-producer profile until its actual native input preparation and complete readback are migrated. A qualified cache avoids copying that environment on every run. Each use verifies the interpreter, complete installed versions and original METADATA digests. Exclusive locks protect intentional producer changes, and each case restores and rechecks the complete graph. An incomplete or changed cache remains a failure; the tests preserve it for inspection.
 
-Run `make prepare-interpreter-fixture` for the genuine unsupported-patch case. It first runs `make prepare-test-wheels`, which prepares the verified packaging, coverage and PyYAML artifacts. Its independently pinned CPython 3.13.15 archive and copied executable exercise refusal below the reviewed `>=3.13.16,<3.14` range. The isolated environment contains only the two real producers needed for that early boundary: packaging and coverage, both installed from verified wheel bytes. The dependency guard refuses the actual interpreter before treating missing package producers as an availability problem.
+Run `make prepare-interpreter-fixture` for the genuine unsupported-patch case. It first runs `make prepare-test-wheels`, which prepares the verified packaging, coverage and PyYAML artifacts. Its independently pinned CPython 3.13.15 archive and copied executable exercise refusal below the reviewed `>=3.13.18,<3.14` range. The isolated environment contains only the two real producers needed for that early boundary: packaging and coverage, both installed from verified wheel bytes. The dependency guard refuses the actual interpreter before treating missing package producers as an availability problem.
 
 `make prepare-major-interpreter-fixture` prepares the independently pinned
 CPython 3.14.7 artifact and its genuine coverage wheel. The metadata and
@@ -405,7 +409,11 @@ The sparse-tool availability fixture installs exactly packaging, coverage and Py
 The dedicated tests/test_static_security.py boundary runs actual Make and the configured native scanner on clean source and a known assert finding, including inline/receivedINI suppression attempts. Its public finite-plan case uses genuine configuredBandit and17explicit harmless children solely for orchestration; this does not execute or qualify the other native tools.
 
 
-Current native Python collection covers tools and tests. Python outside these roots, hidden source path components and uppercase Python extensions refuse as scan_incomplete; adding a runtime, example root or new language requires complete native gate enrollment in the same change. Required Ruff lint, format and documentation checks ignore received Git exclusions: a received ignore rule cannot hide maintained source from those native roles, Make quality or the corresponding hooks.
+Current native Python collection covers tools, tests and the enrolled src/spike_log namespace. The exact empty py.typed marker is data and has its own ownership notice. Python outside those roots, hidden source path components and uppercase Python extensions refuse as scan_incomplete; adding another runtime, example root or language requires native gate enrollment in the same change. Required Ruff lint, format and documentation checks ignore received Git exclusions: a received ignore rule cannot hide maintained source from those native roles, Make quality or the corresponding hooks.
+
+The inventory and dependency checks use the same exact reviewed Poetry builder, project metadata, source package and typed-marker includes. Extra package files, dependencies, altered namespaces/build hooks and private include paths remain refused. This source/configuration check is separate from actual wheel-content and installed-consumer checks, full native qualification, release and publication.
+
+The native dependency audit queries the fixed OSV endpoint and requests every advisory identifier, alias and available fix version without long prose descriptions. Private version-two receipts record that source, endpoint and actual query interval. OSV supplies no global database revision, so receipts leave it unavailable rather than claiming a database snapshot. Historical version-one receipts remain stored and cannot supply current admission. The fixed capture limit and all finding checks remain in force. An adverse or incomplete audit refuses admission; packaging acceptance does not override its result.
 
 Native source collection also refuses site-packages and an implementation shadowed by a same-stem Python stub until both populations have complete type qualification. Ruff exclusions match only the declared private cache directories; public dist, venv or build directory names cannot silently remove source from lint, format or documentation checks.
 
@@ -541,3 +549,166 @@ Capture and reconstruction also require the reviewed exact `requirements-dev.in`
 bytes used by the fixed lock. A changed, removed or additional direct declaration
 refuses before a candidate or capture directory is created. Direct-input changes
 need their lock, provenance and source bindings reviewed together.
+
+
+## Local wheel source records
+
+The independently bound provenance baseline selects a local source with
+`source_kind` equal to `first_party_wheel` or `maintained_wheel`. These records
+carry no invented `official_metadata_sha256` or publisher URL. They retain
+actual native metadata, requirements and complete selected licence files,
+the exact wheel descriptor, the source-input digest, and pinned owner/build
+evidence. Historical `owner_work_in_progress` records retain their source-only
+meaning. The current `committed` record additionally requires a complete pinned
+manifest with the actual native owner commit and tree, every tracked blob and a
+clean owner checkout. Source equality does not establish successful build execution
+or security admission.
+
+Mixed prepared snapshots use `spike_log.dependency-source-inputs.v2` with the
+same complete independently selected graph, interpreter and lock bindings.
+The original v1 registry snapshots remain registry-only. Neither version
+changes the expected graph or admits another installed distribution.
+
+The command accepts `--artifacts` for the explicit input-file root and
+`--owner-source` for the owning source tree. Make forwards these as
+`PROVENANCE_ARTIFACTS` and `PROVENANCE_OWNER_SOURCE`. Descriptor paths select
+bounded input bytes, never executable callbacks, imports or network locations.
+A missing local wheel/source refuses; capture cannot create a new mixed
+cohort by looking up an unpublished development version on PyPI. Capture can
+revalidate an already complete prepared cohort under its inclusive deadline.
+
+Local reconstruction checks the original archive digest, complete safe ZIP
+population, every RECORD size/hash, native installed member bytes, metadata,
+package file population, owner source manifest, selected build evidence and
+licences. A first-party wheel's product files must equal its declared source
+population. Both namespace roots and their entries refuse symbolic links;
+missing or inaccessible directories remain unavailable. ZIP member identity
+includes a comparison of the original METADATA bytes with the installed member.
+Declared licence members must actually exist in the verified wheel.
+Package directory names are selected independently from distribution names:
+a distribution name alone does not define its import namespace. ZIP directories
+must be empty structural entries with safe names and directory mode; they count
+towards the entry limit but are not files in RECORD. Nonempty directories and
+symbolic or special archive entries refuse.
+The maintained Metadata-Version 2.1 branch checks its explicitly
+selected LICENSE and NOTICE without inventing absent License-File headers.
+Source correspondence remains separate from runtime admission and the
+independent maintained-fork/upstream security review.
+
+### Original inputs for local source tests
+
+The local source tests require the actual Common and maintained RFC distributions
+in the test interpreter, their original wheels, the owner's complete source
+manifest and source tree, and the original build evidence. Missing originals
+remain a test failure. The test suite does not substitute a registry release for
+an unpublished wheel or create a passing source record from sample package code.
+
+For `make test`, set `LOCAL_SOURCE_ARTIFACTS`, `LOCAL_SOURCE_INPUTS` and
+`LOCAL_SOURCE_OWNER` when the supplied inputs use other locations. They default
+to the repository root and `.tool-cache/environment-inputs`. The owner
+source is explicitly selected by `ENVIRONMENT_OWNER_SOURCE` or
+`LOCAL_SOURCE_OWNER`; it is never inferred from received inputs. Keep the supplied input files and
+`TEST_BASETEMP` beneath `LOCAL_SOURCE_ARTIFACTS`; the owner tree is selected
+separately. Direct pytest invocation uses the corresponding environment
+variables `SPIKE_LOG_TEST_ARTIFACTS`, `SPIKE_LOG_TEST_LOCAL_INPUTS` and
+`SPIKE_LOG_TEST_OWNER_SOURCE`.
+
+The input directory preserves these original bytes under portable leaf names:
+
+| Leaf | Required original |
+| --- | --- |
+| `evidence_manifest_toolkit-0.0.0.dev0-py3-none-any.whl` | Common wheel, SHA-256 `606d278ef0611c70c913066ec3e13fd36500c32168c35985e9bf15359262a6d8` |
+| `rfc8785-0.1.4+emt.1-py3-none-any.whl` | Maintained fork wheel, SHA-256 `e04761706fcbbb5f0afd5fa74a7e6ea7484ce97f073adb5372ab8ee93230c48e` |
+| `owner-source-inputs.json` | Complete original source manifest, with paths relative to the separately selected owner tree |
+| `common-build-producer.json` | Original Common build producer profile |
+| `common-wheel-source-identity.json` | Original Common wheel and source identity evidence |
+| `common-sdist-rebuild-identity.json` | Original Common source-distribution rebuild identity evidence |
+| `rfc8785-source-provenance.json` | Original maintained-fork source provenance |
+
+The source owner supplies this input set. Renaming a retained original for
+transport leaves its content unchanged. Availability of owner-approved source
+and artifacts in a hosted runner is a separate requirement from local test
+success; neither passing these tests nor providing the files approves owner work
+in progress or establishes current security or scientific admission.
+
+::: local_scaffold.provenance_local
+
+::: local_scaffold.provenance_wheels
+
+Registry capture contacts the fixed pypi.org TLS origin and requires HTTP 200.
+Redirects and other statuses remain unavailable; they do not select another
+scheme, host or metadata source. Connections close on success and failure,
+while the existing inclusive capture deadline and raw-response bounds remain.
+
+
+## Environment input readiness
+
+The stdlib-only `tools/check_environment_inputs.py` command runs before the
+development environment exists. Its required data arguments are `--artifacts`,
+`--owner-source` and `--environment`. `--root` selects inspected project data;
+it never selects executable modules. `--max-input-bytes` is a positive integer
+no greater than 134217728. `--json` selects the standard seven-field diagnostic.
+Unknown, abbreviated, missing or malformed arguments are invalid without
+echoing received values. This bootstrap command is separate from the eight
+installed validation/provenance scripts and does not add a preflight role.
+
+The independently frozen project identities cover requirements-dev.in,
+requirements-dev.txt, requirements-runtime.txt and dependency-provenance.json.
+Every selected package artifact is checked for its original size and SHA-256.
+The local package response files are `evidence-manifest-toolkit.json` and
+`rfc8785.json`. Their manifest and build-input paths are data beneath the
+artifact root; the separately supplied owner tree must match the manifest's
+actual files. Names and identities come from the frozen source selection,
+rather than an inferred distribution namespace or a guessed publisher URL.
+
+An absent destination or an existing empty directory can pass. An existing
+environment must identify the same CPython interpreter, exact version and
+disabled system site packages. Linked paths, overlap with either input tree,
+unrelated nonempty directories and incompatible existing environments refuse.
+The check does not execute the inspected destination interpreter.
+
+Reads share one cumulative byte budget across project files, artifacts,
+responses, manifests, source files, build inputs and any existing environment
+configuration. The same admitted owner manifest is checked against its source
+tree once per operation; its repeated references do not reset that budget.
+All per-input and whole-operation ceilings remain fixed.
+
+`make environment` reaches the same check through `make prepare-uv`.
+Both stop before writes for an absent or corrupt selected wheel, including
+Common and the maintained RFC wheel. After readiness the existing bootstrap
+verifies the extracted uv binary, uses only the explicit artifact directory
+for hash-required installation, and runs the native dependency check.
+Readiness is not whole source, owner commit, vulnerability, installed graph,
+domain runtime or scientific acceptance.
+
+The owning `tests/test_environment_inputs.py` exercises real original inputs,
+the public API/CLI and actual Make commands. It checks unchanged destination
+trees on both successful reads and refusals. For a targeted run, supply
+SPIKE_LOG_TEST_LOCAL_INPUTS and SPIKE_LOG_TEST_OWNER_SOURCE as described under
+local source fixtures, plus SPIKE_LOG_TEST_ENVIRONMENT_SOURCE containing the
+four exact frozen project inputs. SPIKE_LOG_TEST_ARTIFACTS retains its existing
+artifact-root meaning. Missing required originals remain failures.
+
+
+## Committed local producer qualification
+
+The current environment contains 106 producers. The native advisory query contains
+the exact 104 registry packages; Common and the maintained RFC wheel remain
+separately bound local sources, with independent source security review. The
+current receipt binds every one of the 106 installed metadata bodies and the
+registry graph. A local package is never assigned a fabricated registry clean row.
+
+Supply the complete flat original input directory at
+`.tool-cache/environment-inputs`. The dependency guard validates both local
+wheel digests, their exact lock hashes, complete RECORD and actual installed
+member bytes from this trusted cache. It refuses a WIP local source. Explicit
+source reproduction still requires `--artifacts` and `--owner-source`;
+those roots never come from received descriptors. Committed reproduction reads
+the complete native Git tree under a shared deadline, disables executable
+callbacks and replacement objects, and checks every verified original source
+byte against the selected commit. Missing, dirty, moved, partial or altered
+source refuses. A committed label alone supplies no authority.
+
+::: local_scaffold.committed_source
+
+::: local_scaffold.local_dependencies

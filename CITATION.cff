@@ -7,7 +7,7 @@
 # SPIKE-LOG — source and configuration provenance
 
 cff-version: 1.2.0
-message: Cite this repository when using its repository validation design or tooling.
+message: Cite this repository when using its native payload codecs or repository validation tooling.
 title: Spike Log
 authors:
   - family-names: Šotek

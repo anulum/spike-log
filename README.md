@@ -13,6 +13,14 @@ SPIKE-LOG is the planned record and replay container for event streams. The sele
 
 The repository is under local scaffold construction. Evidence maturity is `architecture_only`; implemented domain capabilities, public claims and qualified schema inventories are empty. No container writer, capture adapter, replay engine or physical measurement is qualified here.
 
+## Native payload API
+
+The Python source package provides canonical DVS column and logical source
+record codecs with explicit geometry, polarity, population and resource bounds.
+See the [native payload API](docs/native-payloads.md) for the exact byte layouts,
+public functions and examples. These payload operations do not qualify a
+container, capture source, replay schedule or physical measurement.
+
 ## Repository tooling
 
 The local scaffold has metadata/inventory checks and explicit dependency
@@ -34,7 +42,7 @@ See [architecture](ARCHITECTURE.md), [roadmap](ROADMAP.md), [validation](VALIDAT
 
 ## Licence and citation
 
-AGPL-3.0-or-later; a commercial licence is available through [Anulum](https://www.anulum.li). See [NOTICE.md](NOTICE.md), [LICENSE](LICENSE) and [CITATION.cff](CITATION.cff). No release, package, DOI or hosted service is asserted by this local source tree.
+AGPL-3.0-or-later; a commercial licence is available through [Anulum](https://www.anulum.li). See [NOTICE.md](NOTICE.md), [LICENSE](LICENSE) and [CITATION.cff](CITATION.cff). No public release, package publication, DOI or hosted service is asserted by this local source tree.
 
 ## Text and data mining reservation
 

@@ -1,7 +1,9 @@
 {
   "capabilities": [],
   "claims": [],
-  "domain_runtime_dependencies": [],
+  "domain_runtime_dependencies": [
+    "evidence-manifest-toolkit==0.0.0.dev0"
+  ],
   "evidence_maturity": "architecture_only",
   "lifecycle": "local_scaffold",
   "owner_group": "SC-NEUROMORPHIC-COMPUTING-SYSTEMS",
@@ -11,10 +13,10 @@
   "qualified_owned_schema_ids": [],
   "repository_name": "SPIKE-LOG",
   "tooling_python": {
-    "actual_version": "3.13.16",
+    "actual_version": "3.13.18",
     "design_baseline": "3.13",
-    "development_lock_sha256": "4355cfed37fc37395e74cd3ad9a0efcce98ebbb3694496e3c7ad639131d2abdb",
-    "supported_range": ">=3.13.16,<3.14"
+    "development_lock_sha256": "e44a99a8ab1d81d4be625b6b5c2583945bd04c26f020e357a0a5c868e67e41f3",
+    "supported_range": ">=3.13.18,<3.14"
   },
   "validation_profile": {
     "id": "gotm.enterprise-repository-tier0.local-scaffold",

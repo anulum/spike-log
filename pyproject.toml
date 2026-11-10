@@ -6,6 +6,28 @@
 # Contact: www.anulum.li | protoscience@anulum.li
 # SPIKE-LOG — source and configuration provenance
 
+[build-system]
+requires = ["poetry-core==2.5.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "spike-log"
+version = "0.0.0.dev0"
+description = "Explicit native event payload and container tooling"
+readme = "README.md"
+requires-python = ">=3.13.18,<3.14"
+dependencies = ["evidence-manifest-toolkit==0.0.0.dev0"]
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE", "LICENSES/*.txt", "NOTICE.md"]
+authors = [{name = "Miroslav Šotek", email = "protoscience@anulum.li"}]
+
+[tool.poetry]
+packages = [{include = "spike_log", from = "src"}]
+include = [
+    {path = "src/spike_log/py.typed", format = ["sdist", "wheel"]},
+    {path = "src/spike_log/py.typed.license", format = ["sdist", "wheel"]},
+]
+
 [tool.ruff]
 target-version = "py313"
 line-length = 100
@@ -20,7 +42,7 @@ exclude = [
     ".ruff_cache",
     "__pycache__",
 ]
-src = ["tools", "tests"]
+src = ["src", "tools", "tests"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "UP", "B", "D"]
@@ -29,25 +51,25 @@ select = ["E4", "E7", "E9", "F", "I", "UP", "B", "D"]
 convention = "numpy"
 
 [tool.ruff.lint.isort]
-known-first-party = ["local_scaffold"]
+known-first-party = ["spike_log", "local_scaffold"]
 
 [tool.mypy]
 python_version = "3.13"
 strict = true
 warn_unreachable = true
-mypy_path = "tools"
+mypy_path = ["src", "tools"]
 explicit_package_bases = true
-files = ["tools", "tests"]
+files = ["src", "tools", "tests"]
 cache_dir = ".tool-cache/mypy"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["tools"]
+pythonpath = ["src", "tools"]
 addopts = "--strict-config --strict-markers"
 
 [tool.coverage.run]
 branch = true
-source = ["tools", "tests"]
+source = ["src/spike_log", "tools", "tests"]
 parallel = true
 sigterm = true
 data_file = ".tool-cache/coverage/data"

@@ -15,6 +15,25 @@ Source-native side bytes retain their codec identity and complete source populat
 
 The repository does not convert third-party formats, judge event quality, synthesise ground truth or implement capture hardware. Those boundaries remain with the owning tools.
 
+## Native payload codecs
+
+The public Python package owns the two fixed binary payload contracts.
+Canonical DVS columns keep unsigned16 image addresses and an explicit polarity
+convention; logical source records keep unsigned64 population-scoped identities.
+Both preserve original signed ticks, occurrence order and duplicates, reject
+coercion/overflow, and require explicit finite batch quotas. The complete
+container reader/writer and source/current verification consume these formats
+under their own admission contracts. See [native API](native-payloads.md).
+
+## Native integrity preimages
+
+The public container digest operations implement the fixed header, timed-chunk,
+metadata-chunk, chain and index preimages. Header and individual index rows use
+Common canonicalization; the complete outer transport is still raw bytes.
+Index hashing consumes bounded rows once with shared cumulative byte/count
+limits. Component hashing is distinct from whole-container parsing, source
+admission, exact offset checking and detached Common verification.
+
 ## Repository validation
 
 The implemented tooling validates a received repository as data. Its fixed
@@ -57,8 +76,8 @@ native METADATA text, dependency/classifier ordering and selected licence bytes
 come from the executing environment. METADATA identities hash the UTF-8 encoding
 of Distribution.read_text output, with filesystem text-mode newline normalisation.
 The snapshot supplies original registry response
-bytes and the baseline selects source artifacts. All103package records and
-175declared licence-file selections participate.
+bytes and the baseline selects source artifacts. All106package records and
+165declared licence-file selections participate.
 
 ### Four explicit metadata-writing operations
 
@@ -77,8 +96,11 @@ admission as the latest success.
 
 Source capture validates metadata, baseline and direct-input identity before
 creating its chosen directory. The destination parent must already exist.
-The fixed baseline determines all103package/version URLs; received responses
-do not select programs or additional downloads. Capture checks each response
+The fixed baseline determines104registry package/version URLs and two closed
+local wheel/source branches. Local packages require independently supplied
+original artifacts and owner inputs; no publisher URL or registry fallback is
+invented for them. Received responses select neither executable programs nor
+additional downloads. Capture checks each response
 and selected artifact, retains exact raw bytes and hashes, then publishes
 `inputs.json` last. A directory without a complete accepted index remains
 incomplete and is retained. A caller chooses a new path for a new attempt.

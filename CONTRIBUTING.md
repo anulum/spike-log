@@ -10,11 +10,56 @@ SPIKE-LOG — source and configuration provenance
 
 # Contributing
 
-Use Python 3.13.16 on Linux. Create a project-local environment and install the complete locked development graph:
+Bootstrap runs on CPython 3.13.18 on Linux x86-64. Select BASE_PYTHON,
+ENVIRONMENT_INPUTS and ENVIRONMENT_OWNER_SOURCE explicitly before creating or
+updating an environment. ENVIRONMENT_INPUTS is a flat directory containing
+every original artifact selected by the frozen development provenance,
+the two local package responses and their original manifest/build inputs.
+ENVIRONMENT_OWNER_SOURCE is the separately supplied Common source tree.
+
+Check readiness before installation:
 
 ```sh
-make environment
+make check-environment-inputs \
+  BASE_PYTHON="$BASE_PYTHON" \
+  ENVIRONMENT_INPUTS="$ENVIRONMENT_INPUTS" \
+  ENVIRONMENT_OWNER_SOURCE="$ENVIRONMENT_OWNER_SOURCE"
 ```
+
+Then invoke `make environment` with the same selections. The default destination
+is .venv; ENVIRONMENT_DIR selects an owned alternative. Both commands require
+the exact frozen development input, development lock, runtime lock and
+dependency provenance. Missing, changed or unsafe operands refuse; neither
+command regenerates the locks or downloads a replacement.
+
+The readiness check reads source and artifact bytes only. It verifies the
+selected interpreter and destination, all selected artifact identities,
+both local source responses, their owner manifest and build inputs, and the
+manifest's actual source files. The complete read budget is at most 128 MiB;
+ENVIRONMENT_INPUT_BYTES can reduce it. Repeated references to the identical
+owner manifest share one source-tree verification within that operation.
+No environment, cache, bootstrap binary, builder lock or bytecode is created
+before readiness passes. The public `tools/check_environment_inputs.py` accepts
+the same explicit roots, an environment destination and an optional reduced
+`--max-input-bytes` budget; `--json` selects the standard seven-field report.
+
+After readiness, the target extracts the exact uv executable from its selected
+wheel and verifies its digest. It installs the locked pip and Poetry builders,
+then the complete hash-required development graph with `--no-index` and
+`--find-links` pointing only at the selected artifact directory. It runs native
+`uv pip check` afterward. There is no registry fallback for local packages.
+Hardlink installation uses the configured shared uv cache; the cache and
+environment must share a filesystem. UV_CACHE_DIR selects the shared cache.
+
+Existing environments are not recreated. The selected destination must be
+absent, empty, or an environment using that same interpreter without system
+site packages. It must not overlap either read-only input tree. Ensure no
+process is using an environment before changing its installed graph.
+
+Input readiness does not establish an installed producer, complete source or
+security acceptance, scientific qualification, or permission to publish.
+The metadata and dependency commands independently enforce their enrolled
+installation profile; a successful readiness report does not waive a mismatch.
 
 The lock includes the verified source builder required for REUSE. Native Actionlint and Gitleaks artifacts are named with their immutable publisher URLs and SHA-256 in `dependency-provenance.json`; place verified extractions at their recorded `.tool-cache` paths. CodeQL workflow preparation is for the separately authorised hosting lifecycle. Genuine local Python source security analysis uses Bandit. Do not interpret preparation as a hosted CodeQL result.
 
@@ -34,7 +79,7 @@ separate candidate without changing dependency versions:
   --generate-hashes --no-header \
   --no-emit-index-url --no-emit-find-links --no-build-isolation \
   --default-index https://pypi.org/simple --keyring-provider disabled \
-  --cache-dir .tool-cache/uv-cache \
+  --cache-dir "$(.venv/bin/uv cache dir)" \
   --output-file .tool-cache/requirements-reproduced.txt \
   requirements-dev.in
 ```
