@@ -11,6 +11,8 @@
 
 from typing import Final, TypedDict
 
+from .bootstrap_bindings import PYTHON_VERSION
+
 
 class WorkflowSpec(TypedDict):
     """The exact trigger and job inventory for one reviewed analysis workflow."""
@@ -58,18 +60,18 @@ WORKFLOW_POLICY: Final[WorkflowPolicy] = {
     "workflow_inputs_sha256": {
         "ci.yml": {"sha256": "64445a0ef5fe296928ae6f30370aaf2626703dfe06bc2d8c8f8f17500b45baaa"},
         "codeql.yml": {
-            "sha256": "b8070022ae6f055c6e18f6f68d3c86942f77886cf2889f9b18313a2895133026"
+            "sha256": "d01add3c66d44efe6b0125b38ecf7b2ea3188e73ecfe22e0cbb441b65e54de17"
         },
-        "docs.yml": {"sha256": "b46ea20d84aecf020a044e2e9027b25d4ef86f39bf88991ba03fac27e0ebc923"},
+        "docs.yml": {"sha256": "84fbf5ab87bb54711442e52da8175855131b207150947484ecdc09fc5d8e6e81"},
         "pre-commit.yml": {
-            "sha256": "18eac81409a6a6a1f3015672cc3a6d93f44fb709b218dc469564485586c8e1f4"
+            "sha256": "3d2e33439fb69425818afd84decb804547e01e073b44a4f7baa02c8c7cc9e30a"
         },
-        "sbom.yml": {"sha256": "b10efa2f8b58d5862a78d914a9ee8b202e00ff4121f60e1cc878d664792ee633"},
+        "sbom.yml": {"sha256": "c6103f6c749772ecc0e99aee80b59e3c75190428a254fb7122b5950b580f287e"},
         "scorecard.yml": {
-            "sha256": "3825a426cd9cf5f86f720c06a86d2f88563db05ba955766821ab6880181930fa"
+            "sha256": "4ba24cedbba6cb1fd58087fc1461dc1fa3c14e23ce230b37c00342cb9a29cf0e"
         },
         "security-audit.yml": {
-            "sha256": "2bbf2bb84e811336dab45e6d29fdb805e0d951aaaffd5ec77be70c42d3fc4cc1"
+            "sha256": "481996a75702bffe2ff9ab5fd12b7dfee60e4cb26b42361ce5d77018c81d5914"
         },
     },
     "platform": "github.com",
@@ -78,34 +80,34 @@ WORKFLOW_POLICY: Final[WorkflowPolicy] = {
             "sha256": "27a8d67d28e7c37496270963292e378b2f9afa3bafdf3f98948e101a0851c1aa"
         },
         "codeql.yml/analysis": {
-            "sha256": "af54aee82a72470f165c0646cbe248ab5145aa4343eb8cc3089ce273dcab62cc"
+            "sha256": "b7f458a898040e207fe0af06abfe34f181c14252c391d113cda9993890909331"
         },
         "docs.yml/render": {
-            "sha256": "4f02ccb414cf3fe313cb3ac89efcc04370ca21a1d5cb6608690444fd68fab504"
+            "sha256": "23162d984fbe8e653c812b2253df02de6d940b9e331a5dc84d600eae763a6fd2"
         },
         "pre-commit.yml/quality": {
-            "sha256": "046a65674f42b81a1e479fdc11ffbf0c1e4d1f0fdd04db31f4c9d022d758f80c"
+            "sha256": "fcad6635df4432d539fe7c6a5d81ada35ee50984c5f4a52c095302cd345eb5e8"
         },
         "pre-commit.yml/tests": {
-            "sha256": "9b7e11e5c4dace5572f246a236ef4e2dcf28af9bd6ecbe8078f53c515096de91"
+            "sha256": "11a2c3de6fa2888ce3da61cfba89ee3b4fc2f95b2d2063cebe4ff1069b4db66b"
         },
         "sbom.yml/inventory": {
-            "sha256": "82c8170a72779c6f11e3b5952d733a9a5b270343b51e6d00ef03bc7c76b2a5f5"
+            "sha256": "8a91b8e417435f1c874f28efb502f106c8daa2c73863f074c31e8dd8cd7cdb95"
         },
         "scorecard.yml/configuration": {
-            "sha256": "23f786a103ebd0d84ff0f532497be54086ab0226298ad1060cb7a56f909b0398"
+            "sha256": "649f692c9cf810d7d344d0ec096da4b1a8b09cf8994077d72a65b2948ddbee13"
         },
         "security-audit.yml/dependency": {
-            "sha256": "75af670fd9bcc7dba839020144e2353ead5b778265a8c2a588740cc79f96462a"
+            "sha256": "bab8d5ad519cb3f45de2e03db2fb0a3ab00dc7d0712d323bd543bc0d418c5e2d"
         },
         "security-audit.yml/secrets": {
-            "sha256": "0572f967301b5a8e0ecf57caeba48f6c81bbdc16cb543529ac3e0eb91ca8b1fb"
+            "sha256": "7aeed5f426860fbd0a61bf9919e329ae29131a1546eeb5ee68a5bddced8de94f"
         },
         "security-audit.yml/static": {
-            "sha256": "189c0e83494a277eba2071f565b3b93bef51b377fc6554e973dfd561a243e563"
+            "sha256": "b0f2da351285fa1ba6475fcd8f660921ee82ea1151e772ad5e099f2c53eadd64"
         },
         "security-audit.yml/workflow": {
-            "sha256": "41f9313691b397ab6dfd9766b9e06c9c9e8ba223ecb672dddfa060fbfe02ade6"
+            "sha256": "304b55a56ccd70c62984e6b5586d103d446d29c847202732676a12d6fc5ea47d"
         },
     },
     "schema_revision": "spike_log.local-workflow-policy.v1",
@@ -248,7 +250,7 @@ WORKFLOW_POLICY: Final[WorkflowPolicy] = {
         "github/codeql-action/init": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
         "github/codeql-action/analyze": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
     },
-    "python_version": "3.13.16",
+    "python_version": PYTHON_VERSION,
     "job_timeout_minutes": 20,
     "workflow_max_bytes": 102400,
     "workflow_max_lines": 1000,

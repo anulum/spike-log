@@ -159,9 +159,9 @@ def test_workflow_graph_refusals(root: Path, case: str) -> None:
             elif case == "credential-persist":
                 step["with"] = {"persist-credentials": True}
             else:
-                step["with"] = {"python-version": "3.14"}
+                step["with"] = {"python-version": "3.13.16"}
         path.write_text(yaml.safe_dump(data, sort_keys=False))
-    payload(
+    report = payload(
         run_guard("workflow_policy", root),
         2
         if case not in ("bad-job", "bad-steps", "bad-step", "bad-action", "no-jobs")
@@ -169,6 +169,9 @@ def test_workflow_graph_refusals(root: Path, case: str) -> None:
         if case in ("bad-job", "bad-step", "no-jobs")
         else 2,
     )
+    if case == "setup-python":
+        reasons = cast(list[dict[str, Json]], report["reasons"])
+        assert any(reason["code"] == "dependency_alignment.hook-drift" for reason in reasons)
 
 
 @pytest.mark.parametrize(

@@ -10,18 +10,20 @@
 
 import hashlib
 import json
-import os
-import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
+from local_scaffold.bootstrap_bindings import PYTHON_VERSION
 from tests.conftest import SOURCE
 from tests.producer_environments import producer_environment
 from tests.test_environment_failures import actual_unsupported_python as actual_unsupported_python
 from tests.test_environment_failures import genuine_graph_python as genuine_graph_python
+from tests.test_environment_inputs import EnvironmentInputs
+from tests.test_environment_inputs import inputs as inputs
+from tests.test_provenance_local import INPUTS
 
 
 def test_full_environment_preserves_graph_and_shared_metadata(genuine_graph_python: Path) -> None:
@@ -36,7 +38,7 @@ def test_full_environment_preserves_graph_and_shared_metadata(genuine_graph_pyth
     site = directory / "lib/python3.13/site-packages"
     expected = json.loads((SOURCE / "dependency-provenance.json").read_text())["packages"]
     metadata = sorted(site.glob("*.dist-info/METADATA"))
-    assert len(metadata) == len(expected) == 103
+    assert len(metadata) == len(expected) == 106
     assert all(
         path.stat().st_nlink > 1
         for path in metadata
@@ -74,7 +76,7 @@ def test_sparse_environment_installs_only_selected_shared_producers(tmp_path: Pa
     wheels = []
     for record in records:
         artifact = record["source_artifact"]
-        wheel = SOURCE / ".tool-cache/wheelhouse" / artifact["filename"]
+        wheel = INPUTS / artifact["filename"]
         assert hashlib.sha256(wheel.read_bytes()).hexdigest() == artifact["sha256"]
         wheels.append(wheel)
     python = producer_environment(tmp_path / "environment", wheels)
@@ -94,7 +96,7 @@ def test_sparse_environment_installs_only_selected_shared_producers(tmp_path: Pa
         check=True,
     )
     actual = json.loads(result.stdout)
-    assert actual["python"] == "3.13.16"
+    assert actual["python"] == PYTHON_VERSION
     assert len(actual["packages"]) == 3
     assert {
         record["name"]: (record["version"], record["metadata_sha256"])
@@ -104,34 +106,37 @@ def test_sparse_environment_installs_only_selected_shared_producers(tmp_path: Pa
     assert len(metadata) == 3 and all(path.stat().st_nlink > 1 for path in metadata)
 
 
-def test_cold_bootstrap_creates_the_complete_locked_environment(tmp_path: Path) -> None:
+def test_cold_bootstrap_creates_the_complete_locked_environment(inputs: EnvironmentInputs) -> None:
     """The real Make entry bootstraps uv before resolving its shared cache.
 
     Parameters
     ----------
-    tmp_path : Path
-        Owned clean checkout containing the actual source recipes and lock.
+    inputs : EnvironmentInputs
+        Clean checkout and independently supplied frozen inputs.
     """
-    root = tmp_path / "clean-checkout"
-    root.mkdir()
-    for name in ("Makefile", "requirements-dev.txt"):
-        shutil.copyfile(SOURCE / name, root / name)
-    shutil.copytree(SOURCE / ".make", root / ".make")
+    root = inputs.root
     bootstrap = root / ".tool-cache/bootstrap-uv"
-    bootstrap.mkdir(parents=True)
-    os.link(SOURCE / ".tool-cache/bootstrap-uv/uv.whl", bootstrap / "uv.whl")
-    assert not (bootstrap / "uv").exists()
+    assert not bootstrap.exists()
     result = subprocess.run(
-        ["make", "--no-print-directory", "environment", "BASE_PYTHON=" + sys.executable],
+        [
+            "make",
+            "--no-print-directory",
+            "environment",
+            "BASE_PYTHON=" + sys.executable,
+            f"ENVIRONMENT_INPUTS={inputs.artifacts}",
+            f"ENVIRONMENT_OWNER_SOURCE={inputs.owner}",
+            f"UV_CACHE_DIR={SOURCE / '.tool-cache/uv-cache'}",
+        ],
         cwd=root,
         capture_output=True,
         timeout=180,
     )
     assert result.returncode == 0, (result.stdout, result.stderr)
+    assert (bootstrap / "uv").is_file()
     assert b"Failed to hardlink" not in result.stderr
     assert b"-m pip install" not in result.stdout
     metadata = list((root / ".venv").glob("lib/python3.13/site-packages/*.dist-info/METADATA"))
-    assert len(metadata) == 103 and all(path.stat().st_nlink > 1 for path in metadata)
+    assert len(metadata) == 106 and all(path.stat().st_nlink > 1 for path in metadata)
     observed = subprocess.run(
         [
             str(root / ".venv/bin/python"),

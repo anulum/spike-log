@@ -191,7 +191,10 @@ def inspect_steps(steps: list[Json], name: str, report: Report) -> None:
                     report.add("workflow_policy.credential-persist", name)
             if action == "actions/setup-python":
                 options = step.get("with")
-                if not isinstance(options, dict) or options.get("python-version") != "3.13.16":
+                if (
+                    not isinstance(options, dict)
+                    or options.get("python-version") != WORKFLOW_POLICY["python_version"]
+                ):
                     report.add("dependency_alignment.hook-drift", name)
         if any(key in step for key in ("continue-on-error",)):
             report.add("workflow_policy.aggregate-skipped", name)
