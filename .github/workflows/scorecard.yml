@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 permissions: {}
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-scorecard-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   configuration:

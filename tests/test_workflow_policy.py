@@ -27,7 +27,7 @@ from local_scaffold.workflows import (
     same_revision_call,
     verify_snapshot,
 )
-from tests.conftest import change, payload, run_guard, snapshots
+from tests.conftest import SOURCE, change, payload, run_guard, snapshots
 
 
 @pytest.mark.parametrize("size", [102400, 102401])
@@ -418,3 +418,47 @@ def test_documented_snapshot_input_integrity(root: Path, case: str) -> None:
         with pytest.raises(Fault) as observed:
             verify_snapshot(received, report)
         assert observed.value.code == "workflow_policy.missing-required"
+
+
+def test_called_workflows_hold_their_own_concurrency_group() -> None:
+    """Each workflow the gate calls holds a concurrency group of its own, never the caller's.
+
+    A called workflow sees its caller's ``github.workflow``. With the caller's group it would wait for the group its
+    caller already holds, and GitHub cancels it before any job starts. Each called group names its own file.
+    """
+    directory = SOURCE / ".github/workflows"
+    caller = cast(dict[str, Json], yaml.safe_load((directory / "ci.yml").read_text()))
+    caller_group = cast(dict[str, Json], caller["concurrency"])["group"]
+    groups: list[Json] = []
+    for job in cast(dict[str, dict[str, Json]], caller["jobs"]).values():
+        target = job.get("uses")
+        if not isinstance(target, str):
+            continue
+        filename = target.removeprefix("$/.github/workflows/")
+        called = cast(dict[str, Json], yaml.safe_load((directory / filename).read_text()))
+        concurrency = cast(dict[str, Json], called["concurrency"])
+        stem = filename.removesuffix(".yml")
+        assert concurrency == {
+            "group": "${{ github.workflow }}-" + stem + "-${{ github.ref }}",
+            "cancel-in-progress": True,
+        }, filename
+        groups.append(concurrency["group"])
+    assert len(groups) == 6
+    assert caller_group not in groups
+    assert len(set(groups)) == len(groups)
+
+
+def test_a_called_workflow_with_the_caller_group_is_refused(root: Path) -> None:
+    """The workflow policy refuses a called workflow that would share its caller's concurrency group."""
+    path = root / ".github/workflows/docs.yml"
+    shared = "${{ github.workflow }}-${{ github.ref }}"
+    path.write_text(
+        path.read_text().replace("${{ github.workflow }}-docs-${{ github.ref }}", shared)
+    )
+    report = payload(run_guard("workflow_policy", root), 2)
+    reasons = cast(list[dict[str, Json]], report["reasons"])
+    assert any(
+        reason["code"] == "workflow_policy.aggregate-skipped"
+        and reason["location"] == ".github/workflows/docs.yml"
+        for reason in reasons
+    )

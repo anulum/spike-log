@@ -76,6 +76,28 @@ def collect(root: Path) -> WorkflowSnapshot:
     return WorkflowSnapshot(policy, tuple(sorted(entries)), workflows)
 
 
+def concurrency_group(filename: str, triggers: list[str]) -> str:
+    """Return the concurrency group one workflow must declare.
+
+    Parameters
+    ----------
+    filename : str
+        The workflow file name under ``.github/workflows``.
+    triggers : list of str
+        The workflow's approved triggers.
+
+    Returns
+    -------
+    str
+        The policy group for a workflow that is not called. A called workflow sees its caller's
+        ``github.workflow``, so its group also names its own file: with the caller's group it would wait
+        for the group its caller already holds, and GitHub would cancel it before any job starts.
+    """
+    if "workflow_call" not in triggers:
+        return WORKFLOW_POLICY["concurrency_group"]
+    return "${{ github.workflow }}-" + filename.removesuffix(".yml") + "-${{ github.ref }}"
+
+
 def same_revision_call(value: object, target: str, platform: str = "github.com") -> bool:
     """Validate one exact prepared cloud call with no ref/expression or host fallback.
 
@@ -275,7 +297,7 @@ def verify_snapshot(snapshot: WorkflowSnapshot, report: Report) -> dict[str, dic
                     report.add("workflow_policy.path-filter", name)
         concurrency = workflow.get("concurrency")
         if concurrency != {
-            "group": WORKFLOW_POLICY["concurrency_group"],
+            "group": concurrency_group(filename, obligation["triggers"]),
             "cancel-in-progress": True,
         }:
             report.add("workflow_policy.aggregate-skipped", name)
