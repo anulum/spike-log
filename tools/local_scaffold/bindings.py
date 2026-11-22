@@ -29,7 +29,7 @@ ACTIONS: Final = {
 }
 
 
-SCHEMA_SHA256: Final = "faca69afafa2d59a83d10a6779ccff1dff7e76855ead0b2f349abe6355003728"
+SCHEMA_SHA256: Final = "2f1faa22f6feeec2e3c6d30ca4dd71cf40feee6884861d41c6d73409f7559aa9"
 
 
 LICENCE_SHA256: Final = "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee"

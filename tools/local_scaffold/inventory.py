@@ -121,7 +121,7 @@ def inventory_bytes(root: Path) -> bytes:
     """
     value = {
         "repository_name": REPOSITORY,
-        "lifecycle": "local_scaffold",
+        "lifecycle": "public_repository",
         "evidence_maturity": "architecture_only",
         "capabilities": [],
         "claims": [],

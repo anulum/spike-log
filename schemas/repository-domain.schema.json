@@ -8,6 +8,7 @@
     "repository_name",
     "owner_group",
     "lifecycle",
+    "public_remote",
     "evidence_maturity",
     "capabilities",
     "claims",
@@ -25,7 +26,10 @@
       "const": "SC-NEUROMORPHIC-COMPUTING-SYSTEMS"
     },
     "lifecycle": {
-      "const": "local_scaffold"
+      "const": "public_repository"
+    },
+    "public_remote": {
+      "const": "https://github.com/anulum/spike-log"
     },
     "evidence_maturity": {
       "const": "architecture_only"

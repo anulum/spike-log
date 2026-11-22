@@ -5,7 +5,8 @@
     "evidence-manifest-toolkit==0.0.0.dev0"
   ],
   "evidence_maturity": "architecture_only",
-  "lifecycle": "local_scaffold",
+  "lifecycle": "public_repository",
+  "public_remote": "https://github.com/anulum/spike-log",
   "owner_group": "SC-NEUROMORPHIC-COMPUTING-SYSTEMS",
   "planned_owned_schema_ids": [
     "spike_log.container.v1"

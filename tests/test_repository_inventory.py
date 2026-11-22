@@ -163,7 +163,7 @@ def test_inventory_goldens_and_readonly(root: Path) -> None:
     metadata = (root / "repository-domain.json").read_bytes()
     expected = {
         "repository_name": "SPIKE-LOG",
-        "lifecycle": "local_scaffold",
+        "lifecycle": "public_repository",
         "evidence_maturity": "architecture_only",
         "capabilities": [],
         "claims": [],

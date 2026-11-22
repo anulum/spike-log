@@ -11,6 +11,8 @@ SPIKE-LOG — source and configuration provenance
 
 SPIKE-LOG is the planned record and replay container for event streams. The selected design stores ordered canonical events and source-native side streams in chunked `.slog` files, with an index, integrity chain, capture provenance and a detached evidence seal.
 
+SPIKE-LOG is part of the **SC Neuromorphic Computing Systems** group (SC-NEUROMORPHIC-COMPUTING-SYSTEMS). The [group and project map](https://github.com/anulum/sc-neurocore/blob/main/docs/ecosystem.md) shows the whole programme and where this repository sits in it.
+
 The repository is under local scaffold construction. Evidence maturity is `architecture_only`; implemented domain capabilities, public claims and qualified schema inventories are empty. No container writer, capture adapter, replay engine or physical measurement is qualified here.
 
 ## Native payload API

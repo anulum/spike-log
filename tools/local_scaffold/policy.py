@@ -28,8 +28,10 @@ from .identity import FORBIDDEN as FORBIDDEN
 from .identity import FUNDING as FUNDING
 from .identity import GROUP as GROUP
 from .identity import HEADER as HEADER
+from .identity import LIFECYCLE as LIFECYCLE
 from .identity import PLANNED as PLANNED
 from .identity import PROFILE as PROFILE
+from .identity import PUBLIC_REMOTE as PUBLIC_REMOTE
 from .identity import REPOSITORY as REPOSITORY
 from .identity import REQUIRED as REQUIRED
 from .limits import EXCLUDED as EXCLUDED

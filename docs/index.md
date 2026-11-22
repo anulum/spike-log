@@ -11,6 +11,8 @@ SPIKE-LOG — source and configuration provenance
 
 The planned `.slog` container preserves event-stream bytes, ordering, timebase and source provenance across recording, replay and derived slices. Domain runtime is not qualified during local scaffold construction.
 
+SPIKE-LOG is part of the **SC Neuromorphic Computing Systems** group (SC-NEUROMORPHIC-COMPUTING-SYSTEMS). The [group and project map](https://github.com/anulum/sc-neurocore/blob/main/docs/ecosystem.md) shows the whole programme and where this repository sits in it.
+
 The [native payload API](native-payloads.md) documents the implemented Python
 codecs for canonical DVS columns and logical source records. Container, source,
 clock and current-evidence qualification remain separate.

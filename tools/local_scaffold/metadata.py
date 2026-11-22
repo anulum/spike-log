@@ -23,7 +23,17 @@ from packaging.specifiers import InvalidSpecifier, SpecifierSet
 from packaging.utils import canonicalize_name
 
 from .inputs import Json, json_object, parse_json, read_bytes
-from .policy import EXPECTED_GRAPH, GROUP, LOCK_SHA256, PLANNED, PROFILE, REPOSITORY, SCHEMA_SHA256
+from .policy import (
+    EXPECTED_GRAPH,
+    GROUP,
+    LIFECYCLE,
+    LOCK_SHA256,
+    PLANNED,
+    PROFILE,
+    PUBLIC_REMOTE,
+    REPOSITORY,
+    SCHEMA_SHA256,
+)
 from .production_names import check_values
 from .reports import Fault, Report
 
@@ -119,7 +129,8 @@ def check(root: Path, report: Report) -> dict[str, Json] | None:
     checks: list[tuple[str, object, object]] = [
         ("wrong-identity", metadata.get("repository_name"), REPOSITORY),
         ("wrong-identity", metadata.get("owner_group"), GROUP),
-        ("wrong-profile", metadata.get("lifecycle"), "local_scaffold"),
+        ("wrong-profile", metadata.get("lifecycle"), LIFECYCLE),
+        ("wrong-identity", metadata.get("public_remote"), PUBLIC_REMOTE),
         ("wrong-profile", metadata.get("evidence_maturity"), "architecture_only"),
         ("nonempty-capabilities", metadata.get("capabilities"), []),
         ("nonempty-claims", metadata.get("claims"), []),
@@ -143,6 +154,7 @@ def check(root: Path, report: Report) -> dict[str, Json] | None:
                 "repository_name",
                 "owner_group",
                 "lifecycle",
+                "public_remote",
                 "evidence_maturity",
                 "capabilities",
                 "claims",

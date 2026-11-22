@@ -49,6 +49,7 @@ REQUIRED_MEMBERS: Sequence[tuple[str, ...]] = (
             "repository_name",
             "owner_group",
             "lifecycle",
+            "public_remote",
             "evidence_maturity",
             "capabilities",
             "claims",
@@ -168,6 +169,9 @@ def test_complete_genuine_schema_oracle() -> None:
         (("qualified_owned_schema_ids",), ["spike_log.container.v1"]),
         (("planned_owned_schema_ids",), []),
         (("lifecycle",), "implemented"),
+        (("lifecycle",), "local_scaffold"),
+        (("public_remote",), "https://github.com/anulum/other-repository"),
+        (("public_remote",), "https://github.com/anulum/SPIKE-LOG"),
         (("evidence_maturity",), "qualified"),
         (("validation_profile", "revision"), "old"),
         (
