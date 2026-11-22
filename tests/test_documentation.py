@@ -170,6 +170,14 @@ def test_late_received_template_and_config_changes_cannot_execute(
     cache = root / ".tool-cache"
     marker = root.parent / "late-received-template-was-executed"
     trace = tmp_path / "actual-captured-documentation-config.native-trace"
+    interpreter = Path(sys.executable)
+    resolved = interpreter.resolve()
+    # strace -P on a link traces the link and its target and announces the resolution once.
+    notice = (
+        f'{actual_strace}: Requested path "{interpreter}" resolved into "{resolved}"\n'.encode()
+        if resolved != interpreter
+        else b""
+    )
     process = subprocess.Popen(
         [
             str(actual_strace),
@@ -182,7 +190,7 @@ def test_late_received_template_and_config_changes_cannot_execute(
             "-o",
             str(trace),
             "-P",
-            str(sys.executable),
+            str(interpreter),
             "-e",
             "trace=execve",
             "-e",
@@ -229,7 +237,9 @@ def test_late_received_template_and_config_changes_cannot_execute(
             )
         before = snapshots(root)
         stdout, stderr = process.communicate(timeout=30)
-        payload(subprocess.CompletedProcess(process.args, process.returncode, stdout, stderr), 0)
+        assert stderr.startswith(notice), stderr
+        received = stderr.removeprefix(notice)
+        payload(subprocess.CompletedProcess(process.args, process.returncode, stdout, received), 0)
         assert not marker.exists()
         assert snapshots(root) == before
         raw = trace.read_bytes()
