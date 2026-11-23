@@ -67,11 +67,16 @@ def source_python(*arguments: str, executable: str | None = None) -> list[str]:
         except FileExistsError:
             assert script.read_bytes() == program
         remaining = [str(script), *remaining[2:]]
-    launcher = """import pathlib,runpy,sys
+    launcher = """import os,pathlib,runpy,sys
 from coverage import Coverage
 configuration=sys.argv[1]
 arguments=sys.argv[2:]
-coverage=Coverage(config_file=configuration,data_suffix=True)
+root=pathlib.Path(configuration).parent
+settings=Coverage(config_file=configuration)
+data_file=os.environ.get('COVERAGE_FILE') or str(root/settings.get_option('run:data_file'))
+source=[str(root/name) for name in settings.get_option('run:source')]
+coverage=Coverage(config_file=configuration,data_file=data_file,source=source,data_suffix=True)
+coverage.set_option('run:disable_warnings',['no-data-collected'])
 coverage.start()
 try:
     if arguments[0]=='-m':
