@@ -149,7 +149,15 @@ def test_workflow_graph_refusals(root: Path, case: str) -> None:
         elif case == "concurrency":
             data["concurrency"] = {}
         else:
-            step = cast(dict[str, Json], steps[0 if case != "setup-python" else 1])
+            python = [
+                n
+                for n, candidate in enumerate(steps)
+                if str(cast(dict[str, Json], candidate).get("uses", "")).startswith(
+                    "actions/setup-python@"
+                )
+            ]
+            assert len(python) == 1
+            step = cast(dict[str, Json], steps[0 if case != "setup-python" else python[0]])
             if case == "tag-pin":
                 step["uses"] = "actions/checkout@v4"
             elif case == "fake-commit":

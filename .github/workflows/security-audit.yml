@@ -21,9 +21,18 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+    env:
+      ENVIRONMENT_OWNER_SOURCE: .tool-cache/owner-source
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
+      - name: Check out the pinned owner source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: anulum/evidence-manifest-toolkit
+          ref: 2db2055b6f01d0aac352baae25ccdcce513e54dc
+          path: .tool-cache/owner-source
           persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
@@ -42,9 +51,18 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+    env:
+      ENVIRONMENT_OWNER_SOURCE: .tool-cache/owner-source
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
+      - name: Check out the pinned owner source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: anulum/evidence-manifest-toolkit
+          ref: 2db2055b6f01d0aac352baae25ccdcce513e54dc
+          path: .tool-cache/owner-source
           persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
@@ -61,9 +79,18 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+    env:
+      ENVIRONMENT_OWNER_SOURCE: .tool-cache/owner-source
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
+      - name: Check out the pinned owner source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: anulum/evidence-manifest-toolkit
+          ref: 2db2055b6f01d0aac352baae25ccdcce513e54dc
+          path: .tool-cache/owner-source
           persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
@@ -82,9 +109,18 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+    env:
+      ENVIRONMENT_OWNER_SOURCE: .tool-cache/owner-source
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
+      - name: Check out the pinned owner source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: anulum/evidence-manifest-toolkit
+          ref: 2db2055b6f01d0aac352baae25ccdcce513e54dc
+          path: .tool-cache/owner-source
           persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:

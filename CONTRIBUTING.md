@@ -39,6 +39,14 @@ unavailable, exit 2 a refusal or a mismatch. Every hosted job runs this command
 before its environment step. Its tests also use the network; without it they
 fail and are not skipped.
 
+Every hosted job that installs the environment checks out the public owner
+repository at the pinned Common commit into .tool-cache/owner-source, without
+persisted credentials, and selects it as ENVIRONMENT_OWNER_SOURCE for the whole
+job, because the readiness check that make environment runs reads it. The
+infrastructure tests also give it, with the environment inputs, to the
+provenance capture, which revalidates the vendored snapshot
+vendor/provenance-inputs.
+
 Check readiness before installation:
 
 ```sh

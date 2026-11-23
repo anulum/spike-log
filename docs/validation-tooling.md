@@ -635,6 +635,11 @@ The input directory preserves these original bytes under portable leaf names:
 | `common-sdist-rebuild-identity.json` | Original Common source-distribution rebuild identity evidence |
 | `rfc8785-source-provenance.json` | Original maintained-fork source provenance |
 
+Every hosted job that installs the environment checks out the owner repository
+at the pinned Common commit into `.tool-cache/owner-source` and selects it as
+`ENVIRONMENT_OWNER_SOURCE`; the infrastructure tests also give it to the
+provenance capture, with `vendor/provenance-inputs` as the snapshot.
+
 The repository tracks this input set under `vendor/environment-inputs`. Renaming a retained original for
 transport leaves its content unchanged. Availability of owner-approved source
 and artifacts in a hosted runner is a separate requirement from local test

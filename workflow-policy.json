@@ -128,34 +128,34 @@
       "sha256": "27a8d67d28e7c37496270963292e378b2f9afa3bafdf3f98948e101a0851c1aa"
     },
     "codeql.yml/analysis": {
-      "sha256": "b789f782f2137eee497ddb7c7c1579511a71f8fca0fd603a6c47bbdb988f10e5"
+      "sha256": "6841f1c23eb84405d00efda6c0f425b285593d825a7506d4047cf222a15b75bd"
     },
     "docs.yml/render": {
-      "sha256": "7c259ef152e4b1af189fb93627bc334b31240774c03301e0e247311606e9c140"
+      "sha256": "62520a1330ad3b7cbef68428b903b7ab3177cb508f8bbc221c5d4740eb3fe141"
     },
     "pre-commit.yml/quality": {
-      "sha256": "3fe32e4f3e58a50a14cc19e3a618190c373621092e23653515fc5ef60544825c"
+      "sha256": "a6e40ee366052c0a5bec87d7abcc868c3a0bab63a7a6fc55d8dc052c0da6aea0"
     },
     "pre-commit.yml/tests": {
-      "sha256": "d888915f04243078ed5a6a2157b818862e68d36c8aad5f3f783ca4e2f63da81c"
+      "sha256": "4b2a54bcf2d315772f954adbe1e10f69c1b842ab6c630c47d7d721455007cf97"
     },
     "sbom.yml/inventory": {
-      "sha256": "af0c9b9f07b280700eb16178e5baef8f32538ad428e07c02fb198cf44d3d0e73"
+      "sha256": "5ad128612ebec828ea201ccc40a8830513fec086a1f7e84a5110526a8044dd15"
     },
     "scorecard.yml/configuration": {
-      "sha256": "c68e4685863ec0111ff89ede93e1ce35169dbcdf0ea6174a78c21e8b2d74314f"
+      "sha256": "84be6deb0c931c29b8f0ef20a98ba72cde6e46450b8563d5334aeb565a751941"
     },
     "security-audit.yml/dependency": {
-      "sha256": "b389aaf3940665506360e7793f6011d4757338f5c57d34f6e05915799b3dcf60"
+      "sha256": "1bacf538d38f81aaf51542826022649ce4e799cdbff61358f6263cbe19c29d24"
     },
     "security-audit.yml/secrets": {
-      "sha256": "b824fe3f41bb7158757b5c01939e8f3697b2c33d1647a54a34f938a4cc9eb75f"
+      "sha256": "b81888f0ab5557ed84a34e5e1effdcac94dff127fa7f33192fd6f1177f99907f"
     },
     "security-audit.yml/static": {
-      "sha256": "5edbbe42de19572f57dbc516cc2594f70cd7c319a6fc38f1c6bfc6d7f04565a4"
+      "sha256": "c2ade1ed0657ba4b606b66dcc530ad6a88c3afa3a7871c306eb37f04ba9c57c4"
     },
     "security-audit.yml/workflow": {
-      "sha256": "8bc2e4f5769b77ebf5d6a64096fd9c76deaad033ed2ebf4de7fc3149f86ff0c9"
+      "sha256": "49c287bd641dd81e4ea1ef2e747185dde3f30ff566c45d7b65a09b77ba53d335"
     }
   },
   "workflow_inputs_sha256": {
@@ -163,22 +163,22 @@
       "sha256": "64445a0ef5fe296928ae6f30370aaf2626703dfe06bc2d8c8f8f17500b45baaa"
     },
     "codeql.yml": {
-      "sha256": "5894072b3ef5202cd3898baf48432790a012420b3acb0ad22d42362c0e642ff2"
+      "sha256": "a4ad27072aae5a3e09e48914ee4c3cc0cd6e272a55983390e11bb99118fa89e3"
     },
     "docs.yml": {
-      "sha256": "659ee2025bd65eaa6075a1a1a622b0d8ce31bb6eae9b1310b3bf286b7d2e0a66"
+      "sha256": "26a24dbf68023379000bfb1d9311043a0909f7525ad1100231a2e721791091c6"
     },
     "pre-commit.yml": {
-      "sha256": "665e96983cc27ab64d58031cbe3165d26e7361f4e83a55c24722d25720de7b18"
+      "sha256": "9e4db8001964463be909e95f0541c4f068d8be1500f3a2156d72909dd0ea1b3c"
     },
     "sbom.yml": {
-      "sha256": "e99b2deca417a57fa4a841cf00b4de53d74aa3db87893f3802335cda462b235d"
+      "sha256": "41a90f48c398d1e0b22a1f57314d9f0bf9850119a4e8fe055be14fa94bd4309b"
     },
     "scorecard.yml": {
-      "sha256": "ab22da234019cf258e6ab51fe4ecbe2cca4e6c50a4776d4813812b1215f6b274"
+      "sha256": "455e47d38a3b250d1cd15ac00b95674b4d10acc528481b16b760be6f4ece5b60"
     },
     "security-audit.yml": {
-      "sha256": "e49c4d3b5ee2d2c4017e5a6f2db8fb2979db7d543cb5f48a9eb1c6abb5cff4d0"
+      "sha256": "ade5a7a6659cff53b99fa996efe8d029c1d43e57ed3d85306ca26af8e15d4f0c"
     }
   },
   "workflow_max_bytes": 102400,
