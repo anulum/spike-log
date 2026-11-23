@@ -19,6 +19,7 @@ from pathlib import Path
 
 import pytest
 
+from local_scaffold.limits import MAX_CAPTURE
 from local_scaffold.provenance import analyse_reuse
 from local_scaffold.reports import Fault
 from tests.conftest import SOURCE, change, payload, run_guard, snapshots, source_python
@@ -511,3 +512,17 @@ def test_real_undecodable_owned_provenance_is_refused(root: Path) -> None:
         for reason in reasons
     )
     assert snapshots(root) == before
+
+
+def test_repository_reuse_report_keeps_half_the_capture_bound_free() -> None:
+    """The repository's native REUSE report stays below half of the capture bound.
+
+    The report grows with every tracked file. Failing at half the bound shows that growth
+    while the source-provenance gate, which keeps the report, still passes.
+    """
+    report = analyse_reuse(SOURCE)
+    assert report.exit_code == 0
+    assert len(report.stdout) < MAX_CAPTURE // 2, (
+        f"REUSE report of {len(report.stdout)} bytes has reached half of MAX_CAPTURE "
+        f"({MAX_CAPTURE} bytes in tools/local_scaffold/limits.py)"
+    )

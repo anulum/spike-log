@@ -442,8 +442,9 @@ only mode that fetches registry responses.
 ### Offline reconstruction
 
 Supply a complete preserved source snapshot explicitly. Its inputs.json has
-input_schema equal to spike_log.dependency-source-inputs.v1, the exact
-interpreter version, accepted full-lock digest and all103 package records.
+input_schema spike_log.dependency-source-inputs.v2 (v1 admits no owner-source
+response), the exact interpreter version, accepted full-lock digest and one
+record per graph package.
 Each record has canonical name, exact version, relative response path and
 SHA-256 of the complete raw response. Preserve those response files beside
 the index. A later same-version response is a different source when bytes differ.
@@ -461,8 +462,8 @@ only reconstruction from supplied bytes and the actual installed environment.
 It establishes neither historical reconstruction nor trusted audit admission
 or adoption of changed source bindings.
 
-The candidate includes all103installed package records with ordered metadata,
-175declared licence-file selections and selected source-artifact descriptors.
+The candidate includes every installed package record with ordered metadata,
+every declared licence-file selection and the selected source-artifact descriptors.
 Its metadata_sha256 identifies UTF-8-encoded native Distribution.read_text
 output, including filesystem text-mode newline normalisation. Registry-response
 and declared licence-file hashes identify the original raw bytes.
@@ -473,11 +474,13 @@ generation and provenance_comparison for verification; checks remains empty.
 Missing input is unavailable, inconsistent identity refuses, invalid options
 remain invalid. Neither operation runs a security audit.
 
-Dedicated tests require a complete genuine snapshot at
-.tool-cache/provenance-inputs or SPIKE_LOG_PROVENANCE_INPUTS. Missing preparation
-fails; no skip or substitute fixture. Prepare a complete prospective snapshot with
-make prepare-provenance-inputs. Recovery of original historical response bytes
-remains a separate obligation.
+Dedicated tests use the complete genuine snapshot that the repository tracks at
+`vendor/provenance-inputs`, or another selected by SPIKE_LOG_PROVENANCE_INPUTS.
+It holds the original registry responses whose digests the provenance pins,
+and the two owner-source response records. Missing or changed bytes fail; no
+skip or substitute fixture. Its registry responses are third-party metadata
+under `LicenseRef-PyPI-Metadata`, and the inventory and source-provenance
+checks admit each one only by the digest the provenance pins.
 
 ::: local_scaffold.provenance_sources
 
@@ -495,7 +498,9 @@ make prepare-provenance-inputs
 make provenance-generate
 ```
 
-The first command captures all103 full version-metadata responses from PyPI,
+The first command captures each registry package's full version-metadata
+response from PyPI and copies each owner-source package's response record from
+PROVENANCE_ARTIFACTS, which it validates against PROVENANCE_OWNER_SOURCE,
 validates their selected source artifacts against the baseline, and records raw
 byte hashes in `inputs.json`. `make prepare-test-inputs` now includes this step.
 Generation and comparison remain offline. Existing complete snapshots are
@@ -518,7 +523,7 @@ Its default budget of 120 seconds includes worker startup, repository and instal
 source validation, response acquisition, publication, complete snapshot readback
 and owned process-group cleanup. It reserves cleanup time within that budget;
 it does not promise 120 seconds of network acquisition or a hard real-time host
-guarantee. The index is published after all 103 responses succeed.
+guarantee. The index is published after every response succeeds.
 
 Use `--capture-seconds` for a smaller positive finite budget at most 120 seconds.
 The Make equivalent is:

@@ -26,6 +26,7 @@ from coverage import CoverageData
 from local_scaffold.provenance_capture import capture
 from local_scaffold.reports import Fault, Report
 from tests.conftest import SOURCE, payload
+from tests.test_provenance_local import INPUTS, OWNER
 from tests.test_provenance_reproduction import invoke, reproduction_root, source_cohort
 
 __all__ = ["reproduction_root", "source_cohort"]
@@ -96,6 +97,8 @@ def test_actual_make_budget_forwarding() -> None:
             "prepare-provenance-inputs",
             "PROVENANCE_INPUTS=" + name,
             "PROVENANCE_CAPTURE_SECONDS=0",
+            "PROVENANCE_ARTIFACTS=" + str(INPUTS),
+            "PROVENANCE_OWNER_SOURCE=" + str(OWNER),
         ],
         cwd=SOURCE,
         capture_output=True,
@@ -136,6 +139,10 @@ def test_genuine_missing_worker_is_unavailable(
         ".tool-cache/inputs",
         "--mode",
         "capture",
+        "--artifacts",
+        str(INPUTS),
+        "--owner-source",
+        str(OWNER),
         "--json",
     ]
     command = [

@@ -21,6 +21,7 @@ from pathlib import Path
 
 import pytest
 
+from local_scaffold.limits import MAX_CAPTURE
 from tests.conftest import SOURCE, source_python
 from tests.test_atomic_publication import actual_strace as actual_strace
 from tests.test_provenance_local import MANIFEST, OWNER
@@ -164,7 +165,7 @@ def test_original_native_tree_and_adverse_pipe_are_separate(
         "-qq",
         "--kill-on-exit",
         "-s",
-        "262144",
+        str(MAX_CAPTURE),
         "-o",
         str(trace),
         "-e",

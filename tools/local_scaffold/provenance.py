@@ -25,6 +25,7 @@ from .policy import ASSETS, LEAF_SECONDS, LICENCE_SHA256, MAX_FILE, PROVENANCE_S
 from .processes import ProcessResult, run_process
 from .reports import Fault, Report
 from .vendored_inputs import is_vendored_wheel, selected_by_provenance
+from .vendored_snapshot import is_snapshot_response, pinned_response
 
 COPYRIGHTS = (
     "SPDX-FileCopyrightText: 1996-2026 Miroslav Šotek <protoscience@anulum.li> (concepts)",
@@ -186,6 +187,10 @@ def verify(root: Path, report: Report) -> None:
         try:
             if name in ASSETS:
                 if hashlib.sha256(read_bytes(root, name, MAX_FILE)).hexdigest() != ASSETS[name]:
+                    report.add("source_provenance.third-party", name)
+                continue
+            if is_snapshot_response(name):
+                if not pinned_response(root, name):
                     report.add("source_provenance.third-party", name)
                 continue
             if is_vendored_wheel(name):

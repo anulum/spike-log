@@ -1,0 +1,11 @@
+Package metadata responses of the Python Package Index JSON API
+(https://pypi.org/pypi/<project>/<version>/json), retained byte for byte under
+vendor/provenance-inputs/registry/ as the original source inputs that
+dependency-provenance.json pins.
+
+Each response carries metadata that the respective project supplied to the
+Python Package Index. That metadata, including any description text, remains
+under the terms with which its project published it. The responses are
+redistributed unchanged, only so that the recorded dependency provenance can be
+reproduced. They are not SPIKE-LOG source and SPIKE-LOG's licence does not
+cover them.

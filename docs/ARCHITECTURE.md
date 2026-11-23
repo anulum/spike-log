@@ -76,8 +76,8 @@ native METADATA text, dependency/classifier ordering and selected licence bytes
 come from the executing environment. METADATA identities hash the UTF-8 encoding
 of Distribution.read_text output, with filesystem text-mode newline normalisation.
 The snapshot supplies original registry response
-bytes and the baseline selects source artifacts. All106package records and
-165declared licence-file selections participate.
+bytes and the baseline selects source artifacts. Every package record and
+every declared licence-file selection participate.
 
 ### Four explicit metadata-writing operations
 

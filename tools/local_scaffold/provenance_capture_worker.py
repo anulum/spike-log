@@ -89,7 +89,8 @@ def capture_once(
         if kind is not None:
             if not isinstance(kind, str) or kind not in LOCAL_KINDS:
                 raise Fault("configuration_invalid", "local-source", 4)
-            raise Fault("input_unavailable", str(record["name"]), 3)
+            if artifacts is None or owner is None:
+                raise Fault("input_unavailable", str(record["name"]), 3)
     try:
         directory.mkdir()
     except OSError as error:
@@ -98,37 +99,64 @@ def capture_once(
     for record in packages:
         package = cast(str, record["name"])
         version = cast(str, record["version"])
-        connection = HTTPSConnection("pypi.org", timeout=10.0)
-        try:
-            connection.request(
-                "GET",
-                "/pypi/" + package + "/" + version + "/json",
-                headers={"Accept": "application/json", "User-Agent": "SPIKE-LOG-provenance/1"},
-            )
-            with connection.getresponse() as response:
-                if response.status != 200:
-                    raise Fault("tool_unavailable", exit_code=3)
-                data = response.read(MAX_INPUT + 1)
-        except (OSError, HTTPException) as error:
-            raise Fault("tool_unavailable", exit_code=3) from error
-        finally:
-            connection.close()
+        if "source_kind" in record:
+            data = read_bytes(cast(Path, artifacts), package + ".json")
+        else:
+            data = _registry_response(package, version)
         require_byte_budget(len(data), MAX_INPUT)
         path = package + ".json"
         publish(directory, path, data)
         value = json_object(directory, path)
         digest = hashlib.sha256(data).hexdigest()
         current: SourceResponses = {package: (digest, value)}
-        package_record(record, current)
+        package_record(record, current, artifacts=artifacts, owner=owner)
         entries.append({"name": package, "version": version, "path": path, "sha256": digest})
     index: dict[str, Json] = {
-        "input_schema": "spike_log.dependency-source-inputs.v1",
+        "input_schema": "spike_log.dependency-source-inputs.v2",
         "python": platform.python_version(),
         "lock_sha256": baseline["lock_sha256"],
         "packages": entries,
     }
     publish(directory, "inputs.json", (json.dumps(index, sort_keys=True, indent=2) + "\n").encode())
     load(directory)
+
+
+def _registry_response(package: str, version: str) -> bytes:
+    """Fetch one package version's complete raw metadata response from the registry.
+
+    Parameters
+    ----------
+    package : str
+        Canonical package name selected by the baseline.
+    version : str
+        Exact version selected by the baseline.
+
+    Returns
+    -------
+    bytes
+        The response body, read to at most one byte past the input budget.
+
+    Raises
+    ------
+    Fault
+        Raised as unavailable for any transport failure or a status other than 200.
+    """
+    connection = HTTPSConnection("pypi.org", timeout=10.0)
+    try:
+        connection.request(
+            "GET",
+            "/pypi/" + package + "/" + version + "/json",
+            headers={"Accept": "application/json", "User-Agent": "SPIKE-LOG-provenance/1"},
+        )
+        with connection.getresponse() as response:
+            if response.status != 200:
+                raise Fault("tool_unavailable", exit_code=3)
+            data = response.read(MAX_INPUT + 1)
+    except (OSError, HTTPException) as error:
+        raise Fault("tool_unavailable", exit_code=3) from error
+    finally:
+        connection.close()
+    return data
 
 
 def main(raw_root: str, name: str, raw_artifacts: str = "", raw_owner: str = "") -> int:

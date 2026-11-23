@@ -22,6 +22,7 @@ import pytest
 from local_scaffold.reports import Fault, validate_child
 from tests.conftest import SOURCE, payload, source_python
 from tests.test_provenance_availability import coverage_only_python
+from tests.test_provenance_local import INPUTS, OWNER
 from tests.test_provenance_reproduction import invoke, reproduction_root
 
 __all__ = ["coverage_only_python", "reproduction_root"]
@@ -29,14 +30,16 @@ __all__ = ["coverage_only_python", "reproduction_root"]
 WORKER_PROGRAM = (
     "import sys;sys.path.insert(0," + repr(str(SOURCE / "tools")) + ");"
     "from local_scaffold.provenance_capture_worker import main;"
-    "raise SystemExit(main(sys.argv[1],sys.argv[2]))"
+    "raise SystemExit(main(*sys.argv[1:]))"
 )
+ROOTS = (str(INPUTS), str(OWNER))
+"""The local artifact and owner roots every capture of owner-source packages reads."""
 
 
 def test_native_worker_api_and_closed_scope(reproduction_root: Path) -> None:
-    """The real installed worker captures103sources and admits only its explicit scope."""
+    """The real installed worker captures every source and admits only its explicit scope."""
     result = subprocess.run(
-        source_python("-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs"),
+        source_python("-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs", *ROOTS),
         cwd=SOURCE,
         capture_output=True,
         timeout=150,
@@ -57,7 +60,9 @@ def test_native_worker_api_and_closed_scope(reproduction_root: Path) -> None:
     with pytest.raises(Fault):
         validate_child(value, "provenance_reproduction", 0, expected_scope=unsupported)
     index = json.loads((reproduction_root / ".tool-cache/inputs/inputs.json").read_bytes())
-    assert len(index["packages"]) == 103
+    assert len(index["packages"]) == len(
+        json.loads((SOURCE / "dependency-provenance.json").read_bytes())["packages"]
+    )
     for entry in index["packages"]:
         data = (reproduction_root / ".tool-cache/inputs" / entry["path"]).read_bytes()
         assert hashlib.sha256(data).hexdigest() == entry["sha256"]
@@ -65,7 +70,9 @@ def test_native_worker_api_and_closed_scope(reproduction_root: Path) -> None:
     before = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.rglob("*")}
     payload(
         subprocess.run(
-            source_python("-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs"),
+            source_python(
+                "-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs", *ROOTS
+            ),
             cwd=SOURCE,
             capture_output=True,
             timeout=30,
@@ -153,6 +160,7 @@ def test_native_worker_missing_dependency(coverage_only_python: Path, tmp_path: 
                 WORKER_PROGRAM,
                 str(tmp_path),
                 "inputs",
+                *ROOTS,
                 executable=str(coverage_only_python),
             ),
             cwd=SOURCE,
@@ -180,7 +188,9 @@ def test_native_worker_unavailable_transport(reproduction_root: Path) -> None:
     )
     result = payload(
         subprocess.run(
-            source_python("-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs"),
+            source_python(
+                "-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs", *ROOTS
+            ),
             cwd=SOURCE,
             env=environment,
             capture_output=True,
@@ -202,13 +212,13 @@ def test_native_worker_user_interruption(reproduction_root: Path) -> None:
         "sys.path.insert(0," + repr(str(SOURCE / "tools")) + ");"
         "from local_scaffold.provenance_capture_worker import main;"
         "timer=threading.Timer(0.25,os.kill,args=(os.getpid(),signal.SIGINT));timer.start();"
-        "\ntry: result=main(sys.argv[1],sys.argv[2])"
+        "\ntry: result=main(*sys.argv[1:])"
         "\nfinally: timer.cancel();timer.join()"
         "\nraise SystemExit(result)"
     )
     result = payload(
         subprocess.run(
-            source_python("-c", program, str(reproduction_root), ".tool-cache/inputs"),
+            source_python("-c", program, str(reproduction_root), ".tool-cache/inputs", *ROOTS),
             cwd=SOURCE,
             capture_output=True,
             timeout=30,
@@ -246,7 +256,9 @@ def test_worker_bounded_diagnostics(reproduction_root: Path) -> None:
     before = path.read_bytes()
     result = payload(
         subprocess.run(
-            source_python("-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs"),
+            source_python(
+                "-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs", *ROOTS
+            ),
             cwd=SOURCE,
             capture_output=True,
             timeout=30,

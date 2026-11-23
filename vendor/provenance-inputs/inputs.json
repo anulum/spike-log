@@ -1,0 +1,643 @@
+{
+  "input_schema": "spike_log.dependency-source-inputs.v2",
+  "lock_sha256": "780ad088aedf6aec5edf31193e4438ecb4c47932d5ecbaff7e12a01e44d01c5d",
+  "packages": [
+    {
+      "name": "arrow",
+      "path": "registry/arrow.json",
+      "sha256": "1cc4c79fbb745376d6e1dfe917913f8eaac5d51a1b4be713e63901dc251c9b04",
+      "version": "1.4.0"
+    },
+    {
+      "name": "attrs",
+      "path": "registry/attrs.json",
+      "sha256": "a882bf941fb4a0bb748d0194df544121cc130f5fb15a710ab6b804c17d2899b7",
+      "version": "26.1.0"
+    },
+    {
+      "name": "babel",
+      "path": "registry/babel.json",
+      "sha256": "c72603e0cf0564154f772ad24d9d7493784e3bd7f160188215cb76aab2f7d2e6",
+      "version": "2.18.0"
+    },
+    {
+      "name": "backrefs",
+      "path": "registry/backrefs.json",
+      "sha256": "c5e0ab6785abed342b6a6fcc5b2beddad8acb9da288d224d1bea69865d005534",
+      "version": "8.0"
+    },
+    {
+      "name": "bandit",
+      "path": "registry/bandit.json",
+      "sha256": "cde9ac71444c0b497433e7fd219dd2e184701413ee7b37ae3ecbc4ba495fe8da",
+      "version": "1.9.4"
+    },
+    {
+      "name": "boolean-py",
+      "path": "registry/boolean-py.json",
+      "sha256": "592fa1ea048b6e5d71c019df7692387b0bb57c7504676c2809b85ab3dafc1b62",
+      "version": "5.0"
+    },
+    {
+      "name": "cachecontrol",
+      "path": "registry/cachecontrol.json",
+      "sha256": "03b391e940e2492a8b3e3736975ad77fea36e4df02e22786e8756d572d398a35",
+      "version": "0.14.4"
+    },
+    {
+      "name": "certifi",
+      "path": "registry/certifi.json",
+      "sha256": "546ce90e02c152f5ff565baca6bc2a8f43c355855f637756f49a0143e312bdb2",
+      "version": "2026.10.23"
+    },
+    {
+      "name": "cfgv",
+      "path": "registry/cfgv.json",
+      "sha256": "e3cbfa21d50efff77c60567faa0c0a9658473964ff81e3eae58812c3b4d331b5",
+      "version": "3.5.0"
+    },
+    {
+      "name": "chardet",
+      "path": "registry/chardet.json",
+      "sha256": "c4ecd2d0f75ee7af6d5317cb16d3680612663d1bb491a73ad6cd026c7c1ad2e6",
+      "version": "7.6.0"
+    },
+    {
+      "name": "charset-normalizer",
+      "path": "registry/charset-normalizer.json",
+      "sha256": "9fda300857ae6a0486b4cd2d2fec7817ed2d45657249a6dfc0c2bbd1a44267b6",
+      "version": "3.5.2"
+    },
+    {
+      "name": "click",
+      "path": "registry/click.json",
+      "sha256": "6fc33d0e534d89a788a0965bb5071ca0726a483747589201789b60babd602686",
+      "version": "8.5.0"
+    },
+    {
+      "name": "colorama",
+      "path": "registry/colorama.json",
+      "sha256": "43fb351344384a44c2b7d7fff1c63496b89ac830aea714301525c1f3718addd1",
+      "version": "0.4.6"
+    },
+    {
+      "name": "coverage",
+      "path": "registry/coverage.json",
+      "sha256": "3bf7c3247fb635a039463cba600aa8724ba1a0195f11957d18952a578a61723e",
+      "version": "7.16.2"
+    },
+    {
+      "name": "cyclonedx-bom",
+      "path": "registry/cyclonedx-bom.json",
+      "sha256": "6061bb951838e982842e378f5b36b074f73729f4997a15fccfc1ed1cf91b329e",
+      "version": "7.5.0"
+    },
+    {
+      "name": "cyclonedx-python-lib",
+      "path": "registry/cyclonedx-python-lib.json",
+      "sha256": "83da238d990ceb1570d5c55298f569102c6627f306302855641c1202f96f7f0c",
+      "version": "11.12.0"
+    },
+    {
+      "name": "defusedxml",
+      "path": "registry/defusedxml.json",
+      "sha256": "f015c37fa0b87a1d7fad57bea96c5c34856df2cbb29626004dee2122d510136a",
+      "version": "0.7.1"
+    },
+    {
+      "name": "distlib",
+      "path": "registry/distlib.json",
+      "sha256": "e3871f969deaee5ebb4e1468fa700abcebbafd6f2df94fa3651fd1d8b50daf7f",
+      "version": "0.4.3"
+    },
+    {
+      "name": "evidence-manifest-toolkit",
+      "path": "local/evidence-manifest-toolkit.json",
+      "sha256": "4f7f1a18cb6a7a7ad8487d6e882d6e145f6c34c573ae1263fd997646e844ca2c",
+      "version": "0.0.0.dev0"
+    },
+    {
+      "name": "execnet",
+      "path": "registry/execnet.json",
+      "sha256": "07188a4c9ac3b0c37c039fb8dd112f05996c4768b8d5da1171985ada0edfd8c0",
+      "version": "2.1.2"
+    },
+    {
+      "name": "filelock",
+      "path": "registry/filelock.json",
+      "sha256": "e4d524f8e932af1828d40584af83193392a8df07530650a607586b859bd1931b",
+      "version": "4.2.9"
+    },
+    {
+      "name": "fqdn",
+      "path": "registry/fqdn.json",
+      "sha256": "4de98e182abfacf7b89453211304404b63c9d63fd7ca090be3dda91c9c024088",
+      "version": "1.6.0"
+    },
+    {
+      "name": "ghp-import",
+      "path": "registry/ghp-import.json",
+      "sha256": "45ed871d6faafc6bc9996c5d158eccb79ee20cf0b071ecfe163bc93e1d519a22",
+      "version": "2.1.0"
+    },
+    {
+      "name": "griffelib",
+      "path": "registry/griffelib.json",
+      "sha256": "4f397441ecd2ac6b3a2988ebd5ae1cdd35e63d1a98d0cb4739e59efac2de3f7f",
+      "version": "2.3.0"
+    },
+    {
+      "name": "identify",
+      "path": "registry/identify.json",
+      "sha256": "455f3af243abd0abc60a44b385b66994f09424308ec4618ebfd8768e4af7c400",
+      "version": "2.6.20"
+    },
+    {
+      "name": "idna",
+      "path": "registry/idna.json",
+      "sha256": "e7cbd26e23ce60f6cb3a151d2adf3b1b087bb8f10ac2d9d6db70fdccbf3bb041",
+      "version": "3.20"
+    },
+    {
+      "name": "iniconfig",
+      "path": "registry/iniconfig.json",
+      "sha256": "10a4699a386b2309a98d4c368b6696e80562cefebe20107610337447d7f13f65",
+      "version": "2.3.0"
+    },
+    {
+      "name": "isoduration",
+      "path": "registry/isoduration.json",
+      "sha256": "64d68bd6fe0c0b411af831c7fcde0fd3323a302374209302b30148a7c9308192",
+      "version": "20.11.0"
+    },
+    {
+      "name": "jinja2",
+      "path": "registry/jinja2.json",
+      "sha256": "1bc757d7065f3e67d3a49e72ebc731d0774055575732592eede9820c136329cc",
+      "version": "3.1.6"
+    },
+    {
+      "name": "jsonpointer",
+      "path": "registry/jsonpointer.json",
+      "sha256": "b6a46debe5ee7244d539071a7957d50f1561445cece0f6d0367fd0e9cbde471a",
+      "version": "3.1.1"
+    },
+    {
+      "name": "jsonschema",
+      "path": "registry/jsonschema.json",
+      "sha256": "d0c9ccdfa30c3cdc57b048c2be21123dfb0c2f4d6bef2e8324dcb4eac985cfcf",
+      "version": "4.26.0"
+    },
+    {
+      "name": "jsonschema-specifications",
+      "path": "registry/jsonschema-specifications.json",
+      "sha256": "91810d8f79384375ad0c0cf631e06903e2790b030d3fad2f1ad657b20ddd839e",
+      "version": "2025.9.1"
+    },
+    {
+      "name": "lark",
+      "path": "registry/lark.json",
+      "sha256": "936a4e76bedea3bdbcc1c6f49342426312c9f915afa42468b51f40f5a86b8f4e",
+      "version": "1.3.1"
+    },
+    {
+      "name": "librt",
+      "path": "registry/librt.json",
+      "sha256": "15903fc6fea8431c709b032d2dc99d27da1ab61f2f06998a6bb73b07d9e71ef0",
+      "version": "0.16.0"
+    },
+    {
+      "name": "license-expression",
+      "path": "registry/license-expression.json",
+      "sha256": "b8f8e4e7ff646d265627f7e8c120f0d5e2e51a1e0fe895012336b6458f4a8777",
+      "version": "30.4.4"
+    },
+    {
+      "name": "lxml",
+      "path": "registry/lxml.json",
+      "sha256": "1f03dafdc0bd6c308a1e69aff7caef27f6d7c586eadd34e02229703a8541fe61",
+      "version": "6.1.3"
+    },
+    {
+      "name": "markdown",
+      "path": "registry/markdown.json",
+      "sha256": "d7b5b7a6203a6538d23b15e5eb9b41b03828377ce420ec7c18ecf106129b32d0",
+      "version": "3.11"
+    },
+    {
+      "name": "markdown-it-py",
+      "path": "registry/markdown-it-py.json",
+      "sha256": "62affba459c80b1279b5759735f7da3e9c7d24966086ff81ec0303c94512b966",
+      "version": "4.2.0"
+    },
+    {
+      "name": "markupsafe",
+      "path": "registry/markupsafe.json",
+      "sha256": "0de4f18187d0fc2318de8504c4178f2297bc7cfa7a55adfb6d013190aff8cff4",
+      "version": "3.0.3"
+    },
+    {
+      "name": "mdurl",
+      "path": "registry/mdurl.json",
+      "sha256": "c7baac0b363d92cf55f1f3a313f4bb0564bff27343e6a0a4e9d7ff03afc8a6c7",
+      "version": "0.1.2"
+    },
+    {
+      "name": "mergedeep",
+      "path": "registry/mergedeep.json",
+      "sha256": "792a7d99c36904b3dc79c3dcb8bc0a985e8274662b1c472edd2d386eaf351095",
+      "version": "1.3.4"
+    },
+    {
+      "name": "mkdocs",
+      "path": "registry/mkdocs.json",
+      "sha256": "a0784c65cb13cae34bd4826cf82c9072b487c814934b76cc7b728ebc2c6aebba",
+      "version": "1.6.1"
+    },
+    {
+      "name": "mkdocs-autorefs",
+      "path": "registry/mkdocs-autorefs.json",
+      "sha256": "7fbb7bd6656d188b3652d5597120eac6008201e6efbc7746c61039ef340e2552",
+      "version": "1.4.4"
+    },
+    {
+      "name": "mkdocs-get-deps",
+      "path": "registry/mkdocs-get-deps.json",
+      "sha256": "595850cd45c9f5572e6360014620858b1516c95c19d7c2db8e07abd6548e94f6",
+      "version": "0.2.2"
+    },
+    {
+      "name": "mkdocs-material",
+      "path": "registry/mkdocs-material.json",
+      "sha256": "4e30872498bab5c28b5fccf5047d4711a21f0ebb5c8a0803a6b8bc893bf342c4",
+      "version": "9.7.7"
+    },
+    {
+      "name": "mkdocs-material-extensions",
+      "path": "registry/mkdocs-material-extensions.json",
+      "sha256": "4911b3808ae847631e13502372af9583b91c3be46900f7b18821fe920ec91040",
+      "version": "1.3.1"
+    },
+    {
+      "name": "mkdocstrings",
+      "path": "registry/mkdocstrings.json",
+      "sha256": "208df8de053c1d04fc98330cb4bae05375a541b9c1eabf4f21e732abf0b5c1d7",
+      "version": "1.0.6"
+    },
+    {
+      "name": "mkdocstrings-python",
+      "path": "registry/mkdocstrings-python.json",
+      "sha256": "f32a83774698683867eaab64b534953ae214a136c700ce30703eb22d79965af5",
+      "version": "2.0.9"
+    },
+    {
+      "name": "msgpack",
+      "path": "registry/msgpack.json",
+      "sha256": "f5ee786a4e5e8af2692c26c9e95d5cfc5970141c219cec9db2b96c96f791c1ba",
+      "version": "1.2.3"
+    },
+    {
+      "name": "mypy",
+      "path": "registry/mypy.json",
+      "sha256": "de78b282abab90460b62a8b28349c64e8c7c75d1d4279c7e5b2526ceba2cd879",
+      "version": "1.20.2"
+    },
+    {
+      "name": "mypy-extensions",
+      "path": "registry/mypy-extensions.json",
+      "sha256": "e9715bb5583e110c5bb663b8d2ee88ae736e8c37928218e1923714559c972fb1",
+      "version": "1.1.0"
+    },
+    {
+      "name": "nodeenv",
+      "path": "registry/nodeenv.json",
+      "sha256": "9dab29ef20ed49a5f2dd3de8a77c428c83ff3f037b6b545d640ecd2023139f0a",
+      "version": "1.11.0"
+    },
+    {
+      "name": "packageurl-python",
+      "path": "registry/packageurl-python.json",
+      "sha256": "67e19563deb4ead684c458f8870333d842c5c3840e27cfec9bead1c78cd97f4f",
+      "version": "0.17.6"
+    },
+    {
+      "name": "packaging",
+      "path": "registry/packaging.json",
+      "sha256": "4f190d2f0b312b3086058cee64ab4333bf3ce67fb78b4c2bdb43899049b29f4d",
+      "version": "26.3"
+    },
+    {
+      "name": "paginate",
+      "path": "registry/paginate.json",
+      "sha256": "292d79295104c1ac18b862dce042f1eb50c59cec2d1b5be724c37ba699a958aa",
+      "version": "0.5.7"
+    },
+    {
+      "name": "pathspec",
+      "path": "registry/pathspec.json",
+      "sha256": "24f66829a7f40485bdccfcf32294218b0f4260b289ee4806ab644feb6c194766",
+      "version": "1.1.1"
+    },
+    {
+      "name": "pip",
+      "path": "registry/pip.json",
+      "sha256": "9cee103938ec9d9fb6201ecd0eb8a51b1893e01358f75c162d7c7cf6a9d8fa20",
+      "version": "26.3"
+    },
+    {
+      "name": "pip-api",
+      "path": "registry/pip-api.json",
+      "sha256": "034f9258ae563cf3b74a92815a908b4367bc27afc0fca3e94d2c2de532629000",
+      "version": "0.0.35"
+    },
+    {
+      "name": "pip-audit",
+      "path": "registry/pip-audit.json",
+      "sha256": "0375a398da843b62fd47ea4926a6220028fad3af7f3d83ed91251b86a1a34309",
+      "version": "2.10.1"
+    },
+    {
+      "name": "pip-requirements-parser",
+      "path": "registry/pip-requirements-parser.json",
+      "sha256": "9feedb8034ac2e03f60dca458a9568bb19c56f29ca9b91cb929305feb48f0e3b",
+      "version": "32.0.1"
+    },
+    {
+      "name": "platformdirs",
+      "path": "registry/platformdirs.json",
+      "sha256": "c044335077ef5a920041a0e9ce48eeea1400d5ec560bd2fc7572bc8b8553c9d2",
+      "version": "4.12.2"
+    },
+    {
+      "name": "pluggy",
+      "path": "registry/pluggy.json",
+      "sha256": "597beede1e3bfb71dcf93f583c52f9b6ff64c7aca4c7cddcf365f0c6d5c0ade8",
+      "version": "1.6.0"
+    },
+    {
+      "name": "poetry-core",
+      "path": "registry/poetry-core.json",
+      "sha256": "aad66dc4cc7e11ecf3ea2f28f06953bfaaf5029598749f4708bfe9ac5e462e50",
+      "version": "2.5.0"
+    },
+    {
+      "name": "pre-commit",
+      "path": "registry/pre-commit.json",
+      "sha256": "7d347df0e1294dfaae59ca52c9b2e39653bbdfe3cb6823047dc816bcd2f2ccff",
+      "version": "4.6.2"
+    },
+    {
+      "name": "py-serializable",
+      "path": "registry/py-serializable.json",
+      "sha256": "ad5537b0e3138ef7158e8040e051907170b0f96ed70c75f00ed06b7b68286e0b",
+      "version": "2.1.0"
+    },
+    {
+      "name": "pycryptodome",
+      "path": "registry/pycryptodome.json",
+      "sha256": "76f24c96a6ac3fd76eacc3489d14e1037b3cc6052f62a89c4d73337ad041296f",
+      "version": "3.24.0"
+    },
+    {
+      "name": "pygments",
+      "path": "registry/pygments.json",
+      "sha256": "330104a10adc8a587e3f98f4e207557125ca0c1d489e129334da5acb2b813a03",
+      "version": "2.21.0"
+    },
+    {
+      "name": "pymdown-extensions",
+      "path": "registry/pymdown-extensions.json",
+      "sha256": "bbdf4a7ca2e88bb814c57de0e53c8b112fc042b941a0350c17f196c9babe5952",
+      "version": "12.1"
+    },
+    {
+      "name": "pyparsing",
+      "path": "registry/pyparsing.json",
+      "sha256": "b851d5414eca50b38263f56c00a1fbec80383a26a3ad8e41a204b72cdeee5751",
+      "version": "3.3.3"
+    },
+    {
+      "name": "pytest",
+      "path": "registry/pytest.json",
+      "sha256": "707efea7c8046e3aaaaac619aac85bc1e73c310a9fbff8028c53ac229ca02f2c",
+      "version": "9.1.1"
+    },
+    {
+      "name": "pytest-cov",
+      "path": "registry/pytest-cov.json",
+      "sha256": "2f14c20e86c2a4aece613433b31653ba37f4dd9dce122c9a66ba13df4d1adbaa",
+      "version": "7.1.0"
+    },
+    {
+      "name": "pytest-xdist",
+      "path": "registry/pytest-xdist.json",
+      "sha256": "61f60b83ce3a389e5c62d7c15d1a9c339f6e44e2669afadbf0487124c93f07e0",
+      "version": "3.8.0"
+    },
+    {
+      "name": "python-dateutil",
+      "path": "registry/python-dateutil.json",
+      "sha256": "7938916002e8d70c9d32cbaf43c467d163af3aadd8c3b358bda5babd1f7836ee",
+      "version": "2.9.0.post0"
+    },
+    {
+      "name": "python-debian",
+      "path": "registry/python-debian.json",
+      "sha256": "29e6f98155ada758f1f3056ce76988652c2a28a7f85aec26e7e54a5b77e446ae",
+      "version": "1.1.1"
+    },
+    {
+      "name": "python-discovery",
+      "path": "registry/python-discovery.json",
+      "sha256": "858a074e6b229889ff9df799d2dd77de851af1ea9876c53219635874c31712cd",
+      "version": "1.6.1"
+    },
+    {
+      "name": "python-magic",
+      "path": "registry/python-magic.json",
+      "sha256": "691f23d455e1cb88764c1be0f74c0495745074ef6ef16370539781745edcda7d",
+      "version": "0.4.27"
+    },
+    {
+      "name": "pyyaml",
+      "path": "registry/pyyaml.json",
+      "sha256": "c3f35597bc2f08cc990c2a5fe57bef6687b3a3d7c61d8b0ba4cc067777eb1def",
+      "version": "6.0.3"
+    },
+    {
+      "name": "pyyaml-env-tag",
+      "path": "registry/pyyaml-env-tag.json",
+      "sha256": "5cfc1c5910f32af2a4435d88ace9e77c7d733ddd84e4fbccbfe0439b38464817",
+      "version": "1.1"
+    },
+    {
+      "name": "referencing",
+      "path": "registry/referencing.json",
+      "sha256": "a67968d8e03aa45e650fc2ff0d07796676db1a7841ce8e810bf2dba5af689464",
+      "version": "0.37.0"
+    },
+    {
+      "name": "requests",
+      "path": "registry/requests.json",
+      "sha256": "8622e50ffd295ed759ec793f2a009172a4ed0204bbc5e948de23111bc3d2aeae",
+      "version": "2.34.2"
+    },
+    {
+      "name": "reuse",
+      "path": "registry/reuse.json",
+      "sha256": "67586be61eb0fdf344c6cf5c6244567b547fa8ba7a10d540b0d8d2d3523f7707",
+      "version": "6.2.0"
+    },
+    {
+      "name": "rfc3339-validator",
+      "path": "registry/rfc3339-validator.json",
+      "sha256": "67830e051017cac4d0218132ebc8c5200504f78ad19d52647558b3bd3cec06a6",
+      "version": "0.1.4"
+    },
+    {
+      "name": "rfc3986-validator",
+      "path": "registry/rfc3986-validator.json",
+      "sha256": "6188760d7ecadbd2563d0081eb48801a1d540b44f249423fafa34d0d65cb6db0",
+      "version": "0.1.1"
+    },
+    {
+      "name": "rfc3987-syntax",
+      "path": "registry/rfc3987-syntax.json",
+      "sha256": "fe5fc49862612fb8bd8b1846f86695177b2a60b5a8d851b3d6670c3de9cd9099",
+      "version": "1.1.0"
+    },
+    {
+      "name": "rfc8785",
+      "path": "local/rfc8785.json",
+      "sha256": "88cab20f68183f2eee1e09b8c77f4f7b5e3d857e48638f80c582137c5b71305b",
+      "version": "0.1.4+emt.1"
+    },
+    {
+      "name": "rich",
+      "path": "registry/rich.json",
+      "sha256": "455015cb0b237a24819d91236152ad0e71b2be39a83cbe6afa0e29ea8aafa550",
+      "version": "15.0.0"
+    },
+    {
+      "name": "rpds-py",
+      "path": "registry/rpds-py.json",
+      "sha256": "c791bb0eaf9f18668ca978bd500d8dd8e25cdf692cf5bc92229d1c2854e8d852",
+      "version": "2026.6.3"
+    },
+    {
+      "name": "ruff",
+      "path": "registry/ruff.json",
+      "sha256": "7328b62d6348a796fb66d49564b2f673627b210df01a24b9bcb5817e989f4303",
+      "version": "0.16.10"
+    },
+    {
+      "name": "six",
+      "path": "registry/six.json",
+      "sha256": "d8de39dd52b73048d81a8fd78022ee2bc72f8b568bcf0d88e5d5069c302b1208",
+      "version": "1.17.0"
+    },
+    {
+      "name": "sortedcontainers",
+      "path": "registry/sortedcontainers.json",
+      "sha256": "4e0cd7bf62c28a94d9236338cdd4d918aef53a344c6765756ebfe054de14930b",
+      "version": "2.4.0"
+    },
+    {
+      "name": "stevedore",
+      "path": "registry/stevedore.json",
+      "sha256": "a3376442bf571cf4c83b6bfcec76b05558a6bf04b7ea06403a6d12f2e125cd52",
+      "version": "5.9.1"
+    },
+    {
+      "name": "tomli",
+      "path": "registry/tomli.json",
+      "sha256": "bd88ef161fbda665bed19e902975ebde201a20c723964d9c8b17f5515f1854c0",
+      "version": "2.4.1"
+    },
+    {
+      "name": "tomli-w",
+      "path": "registry/tomli-w.json",
+      "sha256": "073cbf95dd8b295cdfb5bd724540b50c04234db7ec20830c7011c7172905e411",
+      "version": "1.2.0"
+    },
+    {
+      "name": "tomlkit",
+      "path": "registry/tomlkit.json",
+      "sha256": "d31095abcc6fe408231567cb59cee2715b17ac6ee54c79d23c049f53d2c050c0",
+      "version": "0.15.1"
+    },
+    {
+      "name": "types-jsonschema",
+      "path": "registry/types-jsonschema.json",
+      "sha256": "ff0d59ed8ce41f19601a81e770be21814ac384586400be5f721c92ab2d9c62f5",
+      "version": "4.26.0.20260518"
+    },
+    {
+      "name": "types-markdown",
+      "path": "registry/types-markdown.json",
+      "sha256": "f09672f69759ae9ba02c5acaf91f245260d3adb9fe938eb8e010a77318f6307d",
+      "version": "3.10.2.20260712"
+    },
+    {
+      "name": "types-pyyaml",
+      "path": "registry/types-pyyaml.json",
+      "sha256": "0c1569852dece6294471cd2d6b478d39c674d1ff32413472b400b2d07b2c6e77",
+      "version": "6.0.12.20260906"
+    },
+    {
+      "name": "typing-extensions",
+      "path": "registry/typing-extensions.json",
+      "sha256": "2140da00d62dde967f52d0be0ae28444f1d6a3fe603f52c83c23988c32122d5a",
+      "version": "4.16.0"
+    },
+    {
+      "name": "tzdata",
+      "path": "registry/tzdata.json",
+      "sha256": "09e4769272b45f018103a9ad940932650089144456b4e1481299efc03e5c7f46",
+      "version": "2026.4"
+    },
+    {
+      "name": "uri-template",
+      "path": "registry/uri-template.json",
+      "sha256": "a1aab9516a46faaacc1ee6c025623bcbc87b1273b7726639835d398490329530",
+      "version": "1.3.0"
+    },
+    {
+      "name": "urllib3",
+      "path": "registry/urllib3.json",
+      "sha256": "5315e7401db3cacccd0c2ce5daf81f752a9cc3614b18c37f2b79930b7159ce2f",
+      "version": "2.8.0"
+    },
+    {
+      "name": "uv",
+      "path": "registry/uv.json",
+      "sha256": "ad3bf73bc52e87c59dee6b926f10144df71a7825408dae182d1f58e729829d35",
+      "version": "0.13.7"
+    },
+    {
+      "name": "virtualenv",
+      "path": "registry/virtualenv.json",
+      "sha256": "01c1a932fbd2630c71fb49008d1f598a5339b34f4fb277fa0363e8306df0d2de",
+      "version": "21.15.6"
+    },
+    {
+      "name": "watchdog",
+      "path": "registry/watchdog.json",
+      "sha256": "772c955b6938724fb05b4ed61ea87e0b7d0939fccea0ddf13ce5ae33f859bcf6",
+      "version": "6.0.0"
+    },
+    {
+      "name": "webcolors",
+      "path": "registry/webcolors.json",
+      "sha256": "76d2d8cdb8f5996e7fad22dfcff92d0a1388c3501e6c4ea40ef1fa038d05f6ba",
+      "version": "25.10.0"
+    },
+    {
+      "name": "zizmor",
+      "path": "registry/zizmor.json",
+      "sha256": "562163b8f4e0a3bae6195baaef698e68c6d52b684518e5a44f54290d6ff90640",
+      "version": "1.30.1"
+    }
+  ],
+  "python": "3.13.18"
+}

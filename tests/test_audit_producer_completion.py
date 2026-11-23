@@ -21,6 +21,7 @@ from pathlib import Path
 
 import pytest
 
+from local_scaffold.limits import MAX_CAPTURE
 from tests.conftest import payload, source_python
 from tests.test_atomic_publication import actual_strace as actual_strace
 
@@ -99,7 +100,7 @@ def test_real_audit_completion_never_admits_a_failed_attempt(
         "-qq",
         "--kill-on-exit",
         "-s",
-        "262144",
+        str(MAX_CAPTURE),
         "-o",
         str(trace),
         "-e",
@@ -250,7 +251,7 @@ def test_real_corrupted_audit_pipe_preserves_diagnostic_exhaustion(
         "-qq",
         "--kill-on-exit",
         "-s",
-        "262144",
+        str(MAX_CAPTURE),
         "-o",
         str(trace),
         "-e",

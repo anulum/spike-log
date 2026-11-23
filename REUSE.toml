@@ -25,3 +25,9 @@ path = ["vendor/environment-inputs/rfc8785-0.1.4+emt.1-py3-none-any.whl"]
 precedence = "override"
 SPDX-FileCopyrightText = "Trail of Bits"
 SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["vendor/provenance-inputs/registry/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "The respective projects, as published on the Python Package Index"
+SPDX-License-Identifier = "LicenseRef-PyPI-Metadata"

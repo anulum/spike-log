@@ -23,6 +23,7 @@ import pytest
 
 from local_scaffold.inputs import Json
 from tests.conftest import SOURCE, payload, source_python
+from tests.test_provenance_local import INPUTS, OWNER
 
 
 @pytest.fixture
@@ -47,10 +48,12 @@ def reproduction_root(tmp_path: Path) -> Path:
 def source_cohort(tmp_path: Path) -> Path:
     """Copy the complete genuine snapshot; missing preparation is a failure."""
     source = Path(
-        os.environ.get("SPIKE_LOG_PROVENANCE_INPUTS", str(SOURCE / ".tool-cache/provenance-inputs"))
+        os.environ.get("SPIKE_LOG_PROVENANCE_INPUTS", str(SOURCE / "vendor/provenance-inputs"))
     )
     index = json.loads((source / "inputs.json").read_bytes())
-    assert len(index["packages"]) == 103
+    assert len(index["packages"]) == len(
+        json.loads((SOURCE / "dependency-provenance.json").read_bytes())["packages"]
+    )
     target = tmp_path / "cohort"
     shutil.copytree(source, target)
     for entry in index["packages"]:
@@ -59,7 +62,13 @@ def source_cohort(tmp_path: Path) -> Path:
 
 
 def invoke(root: Path, inputs: Path, *arguments: str) -> subprocess.CompletedProcess[bytes]:
-    """Run the actual public CLI in the genuine locked interpreter."""
+    """Run the actual public CLI in the genuine locked interpreter.
+
+    The local artifact and owner roots are passed unless the arguments name their own:
+    a complete snapshot holds owner-source responses, which are read against them.
+    """
+    if "--artifacts" not in arguments and "--owner-source" not in arguments:
+        arguments = (*arguments, "--artifacts", str(INPUTS), "--owner-source", str(OWNER))
     return subprocess.run(
         source_python(
             str(SOURCE / "tools/reproduce_dependency_provenance.py"),
@@ -79,7 +88,7 @@ def invoke(root: Path, inputs: Path, *arguments: str) -> subprocess.CompletedPro
 def test_complete_generation_and_reference_comparison(
     reproduction_root: Path, source_cohort: Path
 ) -> None:
-    """All103records retain original fields except actual raw response identities."""
+    """All records retain original fields except actual raw response identities."""
     before = (reproduction_root / "dependency-provenance.json").read_bytes()
     output = ".tool-cache/prospective.json"
     result = payload(
@@ -92,10 +101,14 @@ def test_complete_generation_and_reference_comparison(
     hashes = {entry["name"]: entry["sha256"] for entry in index["packages"]}
     expected = json.loads(before)
     for record in expected["packages"]:
-        record["official_metadata_sha256"] = hashes[record["name"]]
+        if "source_kind" not in record:
+            record["official_metadata_sha256"] = hashes[record["name"]]
     assert generated == expected
-    assert len(generated["packages"]) == 103
-    assert sum(len(p["license_files"]) for p in generated["packages"]) == 175
+    baseline = json.loads((SOURCE / "dependency-provenance.json").read_bytes())["packages"]
+    assert len(generated["packages"]) == len(baseline)
+    assert sum(len(p["license_files"]) for p in generated["packages"]) == sum(
+        len(p["license_files"]) for p in baseline
+    )
     assert (reproduction_root / "dependency-provenance.json").read_bytes() == before
     result = payload(invoke(reproduction_root, source_cohort, "--reference", output), 0)
     assert result["scope"] == "provenance_comparison"
@@ -151,6 +164,8 @@ def test_actual_make_generation_and_comparison(source_cohort: Path) -> None:
                 "--no-print-directory",
                 target,
                 "PROVENANCE_INPUTS=" + str(source_cohort),
+                "PROVENANCE_ARTIFACTS=" + str(INPUTS),
+                "PROVENANCE_OWNER_SOURCE=" + str(OWNER),
                 setting,
             ],
             cwd=SOURCE,
@@ -161,7 +176,9 @@ def test_actual_make_generation_and_comparison(source_cohort: Path) -> None:
         assert not result.stderr
         response = json.loads(result.stdout.splitlines()[-1])
         assert response["exit_code"] == 0 and response["gate"] == "provenance_reproduction"
-    assert len(json.loads((SOURCE / output).read_bytes())["packages"]) == 103
+    assert len(json.loads((SOURCE / output).read_bytes())["packages"]) == len(
+        json.loads((SOURCE / "dependency-provenance.json").read_bytes())["packages"]
+    )
     assert {path.name for path in directory.iterdir()} == {"candidate.json"}
     shutil.rmtree(directory)
 

@@ -21,6 +21,7 @@ from pathlib import Path
 
 import pytest
 
+from local_scaffold.limits import MAX_CAPTURE, MAX_REPORT
 from local_scaffold.orchestration import Role, run_plan
 from local_scaffold.processes import ProcessObservation, execute, run_process
 from local_scaffold.reports import Fault, Report, validate_child
@@ -139,7 +140,7 @@ def test_original_async_execution_call_remains_compatible(root: Path) -> None:
         "print('not-json')",
         "print('{}')",
         "import sys;sys.exit(2)",
-        "import sys;sys.stdout.write('x'*262145)",
+        f"import sys;sys.stdout.write('x'*{MAX_CAPTURE + 1})",
     ],
 )
 def test_real_child_refusals(root: Path, program: str) -> None:
@@ -615,6 +616,16 @@ def test_success_capture_and_stale_container_refusal(root: Path) -> None:
     assert observation.native_exit == 7 and bytes(observation.stdout) == b"out"
 
 
+def test_capture_bound_holds_every_child_report() -> None:
+    """One captured pipe holds the largest report a child gate may emit.
+
+    The parent parses each child gate's report from its captured stdout, so a capture
+    bound below the report bound would refuse a valid report as an output overflow.
+    """
+    assert MAX_CAPTURE == 1_048_576
+    assert MAX_REPORT <= MAX_CAPTURE
+
+
 def test_overflow_capture_is_actually_bounded(root: Path) -> None:
     """Actual pipe overflow refuses while the private prefix stays at the original cap."""
     from local_scaffold.processes import ProcessObservation
@@ -622,12 +633,12 @@ def test_overflow_capture_is_actually_bounded(root: Path) -> None:
     observation = ProcessObservation()
     with pytest.raises(Fault) as error:
         run_process(
-            [sys.executable, "-I", "-c", "import os;os.write(1,b'x'*262145)"],
+            [sys.executable, "-I", "-c", f"import os;os.write(1,b'x'*{MAX_CAPTURE + 1})"],
             root,
             observation=observation,
         )
     assert error.value.code == "tool_output_limit" and error.value.exit_code == 2
-    assert len(observation.stdout) <= 262144
+    assert len(observation.stdout) <= MAX_CAPTURE
     assert observation.stdout and set(observation.stdout) == {120}
     assert not observation.stderr
 

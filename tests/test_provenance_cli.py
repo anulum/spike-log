@@ -19,6 +19,7 @@ import pytest
 
 from local_scaffold.inputs import Json
 from tests.conftest import SOURCE, payload, run_guard, source_python
+from tests.test_provenance_local import INPUTS, OWNER
 from tests.test_provenance_reproduction import invoke, reproduction_root, source_cohort
 
 __all__ = ["reproduction_root", "source_cohort"]
@@ -203,7 +204,7 @@ def test_explicit_local_roots_keep_complete_registry_generation(
     reproduction_root: Path,
     source_cohort: Path,
 ) -> None:
-    """Explicit data roots retain the original complete103 registry reconstruction."""
+    """Explicit data roots give the complete reconstruction, owner-source records included."""
     output = ".tool-cache/explicit-source-roots.json"
     response = payload(
         invoke(
@@ -214,13 +215,17 @@ def test_explicit_local_roots_keep_complete_registry_generation(
             "--output",
             output,
             "--artifacts",
-            str(SOURCE),
+            str(INPUTS),
             "--owner-source",
-            str(SOURCE),
+            str(OWNER),
         ),
         0,
     )
     assert response["scope"] == "provenance_candidate"
     generated = json.loads((reproduction_root / output).read_bytes())
-    assert len(generated["packages"]) == 103
-    assert all("source_kind" not in record for record in generated["packages"])
+    baseline = json.loads((SOURCE / "dependency-provenance.json").read_bytes())["packages"]
+    assert len(generated["packages"]) == len(baseline)
+    assert {record["name"] for record in generated["packages"] if "source_kind" in record} == {
+        "evidence-manifest-toolkit",
+        "rfc8785",
+    }

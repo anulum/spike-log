@@ -98,7 +98,7 @@ from local_scaffold.reports import Fault
 root=Path(sys.argv[2])
 baseline=json.loads((root/"dependency-provenance.json").read_bytes())
 record=next(p for p in baseline["packages"] if p["name"]=="coverage")
-sources=load(root/".tool-cache/provenance-inputs")
+sources=load(root/"vendor/provenance-inputs")
 distribution=importlib.metadata.distribution("coverage")
 metadata=Path(str(distribution.locate_file("coverage-"+record["version"]+".dist-info/METADATA")))
 before=metadata.read_bytes()

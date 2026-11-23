@@ -22,6 +22,7 @@ import pytest
 
 from local_scaffold.inputs import Json
 from tests.conftest import SOURCE, payload, source_python
+from tests.test_provenance_local import INPUTS, OWNER
 from tests.test_provenance_reproduction import invoke, reproduction_root, source_cohort
 
 __all__ = ["reproduction_root", "source_cohort"]
@@ -37,7 +38,7 @@ def snapshot(directory: Path) -> dict[str, str]:
 
 
 def test_actual_capture_then_make_offline_reuse() -> None:
-    """The public command captures all103real responses and Make reuses exact bytes."""
+    """The public command captures every real response and Make reuses exact bytes."""
     workspace = Path(tempfile.mkdtemp(prefix="provenance-capture-", dir=SOURCE / ".tool-cache"))
     name = str((workspace / "inputs").relative_to(SOURCE))
     result = subprocess.run(
@@ -49,6 +50,10 @@ def test_actual_capture_then_make_offline_reuse() -> None:
             name,
             "--mode",
             "capture",
+            "--artifacts",
+            str(INPUTS),
+            "--owner-source",
+            str(OWNER),
             "--json",
         ),
         cwd=SOURCE,
@@ -61,15 +66,25 @@ def test_actual_capture_then_make_offline_reuse() -> None:
     assert {(p["name"], p["version"]) for p in index["packages"]} == {
         (p["name"], p["version"]) for p in baseline["packages"]
     }
-    assert len(index["packages"]) == 103
+    assert len(index["packages"]) == len(baseline["packages"])
     for entry in index["packages"]:
         data = (SOURCE / name / entry["path"]).read_bytes()
         assert hashlib.sha256(data).hexdigest() == entry["sha256"]
         response = json.loads(data)
-        assert response["info"]["version"] == entry["version"]
+        if "source_kind" in response:
+            assert data == (INPUTS / (entry["name"] + ".json")).read_bytes()
+        else:
+            assert response["info"]["version"] == entry["version"]
     before = snapshot(SOURCE / name)
     prepared = subprocess.run(
-        ["make", "--no-print-directory", "prepare-provenance-inputs", "PROVENANCE_INPUTS=" + name],
+        [
+            "make",
+            "--no-print-directory",
+            "prepare-provenance-inputs",
+            "PROVENANCE_INPUTS=" + name,
+            "PROVENANCE_ARTIFACTS=" + str(INPUTS),
+            "PROVENANCE_OWNER_SOURCE=" + str(OWNER),
+        ],
         cwd=SOURCE,
         capture_output=True,
         timeout=30,
@@ -89,12 +104,15 @@ def test_actual_capture_then_make_offline_reuse() -> None:
         0,
     )
     candidate = json.loads((workspace / "candidate.json").read_bytes())
-    assert len(candidate["packages"]) == 103
-    assert sum(len(p["license_files"]) for p in candidate["packages"]) == 175
+    assert len(candidate["packages"]) == len(baseline["packages"])
+    assert sum(len(p["license_files"]) for p in candidate["packages"]) == sum(
+        len(p["license_files"]) for p in baseline["packages"]
+    )
     expected = baseline
     digests = {p["name"]: p["sha256"] for p in index["packages"]}
     for record in expected["packages"]:
-        record["official_metadata_sha256"] = digests[record["name"]]
+        if "source_kind" not in record:
+            record["official_metadata_sha256"] = digests[record["name"]]
     assert candidate == expected
 
 
