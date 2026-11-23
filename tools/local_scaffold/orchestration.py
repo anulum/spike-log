@@ -274,6 +274,7 @@ def configured_roles(root: Path) -> tuple[Role, ...]:
                 "-I",
                 "-m",
                 "bandit",
+                "-q",
                 "--ini",
                 "/dev/null",
                 "--ignore-nosec",

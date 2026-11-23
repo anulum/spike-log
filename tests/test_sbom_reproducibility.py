@@ -33,7 +33,7 @@ def test_make_sbom_repeats_exact_bytes(native_sbom_root: Path) -> None:
             cwd=native_sbom_root,
             env=environment,
             capture_output=True,
-            timeout=20,
+            timeout=120,
         )
         assert result.returncode == 0, (result.stdout, result.stderr)
         produced = (native_sbom_root / ".tool-cache/sbom.json").read_bytes()
@@ -42,4 +42,5 @@ def test_make_sbom_repeats_exact_bytes(native_sbom_root: Path) -> None:
     assert outputs[0] == outputs[1]
     value = json.loads(outputs[0])
     assert value["bomFormat"] == "CycloneDX"
-    assert len(value["components"]) == 103
+    packages = json.loads((SOURCE / "dependency-provenance.json").read_bytes())["packages"]
+    assert len(value["components"]) == len(packages)

@@ -109,14 +109,6 @@ from tests.conftest import SOURCE
             ".tool-cache/wheelhouse",
             ".tool-cache/wheelhouse/coverage-7.16.2-cp314-cp314-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
         )
-    ]
-    + [
-        ("produce-audit", name)
-        for name in (
-            ".tool-cache",
-            ".tool-cache/security",
-            ".tool-cache/security/pip-audit.json",
-        )
     ],
 )
 def test_native_setup_refuses_external_symlinks(tmp_path: Path, target: str, relative: str) -> None:

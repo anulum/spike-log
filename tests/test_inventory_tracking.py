@@ -29,6 +29,8 @@ def test_actual_private_directory_ignored(root: Path, form: str, present: bool) 
     """Both documented directory forms pass in working and fresh-checkout states."""
     private = root / "docs/internal"
     retained = root.parent / "retained-private"
+    private.mkdir(parents=True, exist_ok=True)
+    (private / "private-note.md").write_text("Private working note.\n")
     if not present:
         private.rename(retained)
     path = root / ".gitignore"
@@ -73,6 +75,8 @@ def test_actual_parent_reinclusion_refused(root: Path, present: bool) -> None:
     """A descendant-only match cannot mask parent reinclusion, even before creation."""
     private = root / "docs/internal"
     retained = root.parent / "retained-private"
+    private.mkdir(parents=True, exist_ok=True)
+    (private / "private-note.md").write_text("Private working note.\n")
     if not present:
         private.rename(retained)
     path = root / ".gitignore"

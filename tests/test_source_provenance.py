@@ -390,8 +390,8 @@ def test_real_native_licence_input_change_is_refused(
     root: Path, case: str, actual_strace: Path, tmp_path: Path
 ) -> None:
     """Trace actual native reads, input changes and a stopped post-producer deadline."""
-    readme = root / "README.md"
-    original = readme.read_bytes()
+    document = root / "VALIDATION.md"
+    original = document.read_bytes()
     cache = root / ".tool-cache"
     held = root.parent / "actual-retained-original-cache"
     assert not held.exists()
@@ -418,11 +418,13 @@ except Fault as fault:
         "-o",
         str(trace),
         "-P",
-        str(readme),
+        str(document),
+        "-P",
+        "VALIDATION.md",
         "-e",
         "trace=openat,close",
         "-e",
-        "inject=openat:delay_enter=2s:when=2",
+        "inject=openat:delay_enter=2s:when=3",
     ]
     if case == "deadline":
         arguments.extend(("-e", "inject=close:signal=SIGSTOP:when=2"))
@@ -437,17 +439,19 @@ except Fault as fault:
         deadline = time.monotonic() + 12
         while time.monotonic() < deadline:
             lines = trace.read_text().splitlines() if trace.exists() else []
-            closes = [line for line in lines if "close(" in line and str(readme) in line]
+            closes = [line for line in lines if "close(" in line and str(document) in line]
             if closes:
                 tracee = int(closes[0].split()[0])
                 break
             assert process.poll() is None, lines
             time.sleep(0.001)
         else:
-            raise AssertionError("Actual original README first native read was not observed.")
+            raise AssertionError(
+                "Actual original VALIDATION.md first native read was not observed."
+            )
         assert tracee is not None
         if case == "source-bytes":
-            readme.write_bytes(original + b"\nActual received input changed.\n")
+            document.write_bytes(original + b"\nActual received input changed.\n")
         elif case == "cache-kind":
             cache.rename(held)
             cache.symlink_to(held, target_is_directory=True)
@@ -466,7 +470,11 @@ except Fault as fault:
         stdout, stderr = process.communicate(timeout=20)
         expected = 3 if case == "deadline" else 2
         assert process.returncode == expected, (stdout, stderr)
-        assert not stderr, stderr
+        notice = b'%s: Requested path "VALIDATION.md" resolved into "%s"\n' % (
+            bytes(actual_strace),
+            os.path.realpath(SOURCE / "VALIDATION.md").encode(),
+        )
+        assert stderr in (b"", notice), stderr
         assert json.loads(stdout) == {
             "code": {
                 "source-bytes": "source_identity_mismatch",
@@ -476,7 +484,7 @@ except Fault as fault:
             "exit_code": expected,
         }
         lines = trace.read_text().splitlines()
-        opens = [line for line in lines if "openat(" in line and str(readme) in line]
+        opens = [line for line in lines if "openat(" in line and str(document) in line]
         assert len(opens) == 2 and all("O_RDONLY" in line for line in opens), lines
         assert "DELAYED" in opens[1], opens
         if case == "deadline":
@@ -491,11 +499,11 @@ except Fault as fault:
                     pass
             process.kill()
         process.wait(timeout=5)
-        readme.write_bytes(original)
+        document.write_bytes(original)
         if held.exists():
             cache.unlink()
             held.rename(cache)
-    assert readme.read_bytes() == original
+    assert document.read_bytes() == original
     assert cache.is_dir() and not cache.is_symlink() and not held.exists()
 
 

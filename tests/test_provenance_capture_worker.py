@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import subprocess
 from pathlib import Path
 from typing import Literal, cast
@@ -21,6 +20,7 @@ import pytest
 
 from local_scaffold.reports import Fault, validate_child
 from tests.conftest import SOURCE, payload, source_python
+from tests.test_atomic_publication import actual_strace as actual_strace
 from tests.test_provenance_availability import coverage_only_python
 from tests.test_provenance_local import INPUTS, OWNER
 from tests.test_provenance_reproduction import invoke, reproduction_root
@@ -175,28 +175,40 @@ def test_native_worker_missing_dependency(coverage_only_python: Path, tmp_path: 
     assert not (tmp_path / "inputs").exists()
 
 
-def test_native_worker_unavailable_transport(reproduction_root: Path) -> None:
-    """A genuinely unavailable configured proxy yields no complete source snapshot."""
-    environment = os.environ.copy()
-    environment.update(
-        {
-            "HTTPS_PROXY": "http://unavailable.invalid:80",
-            "https_proxy": "http://unavailable.invalid:80",
-            "NO_PROXY": "",
-            "no_proxy": "",
-        }
-    )
+def test_native_worker_unavailable_transport(
+    reproduction_root: Path, actual_strace: Path, tmp_path: Path
+) -> None:
+    """A transport the operating system refuses yields no complete source snapshot.
+
+    The worker reaches the registry directly, so its transport is made unavailable
+    below it: the pinned native strace fails every connect with ENETUNREACH.
+    """
+    trace = tmp_path / "unavailable-transport.native-trace"
     result = payload(
         subprocess.run(
-            source_python(
-                "-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs", *ROOTS
-            ),
+            [
+                str(actual_strace),
+                "-f",
+                "-qq",
+                "-o",
+                str(trace),
+                "-e",
+                "trace=connect",
+                "-e",
+                "inject=connect:error=ENETUNREACH",
+                *source_python(
+                    "-c", WORKER_PROGRAM, str(reproduction_root), ".tool-cache/inputs", *ROOTS
+                ),
+            ],
             cwd=SOURCE,
-            env=environment,
             capture_output=True,
             timeout=30,
         ),
         3,
+    )
+    assert any(
+        "ENETUNREACH (Network is unreachable) (INJECTED)" in line
+        for line in trace.read_text().splitlines()
     )
     assert [row["code"] for row in cast(list[dict[str, object]], result["reasons"])] == [
         "tool_unavailable"

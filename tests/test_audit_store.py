@@ -44,6 +44,48 @@ def test_store_symlinks_refuse_without_touching_target(
     assert not list(store.glob("http-*"))
 
 
+_ADMISSIONS = ".tool-cache/security-admissions"
+"""The admission store's directory, which the store opens without following a link."""
+_INPUTS = ".tool-cache/environment-inputs"
+"""The local packages' inputs, whose base is refused under a linked ancestor."""
+
+
+@pytest.mark.parametrize(
+    ("name", "produce", "code", "location"),
+    [
+        (".tool-cache", False, "repository_inventory.symlink-entry", _INPUTS),
+        (".tool-cache", True, "repository_inventory.symlink-entry", _INPUTS),
+        (_ADMISSIONS, False, "policy_refusal", _ADMISSIONS),
+        (_ADMISSIONS, True, "policy_refusal", _ADMISSIONS),
+    ],
+)
+def test_linked_store_directories_refuse_without_touching_target(
+    audited_clone: Path, name: str, produce: bool, code: str, location: str
+) -> None:
+    """A linked tool cache or admission directory cannot redirect the store or its producer.
+
+    The store opens every component from the root without following a link, so it
+    refuses the link itself, before any read of foreign objects or any producer write;
+    the local package check refuses a linked tool cache as a symbolic ancestor of its
+    inputs before the store is reached.
+    Each refusal is the only reason, and the linked target keeps exactly its entries.
+    The Make target has no guard of its own: the store owns this boundary.
+    """
+    linked = audited_clone / name
+    original = linked.with_name(linked.name + ".preserved")
+    linked.rename(original)
+    linked.symlink_to(original, target_is_directory=True)
+    before = sorted(str(path.relative_to(original)) for path in original.rglob("*"))
+    value = payload(clone_dependency(audited_clone, *(["--produce-audit"] if produce else [])), 2)
+    reasons = value["reasons"]
+    assert isinstance(reasons, list)
+    assert [
+        (reason["code"], reason["location"]) for reason in reasons if isinstance(reason, dict)
+    ] == [(code, location)]
+    assert sorted(str(path.relative_to(original)) for path in original.rglob("*")) == before
+    assert linked.is_symlink()
+
+
 @pytest.mark.parametrize("name", ["HEAD.json", "admission.lock"])
 @pytest.mark.parametrize("produce", [False, True])
 def test_store_fifo_is_refused_without_blocking(

@@ -12,7 +12,7 @@ import importlib.metadata
 from typing import cast
 
 from .audit_context import trusted_root
-from .inputs import Json
+from .inputs import Json, relative_path
 from .provenance_local import LOCAL_KINDS
 from .provenance_wheels import wheel_members
 from .reports import Fault, Report
@@ -66,7 +66,7 @@ def check_local_dependency(record: dict[str, Json], lock: str, report: Report) -
     except importlib.metadata.PackageNotFoundError as error:
         raise Fault("dependency_alignment.wrong-producer", "dependency-provenance.json") from error
     wheel_members(
-        trusted_root() / ".tool-cache/environment-inputs",
+        relative_path(trusted_root(), ".tool-cache/environment-inputs"),
         artifact,
         distribution,
         namespace=cast(str, source["product_namespace"]),

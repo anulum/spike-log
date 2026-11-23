@@ -90,12 +90,13 @@ sys.exit(main())
         str(actual_strace),
         "-f",
         "--kill-on-exit",
+        "-yy",
         "-s",
         "4096",
         "-o",
         str(trace),
         "-P",
-        str(producer),
+        str(producer.parent),
         "-e",
         "trace=openat",
         "-e",
@@ -108,7 +109,8 @@ sys.exit(main())
     assert result.returncode == 3 and not result.stdout and result.stderr == b"interrupted\n"
     lines = trace.read_text().splitlines()
     opens = [line for line in lines if "openat(" in line]
-    assert len(opens) == 1 and str(producer) in opens[0]
+    assert len(opens) == 1
+    assert f'<{producer.parent}>, "{producer.name}"' in opens[0]
     pid = opens[0].split()[0]
     assert "O_NOFOLLOW" in opens[0] and "O_CLOEXEC" in opens[0]
     assert any(

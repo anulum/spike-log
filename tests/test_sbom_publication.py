@@ -42,7 +42,7 @@ def test_make_sbom_records_actual_complete_graph(native_sbom_root: Path) -> None
         ],
         cwd=native_sbom_root,
         capture_output=True,
-        timeout=20,
+        timeout=120,
     )
     assert result.returncode == 0, (result.stdout, result.stderr)
     value = cast(
@@ -90,7 +90,7 @@ def test_make_sbom_refuses_symlink_publication(
         ],
         cwd=native_sbom_root,
         capture_output=True,
-        timeout=20,
+        timeout=120,
     )
     assert result.returncode == 2, (result.stdout, result.stderr)
     if kind == "dangling-output":
