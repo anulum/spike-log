@@ -45,6 +45,7 @@ There are four explicit metadata-writing operations:
 
 | Operation | Command | Effect |
 |---|---|---|
+| Environment input acquisition | <code>make fetch-environment-inputs</code> | Create ENVIRONMENT_INPUTS from the pinned registry artifacts and the vendored local inputs; needs the network. |
 | Inventory generation | <code>make inventory-generate</code> | Create an inventory only at an absent destination. |
 | Audit production | <code>make produce-audit</code> | Run the genuine producer and publish local audit admission. |
 | Registry source capture | <code>make prepare-provenance-inputs</code> | Capture the complete fixed source cohort, or revalidate an existing complete snapshot offline. |

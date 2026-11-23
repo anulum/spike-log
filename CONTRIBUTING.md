@@ -22,6 +22,23 @@ source manifest names. The CI workflow policy uses the same CPython patch
 version. A runner also needs the registry artifacts and that Common checkout
 before it can run the bootstrap.
 
+Assemble ENVIRONMENT_INPUTS first; it must not exist yet:
+
+```sh
+make fetch-environment-inputs BASE_PYTHON="$BASE_PYTHON" ENVIRONMENT_INPUTS="$ENVIRONMENT_INPUTS"
+```
+
+The command reads dependency-provenance.json as data. Each registry artifact
+comes only over verified HTTPS from files.pythonhosted.org, with status 200,
+the pinned length and the pinned digest; no redirect is followed. Each local
+package's wheel, response record and referenced records are copied from
+vendor/environment-inputs, each under the pin of the record that names it, and
+only when Git tracks them as regular files. Every check completes before the
+directory is created, and any failure removes it. Exit 3 means an artifact was
+unavailable, exit 2 a refusal or a mismatch. Every hosted job runs this command
+before its environment step. Its tests also use the network; without it they
+fail and are not skipped.
+
 Check readiness before installation:
 
 ```sh

@@ -16,9 +16,14 @@ The available commands check the repository scaffold. Recording and replay
 remain planned. Start in the repository root on Linux with the locked
 development environment described in CONTRIBUTING.md.
 
-For a clean checkout, supply the independently selected original artifact
-directory and Common owner source described in
-CONTRIBUTING.md, and use CPython 3.13.18 as BASE_PYTHON.
+For a clean checkout, create the artifact directory with
+`make fetch-environment-inputs`, or supply an independently selected one, and
+select the Common owner source described in CONTRIBUTING.md; use CPython
+3.13.18 as BASE_PYTHON. The fetch command is the one networked step: registry
+artifacts come only over verified HTTPS from files.pythonhosted.org, any status
+other than 200 is unavailable, the declared length and the bytes must equal the
+pins, the local packages' wheels and records are copied from
+vendor/environment-inputs, and a failure leaves no directory.
 Run `make check-environment-inputs` with those selections before
 `make environment`. Input checks precede every environment, cache, uv or builder
 write. Artifact installation is offline and hash-required; no package-registry

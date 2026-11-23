@@ -6,7 +6,7 @@
 # Contact: www.anulum.li | protoscience@anulum.li
 # SPIKE-LOG — source and configuration provenance
 
-.PHONY: environment check-environment-inputs prepare-uv prepare-native prepare-codeql produce-audit
+.PHONY: environment check-environment-inputs fetch-environment-inputs prepare-uv prepare-native prepare-codeql produce-audit
 
 environment:
 	test ! -L "$(ENVIRONMENT_DIR)"
@@ -24,6 +24,13 @@ environment:
 	$(UV) --no-config pip install --python "$(ENVIRONMENT_DIR)/bin/python" --cache-dir "$(UV_CACHE)" --link-mode hardlink --require-hashes --no-deps --no-build-isolation --no-index --find-links "$(ENVIRONMENT_INPUTS)" -r requirements-dev.txt
 	$(UV) --no-config pip check --python "$(ENVIRONMENT_DIR)/bin/python"
 	"$(ENVIRONMENT_DIR)/bin/python" -B -I -c 'import pathlib,sys; files=list(pathlib.Path(sys.prefix).glob("lib/python3.13/site-packages/*.dist-info/METADATA")); assert files and all(p.stat().st_nlink>1 for p in files), "Package hardlink verification failed"'
+
+fetch-environment-inputs:
+	test ! -L .tool-cache
+	test ! -L "$(ENVIRONMENT_INPUTS)"
+	$(BASE_PYTHON) -B -I -c 'import platform; assert platform.python_version() == "3.13.18"'
+	mkdir -p .tool-cache
+	$(BASE_PYTHON) -B -I tools/fetch_environment_inputs.py --root . --artifacts "$(ENVIRONMENT_INPUTS)" --json
 
 check-environment-inputs:
 	$(BASE_PYTHON) -B -I -c 'import platform; assert platform.python_version() == "3.13.18"'
