@@ -9,5 +9,6 @@
 * text=auto eol=lf
 *.jpg binary
 *.png binary
+*.whl binary
 LICENSE -text
 LICENSES/* -text

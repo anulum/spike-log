@@ -57,7 +57,7 @@ def local_source(request: pytest.FixtureRequest) -> tuple[dict[str, Json], dict[
         else INPUTS / "rfc8785-0.1.4+emt.1-py3-none-any.whl"
     )
     expected_hash = (
-        "ab26bc1d1a39a6527c7017b03efd165b68298abb93f46d310913d1dbe434dddb"
+        "b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72"
         if common
         else "e04761706fcbbb5f0afd5fa74a7e6ea7484ce97f073adb5372ab8ee93230c48e"
     )

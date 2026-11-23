@@ -9,7 +9,7 @@
 attrs==26.1.0 \
     --hash=sha256:c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309
 evidence-manifest-toolkit==0.0.0.dev0 \
-    --hash=sha256:ab26bc1d1a39a6527c7017b03efd165b68298abb93f46d310913d1dbe434dddb
+    --hash=sha256:b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72
 jsonschema==4.26.0 \
     --hash=sha256:d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce
 jsonschema-specifications==2025.9.1 \

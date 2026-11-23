@@ -1,0 +1,20 @@
+{
+  "build_inputs": [
+    {
+      "bytes": 1010,
+      "path": "rfc8785-source-provenance.json",
+      "sha256": "548226480527c0a1d254f769c670277d5cf204fa74390323aee6eee3aad90ffe"
+    }
+  ],
+  "owner_manifest": {
+    "bytes": 107587,
+    "path": "owner-source-inputs.json",
+    "sha256": "0c4cea948ac5b9076ee8ae412518df638a950bc9ba546bc7b49ebe6df623f993"
+  },
+  "source_kind": "maintained_wheel",
+  "wheel": {
+    "bytes": 23461,
+    "path": "rfc8785-0.1.4+emt.1-py3-none-any.whl",
+    "sha256": "e04761706fcbbb5f0afd5fa74a7e6ea7484ce97f073adb5372ab8ee93230c48e"
+  }
+}

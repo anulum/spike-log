@@ -1,0 +1,16 @@
+{
+  "upstream_release": "0.1.4",
+  "upstream_url": "https://files.pythonhosted.org/packages/4d/78/119878110660b2ad709888c8a1614fce7e2fab39080ab960656dc8605bf6/rfc8785-0.1.4-py3-none-any.whl",
+  "upstream_wheel_sha256": "520d690b448ecf0703691c76e1a34a24ddcd4fc5bc41d589cb7c58ec651bcd48",
+  "local_version": "0.1.4+emt.1",
+  "local_wheel": "rfc8785-0.1.4+emt.1-py3-none-any.whl",
+  "local_wheel_bytes": 23461,
+  "local_wheel_sha256": "e04761706fcbbb5f0afd5fa74a7e6ea7484ce97f073adb5372ab8ee93230c48e",
+  "patch_sha256": "81ea57a384abcaf2894c79417ab978442b7c93a1f250357c05e59ec1002d62b8",
+  "builder_path": "tools/vendor_rfc8785.py",
+  "builder_sha256": "9c0cb9b6ecb839557a8d86d9ade25e67d766224698a6538cebc2245ca870d2fe",
+  "license": "Apache-2.0",
+  "license_path": "LICENSES/Apache-2.0.txt",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+  "implementation_changes": "Only re.Match -> re.Match[str]; local package version/NOTICE/RECORD identify the maintained build."
+}

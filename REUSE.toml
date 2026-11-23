@@ -19,3 +19,9 @@ path = ["docs/assets/*.jpg", "docs/assets/*.png"]
 precedence = "override"
 SPDX-FileCopyrightText = "1998-2026 Miroslav Šotek <protoscience@anulum.li>"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["vendor/environment-inputs/rfc8785-0.1.4+emt.1-py3-none-any.whl"]
+precedence = "override"
+SPDX-FileCopyrightText = "Trail of Bits"
+SPDX-License-Identifier = "Apache-2.0"

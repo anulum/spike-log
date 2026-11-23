@@ -1,0 +1,13 @@
+{
+  "commit": "2db2055b6f01d0aac352baae25ccdcce513e54dc",
+  "direct_wheel_sha256": "b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72",
+  "entire_wheel_bytes_equal": true,
+  "native_exit": 0,
+  "rebuilt_wheel_sha256": "b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72",
+  "schema": "spike_log.committed-common-sdist-rebuild.v1",
+  "sdist_sha256": "d7a8bbb19c23688deb90329dca99394e2ac3ae1da1bbb5aed5d3f2dd170f53a6",
+  "source_date_epoch": 1793779662,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "20e44ff82f256c4d53fc07fd254fd60a0f85cb5c7d9933daa6240737993769e4",
+  "tree": "e77d91cf44acc79ae848e7fa739621475212408d"
+}

@@ -1,0 +1,30 @@
+{
+  "build_inputs": [
+    {
+      "bytes": 1420,
+      "path": "common-build-producer.json",
+      "sha256": "931683f9d3eeda7fe35e732e0fe62df52d3dc56b9791f77439be159fa0bc4c07"
+    },
+    {
+      "bytes": 45524,
+      "path": "common-wheel-source-identity.json",
+      "sha256": "7d8095a7a9396649b55c132c7182c1f605a390d0cf139c4774e0eb7920026f46"
+    },
+    {
+      "bytes": 710,
+      "path": "common-sdist-rebuild-identity.json",
+      "sha256": "27c1de1bd59e7268876a2c6082807144aa5f51aaa02b5ff6b517b3538cd30b47"
+    }
+  ],
+  "owner_manifest": {
+    "bytes": 107587,
+    "path": "owner-source-inputs.json",
+    "sha256": "0c4cea948ac5b9076ee8ae412518df638a950bc9ba546bc7b49ebe6df623f993"
+  },
+  "source_kind": "first_party_wheel",
+  "wheel": {
+    "bytes": 445221,
+    "path": "evidence_manifest_toolkit-0.0.0.dev0-py3-none-any.whl",
+    "sha256": "b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72"
+  }
+}

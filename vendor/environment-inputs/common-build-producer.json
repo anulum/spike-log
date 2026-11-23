@@ -1,0 +1,46 @@
+{
+  "schema": "spike_log.common-build-producer.v2",
+  "commit": "2db2055b6f01d0aac352baae25ccdcce513e54dc",
+  "tree": "e77d91cf44acc79ae848e7fa739621475212408d",
+  "source": "git archive of the commit: every tracked file, nothing else",
+  "source_manifest": {
+    "bytes": 107587,
+    "path": "owner-source-inputs.json",
+    "sha256": "0c4cea948ac5b9076ee8ae412518df638a950bc9ba546bc7b49ebe6df623f993"
+  },
+  "backend": "poetry-core 2.5.0 (the EMT build-system pin), installed offline from its verified wheel",
+  "interpreter": "CPython 3.13.18, isolated venv holding only the backend",
+  "source_date_epoch": 1793779662,
+  "steps": [
+    "build_sdist",
+    "build_wheel",
+    "build_wheel from the extracted sdist"
+  ],
+  "checks": [
+    {
+      "name": "record-verified",
+      "passed": true,
+      "wheel_member_count": 190
+    },
+    {
+      "name": "product-files-in-wheel",
+      "passed": true,
+      "product_file_count": 183
+    },
+    {
+      "name": "wheel-rebuilt-from-sdist",
+      "passed": true,
+      "native_exit": 0
+    }
+  ],
+  "artifact_identities": {
+    "evidence_manifest_toolkit-0.0.0.dev0.tar.gz": {
+      "bytes": 289013,
+      "sha256": "d7a8bbb19c23688deb90329dca99394e2ac3ae1da1bbb5aed5d3f2dd170f53a6"
+    },
+    "evidence_manifest_toolkit-0.0.0.dev0-py3-none-any.whl": {
+      "bytes": 445221,
+      "sha256": "b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72"
+    }
+  }
+}

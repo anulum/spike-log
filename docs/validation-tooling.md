@@ -617,7 +617,7 @@ The input directory preserves these original bytes under portable leaf names:
 
 | Leaf | Required original |
 | --- | --- |
-| `evidence_manifest_toolkit-0.0.0.dev0-py3-none-any.whl` | Common wheel, SHA-256 `606d278ef0611c70c913066ec3e13fd36500c32168c35985e9bf15359262a6d8` |
+| `evidence_manifest_toolkit-0.0.0.dev0-py3-none-any.whl` | Common wheel, SHA-256 `b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72` |
 | `rfc8785-0.1.4+emt.1-py3-none-any.whl` | Maintained fork wheel, SHA-256 `e04761706fcbbb5f0afd5fa74a7e6ea7484ce97f073adb5372ab8ee93230c48e` |
 | `owner-source-inputs.json` | Complete original source manifest, with paths relative to the separately selected owner tree |
 | `common-build-producer.json` | Original Common build producer profile |
@@ -625,7 +625,7 @@ The input directory preserves these original bytes under portable leaf names:
 | `common-sdist-rebuild-identity.json` | Original Common source-distribution rebuild identity evidence |
 | `rfc8785-source-provenance.json` | Original maintained-fork source provenance |
 
-The source owner supplies this input set. Renaming a retained original for
+The repository tracks this input set under `vendor/environment-inputs`. Renaming a retained original for
 transport leaves its content unchanged. Availability of owner-approved source
 and artifacts in a hosted runner is a separate requirement from local test
 success; neither passing these tests nor providing the files approves owner work

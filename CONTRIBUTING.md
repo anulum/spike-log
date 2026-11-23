@@ -15,11 +15,12 @@ ENVIRONMENT_INPUTS and ENVIRONMENT_OWNER_SOURCE explicitly before creating or
 updating an environment. ENVIRONMENT_INPUTS is a flat directory containing
 every original artifact selected by the frozen development provenance,
 the two local package responses and their original manifest/build inputs.
-ENVIRONMENT_OWNER_SOURCE is the separately supplied Common source tree.
-Use the exact producer commit named in the frozen owner source manifest.
-The CI workflow policy uses the same CPython patch version. A runner also
-needs the independently supplied frozen inputs and Common source before it can
-run the bootstrap.
+The repository tracks those local files under vendor/environment-inputs.
+ENVIRONMENT_OWNER_SOURCE is a checkout of the Common source: the public
+evidence-manifest-toolkit repository at the commit that the vendored owner
+source manifest names. The CI workflow policy uses the same CPython patch
+version. A runner also needs the registry artifacts and that Common checkout
+before it can run the bootstrap.
 
 Check readiness before installation:
 

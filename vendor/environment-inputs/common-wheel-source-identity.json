@@ -1,0 +1,924 @@
+{
+  "commit": "2db2055b6f01d0aac352baae25ccdcce513e54dc",
+  "complete_record_verified": true,
+  "product_files": {
+    "src/evidence_manifest_toolkit/__init__.py": {
+      "bytes": 2163,
+      "path": "src/evidence_manifest_toolkit/__init__.py",
+      "sha256": "40d6c2f04aac7715be0ae7c491aa11ecf0fda5e9159c53813397c4928f99e4a8"
+    },
+    "src/evidence_manifest_toolkit/__main__.py": {
+      "bytes": 515,
+      "path": "src/evidence_manifest_toolkit/__main__.py",
+      "sha256": "f6f8742bdf8bd7d22040a795a6a68fd45ff93fc119a0259e86362ca2650b97be"
+    },
+    "src/evidence_manifest_toolkit/_acquisition.py": {
+      "bytes": 4263,
+      "path": "src/evidence_manifest_toolkit/_acquisition.py",
+      "sha256": "326ace67586a7c9ce6172bd29ba7af4305551f7f84c8b5eea2fec038eb09db7b"
+    },
+    "src/evidence_manifest_toolkit/_bootstrap_policy.py": {
+      "bytes": 7110,
+      "path": "src/evidence_manifest_toolkit/_bootstrap_policy.py",
+      "sha256": "42c20c5bc12fa18a7f993cad4cb54c2a46111a43469cfcfd19e9b6d535475fe1"
+    },
+    "src/evidence_manifest_toolkit/_budget.py": {
+      "bytes": 6245,
+      "path": "src/evidence_manifest_toolkit/_budget.py",
+      "sha256": "4ea92c488825a4b3a1316cc4a0ef7c68e7bdb98bcc98217d62345d7e59656357"
+    },
+    "src/evidence_manifest_toolkit/_caller_config.py": {
+      "bytes": 10468,
+      "path": "src/evidence_manifest_toolkit/_caller_config.py",
+      "sha256": "7035817af38af3642a300553dfbcdad854ba80c818d734f62f3add90cf14f4c8"
+    },
+    "src/evidence_manifest_toolkit/_claims.py": {
+      "bytes": 9987,
+      "path": "src/evidence_manifest_toolkit/_claims.py",
+      "sha256": "4740bb3cc8084dc7bf4343b87ff7191dfe6b4d67ffb9da9915e036bb616ef7a2"
+    },
+    "src/evidence_manifest_toolkit/_cli.py": {
+      "bytes": 11422,
+      "path": "src/evidence_manifest_toolkit/_cli.py",
+      "sha256": "2a6eef9ebd5ca6eef18ab6e28f8ac2f07964ae1054b3b5c201599486eddc53d1"
+    },
+    "src/evidence_manifest_toolkit/_cli_operations.py": {
+      "bytes": 8157,
+      "path": "src/evidence_manifest_toolkit/_cli_operations.py",
+      "sha256": "3dadb08125f610918a717b3d1de5550292c6c986d4c4af2cf815f9c429ce80de"
+    },
+    "src/evidence_manifest_toolkit/_clock_acceptance.py": {
+      "bytes": 4605,
+      "path": "src/evidence_manifest_toolkit/_clock_acceptance.py",
+      "sha256": "e34f3a8d64839440fdba1c181691a23f63e509612396ccb942c3814778c172f5"
+    },
+    "src/evidence_manifest_toolkit/_clock_acceptance_derivation.py": {
+      "bytes": 5857,
+      "path": "src/evidence_manifest_toolkit/_clock_acceptance_derivation.py",
+      "sha256": "7927d52c69c8c8b7e76dc93b1327543203c60e15d008fa1923af246245190bec"
+    },
+    "src/evidence_manifest_toolkit/_clock_acceptance_sources.py": {
+      "bytes": 7987,
+      "path": "src/evidence_manifest_toolkit/_clock_acceptance_sources.py",
+      "sha256": "c69f1baddc24520df90a57ae39051249c5b0a06988d9823e7eae56bf309a1c3e"
+    },
+    "src/evidence_manifest_toolkit/_clock_bounds.py": {
+      "bytes": 7279,
+      "path": "src/evidence_manifest_toolkit/_clock_bounds.py",
+      "sha256": "d0f0d495593331319b54bbf27043a3a7473979a475be75c0a92fe51c480f17bf"
+    },
+    "src/evidence_manifest_toolkit/_clock_method_calculate.py": {
+      "bytes": 7970,
+      "path": "src/evidence_manifest_toolkit/_clock_method_calculate.py",
+      "sha256": "b45c8733f2c31c9d9f068ab73ce396a4a4360367431654f7677bc63d1833b412"
+    },
+    "src/evidence_manifest_toolkit/_clock_method_read.py": {
+      "bytes": 10977,
+      "path": "src/evidence_manifest_toolkit/_clock_method_read.py",
+      "sha256": "dba1c7b4fbf790495a2c865b1731b8e0d83d718e54b458f7175a9e2c9ee9a13f"
+    },
+    "src/evidence_manifest_toolkit/_clock_method_sources.py": {
+      "bytes": 12577,
+      "path": "src/evidence_manifest_toolkit/_clock_method_sources.py",
+      "sha256": "4c1e3ba421ee2ebec3f0b18d74aefbdac9eebd7ccb14a4f5d6271fab9fe631ce"
+    },
+    "src/evidence_manifest_toolkit/_clock_method_types.py": {
+      "bytes": 5412,
+      "path": "src/evidence_manifest_toolkit/_clock_method_types.py",
+      "sha256": "ad4e11218fce31a0877fa29897b1d64812e0bf3b848f4a2642010ab33e388920"
+    },
+    "src/evidence_manifest_toolkit/_clock_method_values.py": {
+      "bytes": 5554,
+      "path": "src/evidence_manifest_toolkit/_clock_method_values.py",
+      "sha256": "793126f5f1d951bd1317f977f60626689d4187235b7a1bb06d42e6531b73db35"
+    },
+    "src/evidence_manifest_toolkit/_clock_policy.py": {
+      "bytes": 2796,
+      "path": "src/evidence_manifest_toolkit/_clock_policy.py",
+      "sha256": "17ec65307fd66fabb9fcffe215cc6c86cb404a7fa8d3e302047eff2bd3762e6c"
+    },
+    "src/evidence_manifest_toolkit/_clock_raw_sample.py": {
+      "bytes": 3598,
+      "path": "src/evidence_manifest_toolkit/_clock_raw_sample.py",
+      "sha256": "03211fd83bbd7707617ac6a2b88fc0e4cfdf4ecf5082e193457bb073a80bc61b"
+    },
+    "src/evidence_manifest_toolkit/_clock_sample_estimate.py": {
+      "bytes": 4085,
+      "path": "src/evidence_manifest_toolkit/_clock_sample_estimate.py",
+      "sha256": "e320fad224b2f42fff1c86598a78b421337c74a28f97cb403858565f931a75ae"
+    },
+    "src/evidence_manifest_toolkit/_clock_sources.py": {
+      "bytes": 9823,
+      "path": "src/evidence_manifest_toolkit/_clock_sources.py",
+      "sha256": "5e0b415762c58492bf29ec5e9b62347e8a867ca1c9e0e30fac55336c6ea231e2"
+    },
+    "src/evidence_manifest_toolkit/_clock_subject.py": {
+      "bytes": 13380,
+      "path": "src/evidence_manifest_toolkit/_clock_subject.py",
+      "sha256": "a3ac3c69fc1abe6fd749522de2961db6da831b3fdfdd1ad4e01b697cdd2f0529"
+    },
+    "src/evidence_manifest_toolkit/_clock_values.py": {
+      "bytes": 12631,
+      "path": "src/evidence_manifest_toolkit/_clock_values.py",
+      "sha256": "b55cf0c0052541eae0fef68d964e600fa34d34cb4b5b990f6ab8731779a7968a"
+    },
+    "src/evidence_manifest_toolkit/_clock_windows.py": {
+      "bytes": 11239,
+      "path": "src/evidence_manifest_toolkit/_clock_windows.py",
+      "sha256": "5dd05505b98e5b19eda268a10c0d1208eb33fdfcc63e3259ec6e009e3b3317b6"
+    },
+    "src/evidence_manifest_toolkit/_closure.py": {
+      "bytes": 19245,
+      "path": "src/evidence_manifest_toolkit/_closure.py",
+      "sha256": "390cf53db677074e4394888b42704f0e306366360bc90e7da64b7e9aa4c0e9d9"
+    },
+    "src/evidence_manifest_toolkit/_codecs.py": {
+      "bytes": 5034,
+      "path": "src/evidence_manifest_toolkit/_codecs.py",
+      "sha256": "8a03961b1d58e67629ea5a4dd5e43de63cac3b0b1bd1d6b8b8d780b4b8481953"
+    },
+    "src/evidence_manifest_toolkit/_configuration_wire.py": {
+      "bytes": 16881,
+      "path": "src/evidence_manifest_toolkit/_configuration_wire.py",
+      "sha256": "2c3b6819aa275a9964159690000de29e797a5bf282047ee81a73c3bad31d87e5"
+    },
+    "src/evidence_manifest_toolkit/_content.py": {
+      "bytes": 7064,
+      "path": "src/evidence_manifest_toolkit/_content.py",
+      "sha256": "457c23952049846d49b6b359289c4dcdb956baf59edb1dda43eba9be08e4a631"
+    },
+    "src/evidence_manifest_toolkit/_context_sources.py": {
+      "bytes": 7003,
+      "path": "src/evidence_manifest_toolkit/_context_sources.py",
+      "sha256": "6708522f74b211c65e3e6107c899bfc13d904f4a4b139820aed0555a3ecf88f6"
+    },
+    "src/evidence_manifest_toolkit/_control_authentication.py": {
+      "bytes": 5817,
+      "path": "src/evidence_manifest_toolkit/_control_authentication.py",
+      "sha256": "2dd38e3a1370cffc0159a2ec63e35ad3bab8743369420e5541a3f0b5206ad862"
+    },
+    "src/evidence_manifest_toolkit/_control_context.py": {
+      "bytes": 2444,
+      "path": "src/evidence_manifest_toolkit/_control_context.py",
+      "sha256": "e51f7400bd4e6d1592ada5c8350e8dd8aa115efc7b7033638435e7356dc25423"
+    },
+    "src/evidence_manifest_toolkit/_control_state_validation.py": {
+      "bytes": 7976,
+      "path": "src/evidence_manifest_toolkit/_control_state_validation.py",
+      "sha256": "a06d0aa71e0065cfc89cf8c2cc1e387cc2bd0303ad8dc33be8af2bc9628cbfc2"
+    },
+    "src/evidence_manifest_toolkit/_declarations.py": {
+      "bytes": 3590,
+      "path": "src/evidence_manifest_toolkit/_declarations.py",
+      "sha256": "da6946ca6219d5195a2f570c0a414b58aa233ef505cbd194fad241f6e427eef1"
+    },
+    "src/evidence_manifest_toolkit/_difference.py": {
+      "bytes": 4825,
+      "path": "src/evidence_manifest_toolkit/_difference.py",
+      "sha256": "f907e4fbebc37e6b60327a9c66785743877a1dcb6d9587957b5e0a7fe7d273ae"
+    },
+    "src/evidence_manifest_toolkit/_directory_publication.py": {
+      "bytes": 7032,
+      "path": "src/evidence_manifest_toolkit/_directory_publication.py",
+      "sha256": "878ece7ee3c745a7cb95155cb8eda96d8f38152e1b0347ca77b6e14da7c73320"
+    },
+    "src/evidence_manifest_toolkit/_entry_binding.py": {
+      "bytes": 13495,
+      "path": "src/evidence_manifest_toolkit/_entry_binding.py",
+      "sha256": "974e7b218e001d88d7edce3f061d017a7b2bb368840ca3dd3a222f697bc97ab2"
+    },
+    "src/evidence_manifest_toolkit/_entry_observation.py": {
+      "bytes": 10755,
+      "path": "src/evidence_manifest_toolkit/_entry_observation.py",
+      "sha256": "dd6e8c2f934b53686a26b535bb3a0781222f6b394cba92ed740fa2a6e041df33"
+    },
+    "src/evidence_manifest_toolkit/_envelopes.py": {
+      "bytes": 5697,
+      "path": "src/evidence_manifest_toolkit/_envelopes.py",
+      "sha256": "690e9280959aa0e9c6267d63d59b0ff8a3f32217017d3951cc7f64984b91dcfb"
+    },
+    "src/evidence_manifest_toolkit/_errors.py": {
+      "bytes": 2462,
+      "path": "src/evidence_manifest_toolkit/_errors.py",
+      "sha256": "73d8a35f6dec29e67c4c9b831352cfd5b805f8e680d978ef39319fa978c8357b"
+    },
+    "src/evidence_manifest_toolkit/_file_io.py": {
+      "bytes": 5202,
+      "path": "src/evidence_manifest_toolkit/_file_io.py",
+      "sha256": "4fd228f3670769cee48eac0b4bea7f7668162eb23bcbf31f2f1b54e27b4f32ee"
+    },
+    "src/evidence_manifest_toolkit/_format_sources.py": {
+      "bytes": 10195,
+      "path": "src/evidence_manifest_toolkit/_format_sources.py",
+      "sha256": "c09121c9705af712c1d5208f3be3db16d21d6fb8afbf21c7824ae3fbd8eec440"
+    },
+    "src/evidence_manifest_toolkit/_immutable.py": {
+      "bytes": 2420,
+      "path": "src/evidence_manifest_toolkit/_immutable.py",
+      "sha256": "e4d2a01376642330011a63a08fdd44140bcfc8973f0564e6a534c2489d1fe504"
+    },
+    "src/evidence_manifest_toolkit/_inspection.py": {
+      "bytes": 5060,
+      "path": "src/evidence_manifest_toolkit/_inspection.py",
+      "sha256": "7b3508e978f2f9ede192dc948ba7c5191631d8df2a34c60fa7e16033c3285365"
+    },
+    "src/evidence_manifest_toolkit/_interfaces.py": {
+      "bytes": 2844,
+      "path": "src/evidence_manifest_toolkit/_interfaces.py",
+      "sha256": "fbb4306429e6279fd46207dfad03afeeee878f92ae79dae73f02e88de82a0174"
+    },
+    "src/evidence_manifest_toolkit/_invocation_wire.py": {
+      "bytes": 4070,
+      "path": "src/evidence_manifest_toolkit/_invocation_wire.py",
+      "sha256": "891fe8ff96b3e3b03ef1854fbb1cb1fa0c336c8f3c2c19ecbcfd963532f48c84"
+    },
+    "src/evidence_manifest_toolkit/_json.py": {
+      "bytes": 10492,
+      "path": "src/evidence_manifest_toolkit/_json.py",
+      "sha256": "78bbc2fec1f32174840a82de249d75368e7f98f264176adea38b47a164e238f4"
+    },
+    "src/evidence_manifest_toolkit/_leaps.py": {
+      "bytes": 1650,
+      "path": "src/evidence_manifest_toolkit/_leaps.py",
+      "sha256": "71ef3d58b8e769457604c7d53e750e53e826a4e81542a13f35ac077c0a7674b7"
+    },
+    "src/evidence_manifest_toolkit/_method_rule_sources.py": {
+      "bytes": 8122,
+      "path": "src/evidence_manifest_toolkit/_method_rule_sources.py",
+      "sha256": "75ef80a7cb3ec091026a7f0e0da29ce7a9f100ab2a0476689853d987807b5e27"
+    },
+    "src/evidence_manifest_toolkit/_native_entry_method.json": {
+      "bytes": 1461,
+      "path": "src/evidence_manifest_toolkit/_native_entry_method.json",
+      "sha256": "a20b4e82c922cf4a871487af9795879ace03d57ad38ddbf75d9cd75fa95bffd4"
+    },
+    "src/evidence_manifest_toolkit/_native_entry_method.json.license": {
+      "bytes": 519,
+      "path": "src/evidence_manifest_toolkit/_native_entry_method.json.license",
+      "sha256": "e773df1e3beb504340079b061f20fceca74f0ad7eff6e2870ca5b75f13ebc924"
+    },
+    "src/evidence_manifest_toolkit/_native_installation.py": {
+      "bytes": 11451,
+      "path": "src/evidence_manifest_toolkit/_native_installation.py",
+      "sha256": "2cb8c8ee9e554c7b2a22ef09bb820056eec55c8d6b074fad3f667496b1ad89a1"
+    },
+    "src/evidence_manifest_toolkit/_native_launch_format.py": {
+      "bytes": 3132,
+      "path": "src/evidence_manifest_toolkit/_native_launch_format.py",
+      "sha256": "206468c5e0073f3debdbc071c3ad5aa8302b9b6486b60b37a39f98ea20cc9a45"
+    },
+    "src/evidence_manifest_toolkit/_native_launch_implementation.json": {
+      "bytes": 27414,
+      "path": "src/evidence_manifest_toolkit/_native_launch_implementation.json",
+      "sha256": "da1bba13998ad2e4aa110b4957f7513907a8a6c13502c161f59ec1e6c142d27e"
+    },
+    "src/evidence_manifest_toolkit/_native_launch_implementation.json.license": {
+      "bytes": 519,
+      "path": "src/evidence_manifest_toolkit/_native_launch_implementation.json.license",
+      "sha256": "e773df1e3beb504340079b061f20fceca74f0ad7eff6e2870ca5b75f13ebc924"
+    },
+    "src/evidence_manifest_toolkit/_native_launch_sources.py": {
+      "bytes": 7469,
+      "path": "src/evidence_manifest_toolkit/_native_launch_sources.py",
+      "sha256": "c67ead0920c4cb2c81e737d54cf4584fdf175a4bf453c5565edb06731b079436"
+    },
+    "src/evidence_manifest_toolkit/_native_method_formats.py": {
+      "bytes": 5348,
+      "path": "src/evidence_manifest_toolkit/_native_method_formats.py",
+      "sha256": "6c63cacc1c98eb1f3490e612ee4d1ddc359df92e485fcb1acbecf12cdbd36443"
+    },
+    "src/evidence_manifest_toolkit/_native_method_sources.py": {
+      "bytes": 7515,
+      "path": "src/evidence_manifest_toolkit/_native_method_sources.py",
+      "sha256": "7d245dd7b2d0f7381b76cb143a69cfdd0b8037acb1579486aab42b8dbb329801"
+    },
+    "src/evidence_manifest_toolkit/_native_possession_context.py": {
+      "bytes": 7700,
+      "path": "src/evidence_manifest_toolkit/_native_possession_context.py",
+      "sha256": "5381cd37335eba4e2bd29eda5edd8a24bba9acd5aae65a6b2c5a7b47d92b5a21"
+    },
+    "src/evidence_manifest_toolkit/_native_possession_equation.py": {
+      "bytes": 10870,
+      "path": "src/evidence_manifest_toolkit/_native_possession_equation.py",
+      "sha256": "0aeac213445572f7f8ee954669e37974cd04d021937fa20535eafe9566be53de"
+    },
+    "src/evidence_manifest_toolkit/_native_possession_issuance.py": {
+      "bytes": 8894,
+      "path": "src/evidence_manifest_toolkit/_native_possession_issuance.py",
+      "sha256": "7231b64a58f1f6c0abcc17070ec25ca513cb25e94bfede7a557ad5a357fa5957"
+    },
+    "src/evidence_manifest_toolkit/_native_possession_receiver.py": {
+      "bytes": 11342,
+      "path": "src/evidence_manifest_toolkit/_native_possession_receiver.py",
+      "sha256": "d11028becfa64ba58c1fb54d3b1886f65e5deb8f2a59e2527f3ab433f0dcd668"
+    },
+    "src/evidence_manifest_toolkit/_native_possession_sources.py": {
+      "bytes": 9677,
+      "path": "src/evidence_manifest_toolkit/_native_possession_sources.py",
+      "sha256": "6e8fafb26276da0f60f178533f82679c1510b5a36a30f280c23176d271ced0e8"
+    },
+    "src/evidence_manifest_toolkit/_native_record_formats.py": {
+      "bytes": 4613,
+      "path": "src/evidence_manifest_toolkit/_native_record_formats.py",
+      "sha256": "11f368898cb1b1fd7bec6327cfb5311d93f7dee9b84bb30ef2f2adf1d1fb1911"
+    },
+    "src/evidence_manifest_toolkit/_native_rule_bindings.py": {
+      "bytes": 7108,
+      "path": "src/evidence_manifest_toolkit/_native_rule_bindings.py",
+      "sha256": "23f1e3bdebd34dcde7b935c582ea8f5a1c1d8c3f8738fb57d046e002098837d6"
+    },
+    "src/evidence_manifest_toolkit/_native_signature.py": {
+      "bytes": 5253,
+      "path": "src/evidence_manifest_toolkit/_native_signature.py",
+      "sha256": "e92a70ce9b1fb1b95eb9a685f55c7508d084fa092648c41e264247c01fcc7b17"
+    },
+    "src/evidence_manifest_toolkit/_offline_store.py": {
+      "bytes": 9082,
+      "path": "src/evidence_manifest_toolkit/_offline_store.py",
+      "sha256": "bcda4e33d2b4abb06448ea153d77475567d7920a315735d4e5883049ba4363d2"
+    },
+    "src/evidence_manifest_toolkit/_policy_literals.py": {
+      "bytes": 2086,
+      "path": "src/evidence_manifest_toolkit/_policy_literals.py",
+      "sha256": "bf05c8b8a34addbb77993c731c619004ef17fad7bafcec7baab60fff1a277adf"
+    },
+    "src/evidence_manifest_toolkit/_policy_selection.py": {
+      "bytes": 15088,
+      "path": "src/evidence_manifest_toolkit/_policy_selection.py",
+      "sha256": "cbd53c5ba97c4791815a250d56680aa5d4f63659255571c813e301d3b90f0848"
+    },
+    "src/evidence_manifest_toolkit/_policy_source.py": {
+      "bytes": 10142,
+      "path": "src/evidence_manifest_toolkit/_policy_source.py",
+      "sha256": "18b664681ef40c31ee20b2641a3e344f105cd7d95e17a53e2f833c8dc7bfa725"
+    },
+    "src/evidence_manifest_toolkit/_protected_certificate_bounds.py": {
+      "bytes": 5279,
+      "path": "src/evidence_manifest_toolkit/_protected_certificate_bounds.py",
+      "sha256": "a44284a4ad9a1a406b86960fe972d9306c4a457f6cfe2a56ea3f0bb2ec813a26"
+    },
+    "src/evidence_manifest_toolkit/_protected_certificate_issuers.py": {
+      "bytes": 3459,
+      "path": "src/evidence_manifest_toolkit/_protected_certificate_issuers.py",
+      "sha256": "b1816d8d84a2da1844bfe6405adc7d5fb9e88030bd62ada70aa5791ea0f5c81f"
+    },
+    "src/evidence_manifest_toolkit/_protected_certificate_keys.py": {
+      "bytes": 5225,
+      "path": "src/evidence_manifest_toolkit/_protected_certificate_keys.py",
+      "sha256": "6aeb3166bcbb23c0cd06d3753343f70f6addb425b125ff8ff57735d49a9e118d"
+    },
+    "src/evidence_manifest_toolkit/_protected_certificate_sources.py": {
+      "bytes": 7198,
+      "path": "src/evidence_manifest_toolkit/_protected_certificate_sources.py",
+      "sha256": "af1ba489d0498f28a327fd7066b00b43ad4de14d1c9c1e753a5b04e045931161"
+    },
+    "src/evidence_manifest_toolkit/_protected_control_bindings.py": {
+      "bytes": 7247,
+      "path": "src/evidence_manifest_toolkit/_protected_control_bindings.py",
+      "sha256": "f8a44d5ad109d1e4beb73f5024e79c46c3097d442de65ff3cc1efe62c2471654"
+    },
+    "src/evidence_manifest_toolkit/_protected_control_sources.py": {
+      "bytes": 11908,
+      "path": "src/evidence_manifest_toolkit/_protected_control_sources.py",
+      "sha256": "a8ead78dbcaad0f900e471c9e03124753a10426a710caef453c9841b30cabe43"
+    },
+    "src/evidence_manifest_toolkit/_protected_control_target_bounds.py": {
+      "bytes": 2866,
+      "path": "src/evidence_manifest_toolkit/_protected_control_target_bounds.py",
+      "sha256": "c3557a4096414f7edb120d0356eccbb28d3850fcc4ebf78abe7246bb035f0f01"
+    },
+    "src/evidence_manifest_toolkit/_protected_ordinary_bounds.py": {
+      "bytes": 6559,
+      "path": "src/evidence_manifest_toolkit/_protected_ordinary_bounds.py",
+      "sha256": "40cee8444b5ab72b601b48b428fd94655a1f998c034d8eaa2ba2d1faece463a5"
+    },
+    "src/evidence_manifest_toolkit/_protected_ordinary_sources.py": {
+      "bytes": 9523,
+      "path": "src/evidence_manifest_toolkit/_protected_ordinary_sources.py",
+      "sha256": "3f1decd9c761a305e73e247ae0180fefcbfa34806095381b4a564f4de28313c4"
+    },
+    "src/evidence_manifest_toolkit/_protected_receipt_math.py": {
+      "bytes": 3973,
+      "path": "src/evidence_manifest_toolkit/_protected_receipt_math.py",
+      "sha256": "9b47a9b82d5f93b5920ef8d04ea2561644dffaea8365c4a928538870a6a121f7"
+    },
+    "src/evidence_manifest_toolkit/_protected_revocation_sources.py": {
+      "bytes": 4708,
+      "path": "src/evidence_manifest_toolkit/_protected_revocation_sources.py",
+      "sha256": "634883644979a254c88beb7089175a07f07bdba37a01f7edb31d0cc81a69eea7"
+    },
+    "src/evidence_manifest_toolkit/_protected_rotation_keys.py": {
+      "bytes": 5677,
+      "path": "src/evidence_manifest_toolkit/_protected_rotation_keys.py",
+      "sha256": "ff859c272ecc57c1480af2b50375aae8085188724d9210379b04fbac99caf476"
+    },
+    "src/evidence_manifest_toolkit/_protected_rotation_sources.py": {
+      "bytes": 10281,
+      "path": "src/evidence_manifest_toolkit/_protected_rotation_sources.py",
+      "sha256": "a641ba82b55c85f86abd24e935f6d69899a6b890ebdf403ceaf77e9fb125103f"
+    },
+    "src/evidence_manifest_toolkit/_protected_state_history.py": {
+      "bytes": 9799,
+      "path": "src/evidence_manifest_toolkit/_protected_state_history.py",
+      "sha256": "f8dc6a50571afa3ee13eea3a20cffb911fe1269c20d8e898310fc54cbf3cf664"
+    },
+    "src/evidence_manifest_toolkit/_protected_state_sources.py": {
+      "bytes": 7904,
+      "path": "src/evidence_manifest_toolkit/_protected_state_sources.py",
+      "sha256": "8131c6e116b8b16987b701f19f4b03706f41050a6dc28b046e634d181b70bc70"
+    },
+    "src/evidence_manifest_toolkit/_protected_use_intervals.py": {
+      "bytes": 5797,
+      "path": "src/evidence_manifest_toolkit/_protected_use_intervals.py",
+      "sha256": "e8f8f72d61cad00ba78c15762896f23c0db6f0aee37bea05e3bfa72b99141e06"
+    },
+    "src/evidence_manifest_toolkit/_publication.py": {
+      "bytes": 2541,
+      "path": "src/evidence_manifest_toolkit/_publication.py",
+      "sha256": "510ecd575d8f57d9d08879143d68b96a61ff2a4a57ee80e939e244cb3779509c"
+    },
+    "src/evidence_manifest_toolkit/_qpu_registry.py": {
+      "bytes": 5526,
+      "path": "src/evidence_manifest_toolkit/_qpu_registry.py",
+      "sha256": "74e4c35e8450decbc090528f82dd9845f9818e8f459df394230039850763f65f"
+    },
+    "src/evidence_manifest_toolkit/_qpu_registry_bindings.json": {
+      "bytes": 46680,
+      "path": "src/evidence_manifest_toolkit/_qpu_registry_bindings.json",
+      "sha256": "5b6d57696a185eafe9735f5ab0c3e4dec07b10530d2e11d978d499843735624d"
+    },
+    "src/evidence_manifest_toolkit/_qpu_registry_bindings.json.license": {
+      "bytes": 509,
+      "path": "src/evidence_manifest_toolkit/_qpu_registry_bindings.json.license",
+      "sha256": "9f2b481b81feb482f958181a9d37515348b26f2ee5117f6df80d6f53f57d0d1a"
+    },
+    "src/evidence_manifest_toolkit/_receipt_authority.py": {
+      "bytes": 11663,
+      "path": "src/evidence_manifest_toolkit/_receipt_authority.py",
+      "sha256": "a645ec9f16994837c9d868f18dfe139f1b6206d41bc4dec234eef24f9f135a9c"
+    },
+    "src/evidence_manifest_toolkit/_reference_diagnostics.py": {
+      "bytes": 1805,
+      "path": "src/evidence_manifest_toolkit/_reference_diagnostics.py",
+      "sha256": "8971d97e7764157737a0b6b5797e596d8105c2fd622673903e0caabd189a0515"
+    },
+    "src/evidence_manifest_toolkit/_reference_paths.py": {
+      "bytes": 10361,
+      "path": "src/evidence_manifest_toolkit/_reference_paths.py",
+      "sha256": "6ad76250252766c4e9b169d483342c79d5ac37cf6ba2a37f32d97d2572435ae2"
+    },
+    "src/evidence_manifest_toolkit/_references.py": {
+      "bytes": 2955,
+      "path": "src/evidence_manifest_toolkit/_references.py",
+      "sha256": "5db76df453047d55782ac46b480ff8bfa12f2c996eaac1c8a64632e5c25bfe31"
+    },
+    "src/evidence_manifest_toolkit/_registry.py": {
+      "bytes": 12637,
+      "path": "src/evidence_manifest_toolkit/_registry.py",
+      "sha256": "6e01abf0f1a6f0fd98f51778616eddd817485a457a8d5fed53f13cc8dba7c283"
+    },
+    "src/evidence_manifest_toolkit/_registry_types.py": {
+      "bytes": 5315,
+      "path": "src/evidence_manifest_toolkit/_registry_types.py",
+      "sha256": "3bce559c2ae59ca815e746b5f365a9014e7561bae4ddb22892316cfe5df9ef23"
+    },
+    "src/evidence_manifest_toolkit/_registry_wire.py": {
+      "bytes": 2825,
+      "path": "src/evidence_manifest_toolkit/_registry_wire.py",
+      "sha256": "4e5f9c78df202c1d6e5c58f3a783271e92ce92b6bcb75de0dbfa41c8af153074"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_access_prefixes.py": {
+      "bytes": 2970,
+      "path": "src/evidence_manifest_toolkit/_reproduction_access_prefixes.py",
+      "sha256": "dd33936d3128f748e097f54a0807c1391124164e12e6fe30d044967f35e90ac1"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_history.py": {
+      "bytes": 10233,
+      "path": "src/evidence_manifest_toolkit/_reproduction_history.py",
+      "sha256": "01ceb566424f9d1ff8c27240245dc88fe258fffc1667e043e11097530947507b"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_native.py": {
+      "bytes": 10452,
+      "path": "src/evidence_manifest_toolkit/_reproduction_native.py",
+      "sha256": "b4860a4c94a6ee9949ebca636697259b17c823493ee26236a682c85d49f0a168"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_receipt_sources.py": {
+      "bytes": 5040,
+      "path": "src/evidence_manifest_toolkit/_reproduction_receipt_sources.py",
+      "sha256": "e2f5fe2927886e218da521a2ed23ea86c00d900e3f51186204553544a99c41ae"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_record_relations.py": {
+      "bytes": 10056,
+      "path": "src/evidence_manifest_toolkit/_reproduction_record_relations.py",
+      "sha256": "75901dbed4c53f0c56848d5a692f2b9fc00c056d77da76468a5445bb89e93d34"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_record_sources.py": {
+      "bytes": 6500,
+      "path": "src/evidence_manifest_toolkit/_reproduction_record_sources.py",
+      "sha256": "a651ef813a5876ed0fb51852702888e030f35d80ebc27209816e380ee5ae36c2"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_run_relations.py": {
+      "bytes": 9278,
+      "path": "src/evidence_manifest_toolkit/_reproduction_run_relations.py",
+      "sha256": "37ec342c695e92feae3fe0fd80db2a2fdec868ad654e127d100640cf91c3e10b"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_run_sources.py": {
+      "bytes": 7759,
+      "path": "src/evidence_manifest_toolkit/_reproduction_run_sources.py",
+      "sha256": "285930af2e633806bab37d219145072a56a2a35ac305a6b5dcf11a04bec38fbf"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_source_graph.py": {
+      "bytes": 6120,
+      "path": "src/evidence_manifest_toolkit/_reproduction_source_graph.py",
+      "sha256": "43ba81f14219fb7fa6cb8d3551eca0d2014fd2b8183c8394c6091ccf5173011f"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_subjects.py": {
+      "bytes": 5697,
+      "path": "src/evidence_manifest_toolkit/_reproduction_subjects.py",
+      "sha256": "3afa23d323cf714519193ffb31caf11ad01d30e629e189bb1e92784425a121b4"
+    },
+    "src/evidence_manifest_toolkit/_reproduction_transitions.py": {
+      "bytes": 4807,
+      "path": "src/evidence_manifest_toolkit/_reproduction_transitions.py",
+      "sha256": "899f91d4418044d26fe7f7cda595998534b92741e05d16f1d5a09d39e02b0e4b"
+    },
+    "src/evidence_manifest_toolkit/_results.py": {
+      "bytes": 6323,
+      "path": "src/evidence_manifest_toolkit/_results.py",
+      "sha256": "614bf7e5a580321638d23835647615cfae656ceca99009f3341f1f17b4b9d9d0"
+    },
+    "src/evidence_manifest_toolkit/_schema_dependencies.py": {
+      "bytes": 3808,
+      "path": "src/evidence_manifest_toolkit/_schema_dependencies.py",
+      "sha256": "d7d4ccc2211eda01ef1df8dd35842300d87b8e0a4c60e8914b45b145b5f25a6e"
+    },
+    "src/evidence_manifest_toolkit/_schema_paths.py": {
+      "bytes": 6142,
+      "path": "src/evidence_manifest_toolkit/_schema_paths.py",
+      "sha256": "fb5e39a3c11a95671ae7955f4912b95e092e078728bc470ca6b21c953b5dd15e"
+    },
+    "src/evidence_manifest_toolkit/_schema_resources.py": {
+      "bytes": 11954,
+      "path": "src/evidence_manifest_toolkit/_schema_resources.py",
+      "sha256": "a0d6cfa32e4c508c642dbfdcc2d937ef54ca3fc29a7f48272120459d4dd86ba0"
+    },
+    "src/evidence_manifest_toolkit/_schemas/adapter_conformance.json": {
+      "bytes": 5186,
+      "path": "src/evidence_manifest_toolkit/_schemas/adapter_conformance.json",
+      "sha256": "d44c6b5624b8ecd900b7cbeaab57a801983b32ddf90c7f738fada92489118c91"
+    },
+    "src/evidence_manifest_toolkit/_schemas/adapter_conformance.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/adapter_conformance.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/group_certificate.json": {
+      "bytes": 1913,
+      "path": "src/evidence_manifest_toolkit/_schemas/group_certificate.json",
+      "sha256": "0ce875c1faeec3b73a7ea6848d40f81c10c6d45d249b4fd8b7908c2c10da13db"
+    },
+    "src/evidence_manifest_toolkit/_schemas/group_certificate.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/group_certificate.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/manifest.json": {
+      "bytes": 21684,
+      "path": "src/evidence_manifest_toolkit/_schemas/manifest.json",
+      "sha256": "06028ae6f76b8be9ef313827ed384bb9412e75b04fb33365d572c7e784282f9d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/manifest.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/manifest.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/native_launch_source.json": {
+      "bytes": 3619,
+      "path": "src/evidence_manifest_toolkit/_schemas/native_launch_source.json",
+      "sha256": "f4dc21580f6961e84835dbf9dac3f0d5328a06e05a23ea73970d60130cc2fbee"
+    },
+    "src/evidence_manifest_toolkit/_schemas/native_launch_source.json.license": {
+      "bytes": 491,
+      "path": "src/evidence_manifest_toolkit/_schemas/native_launch_source.json.license",
+      "sha256": "92888c355b8372313609350ce97783d923230dcb0da545d2a7cc1c39d2379057"
+    },
+    "src/evidence_manifest_toolkit/_schemas/native_method_data.json": {
+      "bytes": 41858,
+      "path": "src/evidence_manifest_toolkit/_schemas/native_method_data.json",
+      "sha256": "79d3c88e8738abaf97a843ecc170a4c994e6f6e17a8038bddd4057b0ef38f96a"
+    },
+    "src/evidence_manifest_toolkit/_schemas/native_method_data.json.license": {
+      "bytes": 489,
+      "path": "src/evidence_manifest_toolkit/_schemas/native_method_data.json.license",
+      "sha256": "2f318d59c0e368a25d9bdc1386dcf868e9f433edcfcbd4a508e4cb7b2fffdf01"
+    },
+    "src/evidence_manifest_toolkit/_schemas/registry_snapshot.json": {
+      "bytes": 14351,
+      "path": "src/evidence_manifest_toolkit/_schemas/registry_snapshot.json",
+      "sha256": "3efca6d987975930aca3484a97133235eed33322ce5e55a5b36d8b484be7afa1"
+    },
+    "src/evidence_manifest_toolkit/_schemas/registry_snapshot.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/registry_snapshot.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/signed_statement.json": {
+      "bytes": 3485,
+      "path": "src/evidence_manifest_toolkit/_schemas/signed_statement.json",
+      "sha256": "dc9ae930246a4457d6cb8762d289fda485ec391de16a424888b9b076a989c19c"
+    },
+    "src/evidence_manifest_toolkit/_schemas/signed_statement.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/signed_statement.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/studio_mapping.json": {
+      "bytes": 12177,
+      "path": "src/evidence_manifest_toolkit/_schemas/studio_mapping.json",
+      "sha256": "a494c44e13260ba9b8f2fa0623233a9f798d62fd4d218393902ef1cb9c41733b"
+    },
+    "src/evidence_manifest_toolkit/_schemas/studio_mapping.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/studio_mapping.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_authority.json": {
+      "bytes": 37529,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_authority.json",
+      "sha256": "649b5c03400bc362811467300e6acc05158e48eb4297e85449cb0c187d1f31e1"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_authority.json.license": {
+      "bytes": 498,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_authority.json.license",
+      "sha256": "52b8e9dc333556990071bdf2faea1280627643157d832ed5760e332528726f44"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_caller_trust.json": {
+      "bytes": 11392,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_caller_trust.json",
+      "sha256": "e65ff95e20bc0cc9233e2ed62c19df8a8db5a93200628d06235a560a7cc889a0"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_caller_trust.json.license": {
+      "bytes": 501,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_caller_trust.json.license",
+      "sha256": "843949efa3a0e0f78426d20869efd9aedf9904d1263b1d53dd6dd8a8456b830c"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_class_context.json": {
+      "bytes": 4078,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_class_context.json",
+      "sha256": "0ad9d3d5c2ec6d42858c865961554468eb0bbc188a2aad98c1242be1005c3cd0"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_class_context.json.license": {
+      "bytes": 502,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_class_context.json.license",
+      "sha256": "92e7d8c5a57dcf99a73f11a1bc0fc47f3e1069e16c583bc8401926431e7f5c19"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_clock.json": {
+      "bytes": 22758,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_clock.json",
+      "sha256": "2446c2a862d7cf49f195e2c16ec760439539df5ebf4ee7169f3398b07d863e8e"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_clock.json.license": {
+      "bytes": 494,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_clock.json.license",
+      "sha256": "9284d9fc8bb2882ba669d6512f6f4b6ae3c9ea3fb081d827f36070ba1a627d9e"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_control.json": {
+      "bytes": 9774,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_control.json",
+      "sha256": "705fe4368566b2dfcd41eec19a31a283443972919648c401d4bf866fa6ef446e"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_control.json.license": {
+      "bytes": 496,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_control.json.license",
+      "sha256": "0ea596737a7e051a49c9df1ae5551ba98a009a43443230a2e5a5a595177f275c"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_identity_rules.json": {
+      "bytes": 7838,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_identity_rules.json",
+      "sha256": "ad41ec0ddb21e55c0aff17a5339c8e6d2876d5e7685fac5c6e324916da610268"
+    },
+    "src/evidence_manifest_toolkit/_schemas/successor_identity_rules.json.license": {
+      "bytes": 503,
+      "path": "src/evidence_manifest_toolkit/_schemas/successor_identity_rules.json.license",
+      "sha256": "3633923f5cd037406c1e0ac8528743e7ea738984c9cf2df3bb7909ac2d418261"
+    },
+    "src/evidence_manifest_toolkit/_schemas/target_descriptor.json": {
+      "bytes": 21521,
+      "path": "src/evidence_manifest_toolkit/_schemas/target_descriptor.json",
+      "sha256": "9e763e79a998588210ca6c178277058342187ce750479a79cfb608870232e75b"
+    },
+    "src/evidence_manifest_toolkit/_schemas/target_descriptor.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/target_descriptor.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_schemas/trust_snapshot.json": {
+      "bytes": 5943,
+      "path": "src/evidence_manifest_toolkit/_schemas/trust_snapshot.json",
+      "sha256": "c7cc51685492ad063cd79cabe8c912725d0986b16549180c2b5e981efd78bd5e"
+    },
+    "src/evidence_manifest_toolkit/_schemas/trust_snapshot.json.license": {
+      "bytes": 507,
+      "path": "src/evidence_manifest_toolkit/_schemas/trust_snapshot.json.license",
+      "sha256": "e4944a3bf9a8008a17a02b0978202d9f3a254abc6c2c9e18543ba1365406411d"
+    },
+    "src/evidence_manifest_toolkit/_sealing.py": {
+      "bytes": 5502,
+      "path": "src/evidence_manifest_toolkit/_sealing.py",
+      "sha256": "c0ba105cafd0bff7c3c7195fe1e367978e85cda41413d4c088a1367bc4ed40c2"
+    },
+    "src/evidence_manifest_toolkit/_semantics.py": {
+      "bytes": 6455,
+      "path": "src/evidence_manifest_toolkit/_semantics.py",
+      "sha256": "6979637001e34e72c3d3da9d97d7330a4dc9a0801f0759bac43de12c303c2093"
+    },
+    "src/evidence_manifest_toolkit/_serialization.py": {
+      "bytes": 6423,
+      "path": "src/evidence_manifest_toolkit/_serialization.py",
+      "sha256": "280d584f015ab90a39abbcde3e3da551ce0d204339007d4dcbe167634abfb434"
+    },
+    "src/evidence_manifest_toolkit/_signature_obligations.py": {
+      "bytes": 9122,
+      "path": "src/evidence_manifest_toolkit/_signature_obligations.py",
+      "sha256": "eb6def4540b16c44111e6242703ce8bb119f65f5f5715bd9c525bd642343ecd7"
+    },
+    "src/evidence_manifest_toolkit/_signature_provider.py": {
+      "bytes": 1586,
+      "path": "src/evidence_manifest_toolkit/_signature_provider.py",
+      "sha256": "e0072c9599fe530e3afa81d5d2a0a1aa11134561eabef0c657cd5dc4b164fe4b"
+    },
+    "src/evidence_manifest_toolkit/_signature_rule_source.py": {
+      "bytes": 10608,
+      "path": "src/evidence_manifest_toolkit/_signature_rule_source.py",
+      "sha256": "a8b8aceda72c32eeacd1f0901dfc92a0de1db5507d69e490143dc84dde48c2b7"
+    },
+    "src/evidence_manifest_toolkit/_signature_rule_values.py": {
+      "bytes": 6355,
+      "path": "src/evidence_manifest_toolkit/_signature_rule_values.py",
+      "sha256": "37be1b7f210235ddb10b5afacb7fbac06f9f664c54cf2db38bc8ebc01ee1d256"
+    },
+    "src/evidence_manifest_toolkit/_signer_installation.py": {
+      "bytes": 3148,
+      "path": "src/evidence_manifest_toolkit/_signer_installation.py",
+      "sha256": "5419186c620976e9c3b38955b56e37fd228397adb5573211461af9c401cf5d8f"
+    },
+    "src/evidence_manifest_toolkit/_signer_response.py": {
+      "bytes": 3323,
+      "path": "src/evidence_manifest_toolkit/_signer_response.py",
+      "sha256": "3835086a574270ec03813bea07af3ed1bba06e63d4ecc12086449302a179c6b7"
+    },
+    "src/evidence_manifest_toolkit/_signing_authority.py": {
+      "bytes": 8118,
+      "path": "src/evidence_manifest_toolkit/_signing_authority.py",
+      "sha256": "2195ac092ee11e3536b38571539165cd6c0b0514f0ba4127d004540ada14581e"
+    },
+    "src/evidence_manifest_toolkit/_signing_request.py": {
+      "bytes": 5558,
+      "path": "src/evidence_manifest_toolkit/_signing_request.py",
+      "sha256": "e7caf5bc84c8aed756451e6296f1ea377a39550159909155b963d911e5f0c75f"
+    },
+    "src/evidence_manifest_toolkit/_snapshot_history.py": {
+      "bytes": 9667,
+      "path": "src/evidence_manifest_toolkit/_snapshot_history.py",
+      "sha256": "df5f8e9ba9514284cbdac9b08c6281408df7eabca1a21dbcb879abe9a7137975"
+    },
+    "src/evidence_manifest_toolkit/_software_intervals.py": {
+      "bytes": 3705,
+      "path": "src/evidence_manifest_toolkit/_software_intervals.py",
+      "sha256": "026e08a35a6628114150e22ea7f15447743dc0ccd3f7cbe6b8636b99b64f845a"
+    },
+    "src/evidence_manifest_toolkit/_software_receipts.py": {
+      "bytes": 8223,
+      "path": "src/evidence_manifest_toolkit/_software_receipts.py",
+      "sha256": "bff7e1f738b6691d925a305d20727c4e6ed843bb8b43424f0cb864c86edf5b74"
+    },
+    "src/evidence_manifest_toolkit/_software_sources.py": {
+      "bytes": 14620,
+      "path": "src/evidence_manifest_toolkit/_software_sources.py",
+      "sha256": "e7f21189a510326e3f1198c706caf884d5ba5669bce1e4cf22ca2ac691265253"
+    },
+    "src/evidence_manifest_toolkit/_statements.py": {
+      "bytes": 4243,
+      "path": "src/evidence_manifest_toolkit/_statements.py",
+      "sha256": "aff3678cd52d013730e774398e35d8d079b5e9e3aead078379ae513219c72a24"
+    },
+    "src/evidence_manifest_toolkit/_subject_formats.py": {
+      "bytes": 4311,
+      "path": "src/evidence_manifest_toolkit/_subject_formats.py",
+      "sha256": "b2f2482e56f440631591f32582e665afb5ba78ca2790ca1e31e2b5d2fca8644b"
+    },
+    "src/evidence_manifest_toolkit/_successor_configuration.py": {
+      "bytes": 5258,
+      "path": "src/evidence_manifest_toolkit/_successor_configuration.py",
+      "sha256": "59a9d78241a65b5ea649396bfe261813a8acf2fbc20f1999cf68210a77123270"
+    },
+    "src/evidence_manifest_toolkit/_successor_content.py": {
+      "bytes": 2751,
+      "path": "src/evidence_manifest_toolkit/_successor_content.py",
+      "sha256": "f48ae8b3b6c094275a5e975380d09958eae846b1383e11b52a6c324f77918f4c"
+    },
+    "src/evidence_manifest_toolkit/_successor_envelopes.py": {
+      "bytes": 10134,
+      "path": "src/evidence_manifest_toolkit/_successor_envelopes.py",
+      "sha256": "c42f4886c194bb1353f4bebafabb65b7ccaed660f31c4eb2deeb57767bf48cec"
+    },
+    "src/evidence_manifest_toolkit/_successor_format_bindings.py": {
+      "bytes": 15494,
+      "path": "src/evidence_manifest_toolkit/_successor_format_bindings.py",
+      "sha256": "8effc02c6a3cf1341b9a1d280ee19eec5453562d3a9cee68c0d3f6aa7b0c3a4c"
+    },
+    "src/evidence_manifest_toolkit/_successor_formats.py": {
+      "bytes": 8841,
+      "path": "src/evidence_manifest_toolkit/_successor_formats.py",
+      "sha256": "859c87e891a1380d05b14b916cff30ad9907c5bc3d3745604abb3ff210387d43"
+    },
+    "src/evidence_manifest_toolkit/_successor_signatures.py": {
+      "bytes": 5606,
+      "path": "src/evidence_manifest_toolkit/_successor_signatures.py",
+      "sha256": "bf71e3b17d12d68a64e8faaa0241cf2838925db120320a7575dc7efcde095da8"
+    },
+    "src/evidence_manifest_toolkit/_successor_signing_request.py": {
+      "bytes": 7255,
+      "path": "src/evidence_manifest_toolkit/_successor_signing_request.py",
+      "sha256": "46e663fd2d5153dcfcc80849022deb0d0183614171f4e1cb8eb2fe1ef50c3635"
+    },
+    "src/evidence_manifest_toolkit/_successor_source_details.py": {
+      "bytes": 12124,
+      "path": "src/evidence_manifest_toolkit/_successor_source_details.py",
+      "sha256": "91526595322504e309a0393c78021451e99e5f619d151fa2295fc9d75e2ab98e"
+    },
+    "src/evidence_manifest_toolkit/_successor_trust.py": {
+      "bytes": 13535,
+      "path": "src/evidence_manifest_toolkit/_successor_trust.py",
+      "sha256": "f56748dd4084dd9d63658dc4571f2e4305ecf75dfd8e0b2241ed6729607bc26c"
+    },
+    "src/evidence_manifest_toolkit/_temporal_semantics.py": {
+      "bytes": 4080,
+      "path": "src/evidence_manifest_toolkit/_temporal_semantics.py",
+      "sha256": "40b526d93bff87fd3a5bbbfdcc9b10a36f2c5d42322e3559efc359fc5096eba2"
+    },
+    "src/evidence_manifest_toolkit/_timesyncd_estimate.py": {
+      "bytes": 4737,
+      "path": "src/evidence_manifest_toolkit/_timesyncd_estimate.py",
+      "sha256": "29a556b0d20b1930a13728bfb0bd21cac7b7803c01af7ff06bf8aa1dc61aa5ec"
+    },
+    "src/evidence_manifest_toolkit/_timesyncd_message.py": {
+      "bytes": 6369,
+      "path": "src/evidence_manifest_toolkit/_timesyncd_message.py",
+      "sha256": "fdfa7864f205643f182be4d63e65be2dd3414a877043be2bc042a3e8416000bd"
+    },
+    "src/evidence_manifest_toolkit/_trust_state.py": {
+      "bytes": 7936,
+      "path": "src/evidence_manifest_toolkit/_trust_state.py",
+      "sha256": "e5b69dd61da8f7f90af9df1b0130277a723e3196cee580094e647ae53184cc33"
+    },
+    "src/evidence_manifest_toolkit/_trust_types.py": {
+      "bytes": 4886,
+      "path": "src/evidence_manifest_toolkit/_trust_types.py",
+      "sha256": "db4a0181098cd0fe9c9e5409617a82c6ad067e6a1043c83020444bb058d8cef8"
+    },
+    "src/evidence_manifest_toolkit/_typed_control.py": {
+      "bytes": 6885,
+      "path": "src/evidence_manifest_toolkit/_typed_control.py",
+      "sha256": "90fdf276b84e8cc2442eac6e081ccbb3ba882e2d3c5471ef27922bcf635676a3"
+    },
+    "src/evidence_manifest_toolkit/_utc.py": {
+      "bytes": 3449,
+      "path": "src/evidence_manifest_toolkit/_utc.py",
+      "sha256": "80ce5b015f2f8b5f035b73e77746aa5d4e67db836dc23b12794096e760ea31aa"
+    },
+    "src/evidence_manifest_toolkit/_values.py": {
+      "bytes": 7981,
+      "path": "src/evidence_manifest_toolkit/_values.py",
+      "sha256": "c7a86e578a3f2f536e13b25c42c7a1c86ee2d4c159d839e931a7b3272fcbe242"
+    },
+    "src/evidence_manifest_toolkit/_verification.py": {
+      "bytes": 8340,
+      "path": "src/evidence_manifest_toolkit/_verification.py",
+      "sha256": "0660d7e65dff428874b8fb45ad92337e8de24489593bda6a4ccf81c5748c3a16"
+    },
+    "src/evidence_manifest_toolkit/_verification_inputs.py": {
+      "bytes": 17961,
+      "path": "src/evidence_manifest_toolkit/_verification_inputs.py",
+      "sha256": "27f99dcbdc0ff5e574044f1add4138c0a3dfd8d7adbc5f717595470e1a30d2fe"
+    },
+    "src/evidence_manifest_toolkit/_verification_report.py": {
+      "bytes": 11192,
+      "path": "src/evidence_manifest_toolkit/_verification_report.py",
+      "sha256": "08e8450c0e8e8e3af7126ba3449befab1207af1554902d5884b576425c906bfb"
+    },
+    "src/evidence_manifest_toolkit/py.typed": {
+      "bytes": 0,
+      "path": "src/evidence_manifest_toolkit/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/evidence_manifest_toolkit/py.typed.license": {
+      "bytes": 329,
+      "path": "src/evidence_manifest_toolkit/py.typed.license",
+      "sha256": "20c3efd3134740c97260c172db32371556365af9b61e2118e17d25bdda370f85"
+    }
+  },
+  "schema": "spike_log.committed-common-wheel-source.v1",
+  "tree": "e77d91cf44acc79ae848e7fa739621475212408d",
+  "wheel_sha256": "b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72"
+}

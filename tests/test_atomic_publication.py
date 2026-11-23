@@ -22,7 +22,7 @@ GOLDEN = (
     b'"lifecycle": "public_repository", "qualified_owned_schema_ids": [], '
     b'"repository_name": "SPIKE-LOG", "source_metadata": '
     b'{"path": "repository-domain.json", "sha256": '
-    b'"00404ef3edd8ff4b49c808d80c8eb22658733ac51ee46ca2e2126225063c215a"}}\n'
+    b'"bac894998964a4c34eb2be459b471a5ccda9ba18c6333f76d1875bc403e12a5c"}}\n'
 )
 
 
@@ -91,7 +91,7 @@ def test_actual_atomic_syscall_faults(
 ) -> None:
     """Actual fsync/link/unlink/signals preserve complete publication and recovery."""
     assert hashlib.sha256((root / "repository-domain.json").read_bytes()).hexdigest() == (
-        "00404ef3edd8ff4b49c808d80c8eb22658733ac51ee46ca2e2126225063c215a"
+        "bac894998964a4c34eb2be459b471a5ccda9ba18c6333f76d1875bc403e12a5c"
     )
     unrelated = root / "unrelated-existing-file.txt"
     unrelated.write_bytes(b"Independent original sentinel; never replace or clean up.\n")

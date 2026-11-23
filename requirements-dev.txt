@@ -43,7 +43,7 @@ defusedxml==0.7.1 \
 distlib==0.4.3 \
     --hash=sha256:4b0ce306c966eb73bc3a7b6abad017c556dadd92c44701562cd528ac7fde4d5b
 evidence-manifest-toolkit==0.0.0.dev0 \
-    --hash=sha256:ab26bc1d1a39a6527c7017b03efd165b68298abb93f46d310913d1dbe434dddb
+    --hash=sha256:b4ade75b41bcdf0126e5ea1fb2ce96fddc5a99ab738a822ddc0e7fbf119ccb72
 execnet==2.1.2 \
     --hash=sha256:67fba928dd5a544b783f6056f449e5e3931a5c378b128bc18501f7ea79e296ec
 filelock==4.2.9 \

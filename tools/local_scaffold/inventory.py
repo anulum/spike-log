@@ -36,6 +36,7 @@ from .policy import (
 )
 from .production_names import check_file, check_text
 from .reports import Fault, Report, safe_location
+from .vendored_inputs import is_vendored_wheel, selected_by_provenance
 
 
 def owned_tree(root: Path, report: Report) -> list[str]:
@@ -246,6 +247,9 @@ def verify(root: Path, report: Report) -> None:
             continue
         if name.endswith((".jpg", ".png")) and name not in ASSETS:
             report.add("repository_inventory.unexpected-binary", name)
+        elif is_vendored_wheel(name):
+            if not selected_by_provenance(root, name):
+                report.add("repository_inventory.unexpected-binary", name)
         elif name not in ASSETS and name != "LICENSE" and not name.startswith("LICENSES/"):
             check_file(root, name, report)
     verify_tracking(root, report)
