@@ -137,7 +137,7 @@
       "sha256": "a6e40ee366052c0a5bec87d7abcc868c3a0bab63a7a6fc55d8dc052c0da6aea0"
     },
     "pre-commit.yml/tests": {
-      "sha256": "4b2a54bcf2d315772f954adbe1e10f69c1b842ab6c630c47d7d721455007cf97"
+      "sha256": "5124b7489da41de7d7c3f09c33888e6fa10ce2720c6d17c6c96f4bfcc080650d"
     },
     "sbom.yml/inventory": {
       "sha256": "5ad128612ebec828ea201ccc40a8830513fec086a1f7e84a5110526a8044dd15"
@@ -169,7 +169,7 @@
       "sha256": "26a24dbf68023379000bfb1d9311043a0909f7525ad1100231a2e721791091c6"
     },
     "pre-commit.yml": {
-      "sha256": "9e4db8001964463be909e95f0541c4f068d8be1500f3a2156d72909dd0ea1b3c"
+      "sha256": "344fd6f5844d7eb19a8a15671d6aff305dafa3f4aec3f5763a9e375813899d23"
     },
     "sbom.yml": {
       "sha256": "41a90f48c398d1e0b22a1f57314d9f0bf9850119a4e8fe055be14fa94bd4309b"

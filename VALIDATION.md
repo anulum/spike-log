@@ -51,6 +51,9 @@ There are four explicit metadata-writing operations:
 | Registry source capture | <code>make prepare-provenance-inputs</code> | Capture the complete fixed source cohort, or revalidate an existing complete snapshot offline. |
 | Prospective provenance generation | <code>make provenance-generate</code> | Reconstruct all package/licence fields and publish a separate candidate. |
 
+The hosted infrastructure tests run `make test` with `TEST_WORKERS=4`, one worker
+per hosted processor; locally the default stays serial.
+
 Capture uses a fixed installed worker under one inclusive process/cleanup
 budget, default 120 seconds. Select a smaller positive finite budget through
 <code>PROVENANCE_CAPTURE_SECONDS</code> or the capture-only CLI option

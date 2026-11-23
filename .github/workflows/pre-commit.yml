@@ -76,4 +76,6 @@ jobs:
           PROVENANCE_OWNER_SOURCE: .tool-cache/owner-source
         run: make prepare-test-inputs
       - name: Validate local infrastructure
+        env:
+          TEST_WORKERS: "4"
         run: make test

@@ -613,6 +613,9 @@ manifest and source tree, and the original build evidence. Missing originals
 remain a test failure. The test suite does not substitute a registry release for
 an unpublished wheel or create a passing source record from sample package code.
 
+The hosted infrastructure tests run `make test` with `TEST_WORKERS=4`, one
+worker per hosted processor; the local default is serial.
+
 For `make test`, set `LOCAL_SOURCE_ARTIFACTS`, `LOCAL_SOURCE_INPUTS` and
 `LOCAL_SOURCE_OWNER` when the supplied inputs use other locations. They default
 to the repository root and `.tool-cache/environment-inputs`. The owner
