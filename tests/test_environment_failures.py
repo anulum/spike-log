@@ -184,12 +184,13 @@ runpy.run_path(script,run_name='__main__')
     ]
 
 
-@pytest.fixture(scope="module")
-def genuine_graph_python() -> Path:
-    """Reuse a qualified complete owned clone, checking every genuine METADATA anew."""
+def genuine_graph(base: Path) -> Path:
+    """Build, or reuse, the qualified complete owned clone under base.
+
+    Every genuine METADATA is checked anew on either path.
+    """
     provenance_bytes = (SOURCE / "dependency-provenance.json").read_bytes()
     fingerprint = hashlib.sha256(provenance_bytes).hexdigest()
-    base = SOURCE / ".tool-cache/native-fixtures/genuine-full-producer-environment"
     assert not any(path.is_symlink() for path in (base, *base.parents[:-1]))
     base.mkdir(parents=True, exist_ok=True)
     recipe = hashlib.sha256(
@@ -247,6 +248,12 @@ def genuine_graph_python() -> Path:
         )
         qualify_complete_graph(python)
         return python
+
+
+@pytest.fixture(scope="module")
+def genuine_graph_python() -> Path:
+    """Reuse a qualified complete owned clone, checking every genuine METADATA anew."""
+    return genuine_graph(SOURCE / ".tool-cache/native-fixtures/genuine-full-producer-environment")
 
 
 def qualify_complete_graph(python: Path) -> None:
@@ -702,3 +709,14 @@ def test_public_cli_actual_unhandled_stat_fault_is_safe(
     assert b"EIO" in injected[0]
     assert os.fsencode(root) not in result.stdout
     assert snapshots(root) == before
+
+
+def test_genuine_graph_builds_a_fresh_clone_once_and_then_reuses_it(tmp_path: Path) -> None:
+    """A fresh location is built once; a second request reuses that qualified clone unchanged."""
+    base = tmp_path / "genuine-full-producer-environment"
+    python = genuine_graph(base)
+    markers = list(base.glob("*/actual-complete-producer-fixture.json"))
+    assert len(markers) == 1
+    recorded = markers[0].read_bytes()
+    assert genuine_graph(base) == python
+    assert markers[0].read_bytes() == recorded
