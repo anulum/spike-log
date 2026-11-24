@@ -19,6 +19,7 @@ import pytest
 
 from local_scaffold.inputs import Json
 from tests.conftest import SOURCE, payload, run_guard, source_python
+from tests.test_atomic_publication import actual_strace as actual_strace
 from tests.test_provenance_local import INPUTS, OWNER
 from tests.test_provenance_reproduction import invoke, reproduction_root, source_cohort
 
@@ -151,31 +152,63 @@ def test_public_api_unencodable_root(mode: str) -> None:
     ]
 
 
-def test_public_capture_user_interruption(reproduction_root: Path) -> None:
-    """The actual public capture API completes owned cleanup after user interruption."""
-    program = (
-        "import sys,threading,os,signal;"
-        "sys.path.insert(0," + repr(str(SOURCE / "tools")) + ");"
-        "from reproduce_dependency_provenance import main;"
-        "timer=threading.Timer(0.25,os.kill,args=(os.getpid(),signal.SIGINT));timer.start();"
-        "\ntry: result=main(['--root',sys.argv[1],'--inputs','.tool-cache/inputs',"
-        "'--mode','capture','--json'])"
-        "\nfinally: timer.cancel();timer.join()"
-        "\nraise SystemExit(result)"
-    )
-    result = payload(
-        subprocess.run(
-            source_python("-c", program, str(reproduction_root)),
-            cwd=SOURCE,
-            capture_output=True,
-            timeout=30,
+def test_public_capture_user_interruption(
+    reproduction_root: Path, tmp_path: Path, actual_strace: Path
+) -> None:
+    """The actual public capture API completes owned cleanup after user interruption.
+
+    The capture worker is held by a real SIGSTOP at its first open of the received root, and
+    the parent interrupts itself only once that stop is recorded, so the interruption reaches
+    the parent while its owned worker is in flight however fast the host runs.
+    """
+    trace = tmp_path / "capture-worker.native-trace"
+    marker = tmp_path / "capture-parent.pid"
+    program = """import os,signal,sys,threading,time
+from pathlib import Path
+sys.path.insert(0,sys.argv[1])
+from reproduce_dependency_provenance import main
+trace=Path(sys.argv[3])
+Path(sys.argv[4]).write_text(str(os.getpid()))
+def interrupt():
+    deadline=time.monotonic()+20
+    while '--- stopped by SIGSTOP ---' not in (trace.read_text() if trace.exists() else ''):
+        assert time.monotonic()<deadline
+        time.sleep(0.005)
+    os.kill(os.getpid(),signal.SIGINT)
+thread=threading.Thread(target=interrupt)
+thread.start()
+try:
+    result=main(['--root',sys.argv[2],'--inputs','.tool-cache/inputs','--mode','capture','--json'])
+finally:
+    thread.join()
+raise SystemExit(result)
+"""
+    command = [
+        str(actual_strace),
+        "-f",
+        "-qq",
+        "--kill-on-exit",
+        "-o",
+        str(trace),
+        "-e",
+        "trace=openat",
+        "-P",
+        str(reproduction_root),
+        "-e",
+        "inject=openat:signal=SIGSTOP:when=1",
+        *source_python(
+            "-c", program, str(SOURCE / "tools"), str(reproduction_root), str(trace), str(marker)
         ),
-        3,
-    )
+    ]
+    result = payload(subprocess.run(command, cwd=SOURCE, capture_output=True, timeout=30), 3)
     assert [row["code"] for row in cast(list[dict[str, Json]], result["reasons"])] == [
         "interrupted"
     ]
     assert not (reproduction_root / ".tool-cache/inputs/inputs.json").exists()
+    lines = trace.read_text().splitlines()
+    stopped = {line.split()[0] for line in lines if "--- stopped by SIGSTOP ---" in line}
+    assert len(stopped) == 1 and stopped != {marker.read_text()}
+    assert any(line.split()[0] in stopped and "+++ killed by SIGKILL" in line for line in lines)
 
 
 @pytest.mark.parametrize("mode", ["capture", "generate"])

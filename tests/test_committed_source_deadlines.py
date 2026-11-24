@@ -208,19 +208,21 @@ def test_original_native_tree_and_adverse_pipe_are_separate(
                             )
                             chunks.append(data)
                         genuine = b"".join(chunks)
-                        if genuine == baseline:
-                            process = Path("/proc") / str(target)
-                            identity = (process / "stat").read_text().rsplit(") ", 1)[1].split()[19]
-                            assert b"ls-tree" in (process / "cmdline").read_bytes()
-                            descriptor = os.open(process / "fd/1", os.O_WRONLY)
-                            try:
-                                assert (process / "stat").read_text().rsplit(") ", 1)[1].split()[
-                                    19
-                                ] == identity
-                                assert os.write(descriptor, adverse) == len(adverse)
-                                wrote = True
-                            finally:
-                                os.close(descriptor)
+                    # One condition: polls before git runs, on partial output and after the
+                    # write all take its false outcome, so its measurement needs no timing.
+                    if target is not None and not wrote and genuine == baseline:
+                        process = Path("/proc") / str(target)
+                        identity = (process / "stat").read_text().rsplit(") ", 1)[1].split()[19]
+                        assert b"ls-tree" in (process / "cmdline").read_bytes()
+                        descriptor = os.open(process / "fd/1", os.O_WRONLY)
+                        try:
+                            assert (process / "stat").read_text().rsplit(") ", 1)[1].split()[
+                                19
+                            ] == identity
+                            assert os.write(descriptor, adverse) == len(adverse)
+                            wrote = True
+                        finally:
+                            os.close(descriptor)
                 time.sleep(0.01)
             stdout, stderr = child.communicate(timeout=5)
         finally:
