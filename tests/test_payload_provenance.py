@@ -9,32 +9,23 @@
 """Exercise actual payload ownership and typed-package admission through the CLI."""
 
 import subprocess
-import sys
 from pathlib import Path
 
 import pytest
 
-from tests.conftest import SOURCE, payload, snapshots
+from tests.conftest import SOURCE, payload, snapshots, source_python
 
 
 def run_provenance(root: Path) -> subprocess.CompletedProcess[bytes]:
-    """Trace the real source gate's ownership modules without a whole-tree profile."""
+    """Run the real source gate as a measured owned child."""
     return subprocess.run(
-        [
-            sys.executable,
+        source_python(
             "-B",
-            "-m",
-            "coverage",
-            "run",
-            "--branch",
-            "--source=local_scaffold.identity,local_scaffold.provenance",
-            "--parallel-mode",
-            "--data-file=" + str(root.parent / "ownership-coverage"),
             str(SOURCE / "tools/check_source_provenance.py"),
             "--root",
             str(root),
             "--json",
-        ],
+        ),
         cwd=SOURCE,
         capture_output=True,
         timeout=120,

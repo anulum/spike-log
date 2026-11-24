@@ -32,11 +32,6 @@ SOURCE_INPUTS = Path(os.environ.get("SPIKE_LOG_TEST_ENVIRONMENT_SOURCE", str(SOU
 UNSUPPORTED_PYTHON = (
     SOURCE / ".tool-cache/native-fixtures/cpython-3.13.15/extracted/python/bin/python3.13"
 )
-COVERAGE_OUTPUT = os.environ.get("SPIKE_LOG_BOOTSTRAP_COVERAGE", "")
-COVERAGE_SOURCES = (
-    "local_scaffold.bootstrap_inputs,local_scaffold.bootstrap_cli,"
-    "local_scaffold.bootstrap_bindings,check_environment_inputs"
-)
 
 
 @dataclass(frozen=True)
@@ -113,22 +108,9 @@ def arguments(inputs: EnvironmentInputs) -> list[str]:
 def invoke(
     inputs: EnvironmentInputs, *extra: str, instrument: bool = True, python: str = sys.executable
 ) -> subprocess.CompletedProcess[bytes]:
-    """Run the real public script, measured as an owned child or into a requested separate output."""
+    """Run the real public script, measured as an owned child when it uses this interpreter."""
     script = [str(SOURCE / "tools/check_environment_inputs.py"), *arguments(inputs), *extra]
-    if instrument and COVERAGE_OUTPUT:
-        command = [
-            python,
-            "-B",
-            "-m",
-            "coverage",
-            "run",
-            "--branch",
-            "--parallel-mode",
-            "--source=" + COVERAGE_SOURCES,
-            "--data-file=" + COVERAGE_OUTPUT,
-            *script,
-        ]
-    elif instrument and python == sys.executable:
+    if instrument and python == sys.executable:
         command = source_python("-B", "-I", *script)
     else:
         command = [python, "-B", "-I", *script]

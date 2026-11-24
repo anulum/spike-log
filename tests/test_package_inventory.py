@@ -9,34 +9,25 @@
 """Exercise actual package and source enrolment through the public inventory CLI."""
 
 import subprocess
-import sys
 from pathlib import Path
 
 import pytest
 
-from tests.conftest import SOURCE, payload, snapshots
+from tests.conftest import SOURCE, payload, snapshots, source_python
 
 
 def run_inventory(root: Path) -> subprocess.CompletedProcess[bytes]:
-    """Trace only the package/naming/inventory modules of the real primary producer."""
+    """Run the real primary producer as a measured owned child."""
     return subprocess.run(
-        [
-            sys.executable,
+        source_python(
             "-B",
-            "-m",
-            "coverage",
-            "run",
-            "--branch",
-            "--parallel-mode",
-            "--source=local_scaffold.package_inventory,local_scaffold.production_names,local_scaffold.inventory",
-            "--data-file=" + str(root.parent / "package-inventory-coverage"),
             str(SOURCE / "tools/check_repository_inventory.py"),
             "--root",
             str(root),
             "--mode",
             "verify",
             "--json",
-        ],
+        ),
         cwd=SOURCE,
         capture_output=True,
         timeout=120,

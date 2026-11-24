@@ -9,32 +9,23 @@
 """Exercise supported payload documentation through the installed guard command."""
 
 import subprocess
-import sys
 from pathlib import Path
 
 import pytest
 
-from tests.conftest import SOURCE, payload, snapshots
+from tests.conftest import SOURCE, payload, snapshots, source_python
 
 
 def run_documentation(root: Path) -> subprocess.CompletedProcess[bytes]:
-    """Run the real documentation CLI with only its payload API module traced."""
+    """Run the real documentation CLI as a measured owned child."""
     return subprocess.run(
-        [
-            sys.executable,
+        source_python(
             "-B",
-            "-m",
-            "coverage",
-            "run",
-            "--branch",
-            "--source=local_scaffold.documentation_api",
-            "--parallel-mode",
-            "--data-file=" + str(root.parent / "api-coverage"),
             str(SOURCE / "tools/check_documentation.py"),
             "--root",
             str(root),
             "--json",
-        ],
+        ),
         cwd=SOURCE,
         capture_output=True,
         timeout=120,
