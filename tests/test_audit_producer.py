@@ -20,11 +20,9 @@ from tests.conftest import SOURCE, clone_dependency, payload, run_guard, snapsho
 from tests.test_atomic_publication import actual_strace as actual_strace
 
 
-def test_real_fresh_producer_and_offline_admission(tmp_path: Path, root: Path) -> None:
+def test_real_fresh_producer_and_offline_admission(root: Path) -> None:
     """Produce through the genuine pinned CLI and consume its actual complete result twice."""
     store = SOURCE / ".tool-cache/security-admissions"
-    if (store / "HEAD.json").exists():
-        (tmp_path / "previous-head.json").write_bytes((store / "HEAD.json").read_bytes())
     result = run_guard("dependency_alignment", SOURCE, "--produce-audit")
     record = payload(result, 0)
     assert record["scope"] == "audit_produce"

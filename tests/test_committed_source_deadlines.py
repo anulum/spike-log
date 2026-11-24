@@ -14,7 +14,6 @@ import ast
 import json
 import os
 import re
-import signal
 import subprocess
 import time
 from pathlib import Path
@@ -22,7 +21,7 @@ from pathlib import Path
 import pytest
 
 from local_scaffold.limits import MAX_CAPTURE
-from tests.conftest import SOURCE, source_python
+from tests.conftest import SOURCE, source_python, stop
 from tests.test_atomic_publication import actual_strace as actual_strace
 from tests.test_provenance_local import MANIFEST, OWNER
 
@@ -120,9 +119,7 @@ def test_actual_cleanup_delay_preserves_shared_leaf_deadline(
         try:
             stdout, stderr = child.communicate(timeout=160)
         finally:
-            if child.poll() is None:
-                os.killpg(child.pid, signal.SIGKILL)
-                child.wait()
+            stop(child, group=True, timeout=None)
     assert time.monotonic() - started >= 125
     assert child.returncode == 3 and json.loads(stdout) == {
         "code": "tool_timeout",
@@ -227,9 +224,7 @@ def test_original_native_tree_and_adverse_pipe_are_separate(
                 time.sleep(0.01)
             stdout, stderr = child.communicate(timeout=5)
         finally:
-            if child.poll() is None:
-                os.killpg(child.pid, signal.SIGKILL)
-                child.wait()
+            stop(child, group=True, timeout=None)
     assert target is not None and wrote and genuine == baseline
     assert child.returncode == 2 and json.loads(stdout) == {
         "code": "source_identity_mismatch",

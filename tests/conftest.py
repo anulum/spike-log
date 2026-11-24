@@ -14,8 +14,12 @@ import hashlib
 import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
+import time
+from collections.abc import Callable
+from contextlib import suppress
 from pathlib import Path
 from typing import cast
 
@@ -51,7 +55,9 @@ def source_python(*arguments: str, executable: str | None = None) -> list[str]:
     """Trace every owned Python child; retain raw unrelated control processes."""
     python = executable or sys.executable
     if Coverage.current() is None:
-        return [python, *arguments]
+        # Only an unmeasured run of the tests takes this branch: under the measured suite coverage
+        # is always active here, so no measured test can reach it.
+        return [python, *arguments]  # pragma: no cover
     flags: list[str] = []
     remaining = list(arguments)
     while remaining[0] in ("-I", "-S", "-B"):
@@ -120,6 +126,116 @@ finally:
     coverage.save()
 """
     return [python, *flags, "-c", launcher, str(SOURCE / "pyproject.toml"), *remaining]
+
+
+def stop(
+    process: subprocess.Popen[bytes],
+    *,
+    group: bool = False,
+    timeout: float | None = 5,
+    resume: int | None = None,
+) -> None:
+    """Kill a native child that is still running, then reap it.
+
+    Parameters
+    ----------
+    process : subprocess.Popen[bytes]
+        Child the test started; one that already exited is only reaped.
+    group : bool
+        Kill the child's whole process group, for a child started in its own session.
+    timeout : float | None
+        Seconds to wait for the reaped exit, or None to wait without a bound.
+    resume : int | None
+        A stopped traced process to continue first, so the kill is not held by its stop.
+    """
+    if process.poll() is None:
+        if resume is not None:
+            with suppress(ProcessLookupError):
+                os.kill(resume, signal.SIGCONT)
+        if group:
+            os.killpg(process.pid, signal.SIGKILL)
+        else:
+            process.kill()
+    process.wait(timeout=timeout)
+
+
+def restore(held: Path, original: Path, *, replace: bool = False) -> None:
+    """Move a held original back after an interrupted test.
+
+    Parameters
+    ----------
+    held : Path
+        Where the test moved the original; nothing happens when it is absent.
+    original : Path
+        The original's own path.
+    replace : bool
+        Remove what the test put in the original's place first.
+    """
+    if held.exists():
+        if replace:
+            original.unlink()
+        held.rename(original)
+
+
+def close_descriptor(descriptor: int | None) -> None:
+    """Close a pipe end the test still holds; one it already closed and cleared is skipped.
+
+    Parameters
+    ----------
+    descriptor : int | None
+        The open descriptor, or None once the test has closed it itself.
+    """
+    if descriptor is not None:
+        os.close(descriptor)
+
+
+def poll_until(
+    step: Callable[[], bool], message: str, *, seconds: float, interval: float = 0.001
+) -> None:
+    """Repeat a step until it reports completion, failing after a native deadline.
+
+    Parameters
+    ----------
+    step : Callable[[], bool]
+        Observes the native event and acts on it, returning True once it has.
+    message : str
+        Failure stated when the event is not observed in time.
+    seconds : float
+        Deadline, measured on the monotonic clock.
+    interval : float
+        Pause between observations.
+
+    Raises
+    ------
+    AssertionError
+        Raised with ``message`` when the step has not completed by the deadline.
+    """
+    deadline = time.monotonic() + seconds
+    while time.monotonic() < deadline:
+        if step():
+            return
+        time.sleep(interval)
+    raise AssertionError(message)
+
+
+def require_native(path: Path, message: str) -> Path:
+    """Return a required native fixture; its absence ends the run and never simulates success.
+
+    Parameters
+    ----------
+    path : Path
+        The fixture's executable or file.
+    message : str
+        Reason stated when the whole run ends with exit 3.
+
+    Returns
+    -------
+    Path
+        ``path`` itself, present as a regular file.
+    """
+    if not path.is_file():
+        pytest.exit(message, returncode=3)
+    return path
 
 
 @pytest.fixture

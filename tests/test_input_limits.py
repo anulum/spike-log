@@ -29,7 +29,7 @@ from local_scaffold.inputs import (
     yaml_object,
 )
 from local_scaffold.reports import Fault
-from tests.conftest import SOURCE, payload, run_guard, snapshots, source_python
+from tests.conftest import SOURCE, payload, run_guard, snapshots, source_python, stop
 from tests.test_atomic_publication import actual_strace as actual_strace
 
 
@@ -259,8 +259,6 @@ print(json.dumps(result),flush=True)
                     for line in native.splitlines()
                 )
     finally:
-        if process.poll() is None:
-            os.killpg(process.pid, signal.SIGKILL)
-        process.communicate(timeout=3)
+        stop(process, group=True, timeout=3)
     assert (inside / "received.json").read_bytes() == b"original-owned-source\n"
     assert (outside / "received.json").read_bytes() == b"outside-owned-sentinel\n"

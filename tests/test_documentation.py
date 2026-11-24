@@ -19,7 +19,16 @@ from pathlib import Path
 
 import pytest
 
-from tests.conftest import SOURCE, payload, run_guard, snapshots, source_python
+from tests.conftest import (
+    SOURCE,
+    payload,
+    poll_until,
+    restore,
+    run_guard,
+    snapshots,
+    source_python,
+    stop,
+)
 from tests.test_atomic_publication import actual_strace as actual_strace
 
 
@@ -204,37 +213,39 @@ def test_late_received_template_and_config_changes_cannot_execute(
         stderr=subprocess.PIPE,
     )
     try:
-        deadline = time.monotonic() + 25
-        while time.monotonic() < deadline:
+
+        def configuration_captured() -> bool:
+            """Act once the renderer's captured configuration is complete."""
             lines = trace.read_text().splitlines() if trace.exists() else []
             captured_files = list(cache.glob("renderer-*/mkdocs.yml"))
-            if captured_files:
-                assert len(captured_files) == 1
-                captured = captured_files[0]
-                captured_text = captured.read_text()
-                if not captured_text.endswith("\n") or "docs_dir: " not in captured_text:
-                    time.sleep(0.001)
-                    continue
-                assert captured.parent.parent == cache and not captured.is_symlink()
-                assert str(root / "docs") in captured_text and str(root / "tools") in captured_text
-                template = root / "overrides/main.html"
-                assert (
-                    captured.parent / "overrides/main.html"
-                ).read_bytes() == template.read_bytes()
-                template.write_text(
-                    template.read_text()
-                    + "\n{{ cycler.__init__.__globals__.os.system("
-                    + repr("touch " + str(marker))
-                    + ") }}\n"
-                )
-                (root / "mkdocs.yml").write_text("plugins: [received-uninstalled-plugin]\n")
-                break
-            assert process.poll() is None, lines
-            time.sleep(0.001)
-        else:
-            raise AssertionError(
-                "Actual complete captured renderer configuration was not observed."
+            assert len(captured_files) <= 1
+            complete = [
+                (path, text)
+                for path in captured_files
+                if (text := path.read_text()).endswith("\n") and "docs_dir: " in text
+            ]
+            if not complete:
+                assert process.poll() is None, lines
+                return False
+            captured, captured_text = complete[0]
+            assert captured.parent.parent == cache and not captured.is_symlink()
+            assert str(root / "docs") in captured_text and str(root / "tools") in captured_text
+            template = root / "overrides/main.html"
+            assert (captured.parent / "overrides/main.html").read_bytes() == template.read_bytes()
+            template.write_text(
+                template.read_text()
+                + "\n{{ cycler.__init__.__globals__.os.system("
+                + repr("touch " + str(marker))
+                + ") }}\n"
             )
+            (root / "mkdocs.yml").write_text("plugins: [received-uninstalled-plugin]\n")
+            return True
+
+        poll_until(
+            configuration_captured,
+            "Actual complete captured renderer configuration was not observed.",
+            seconds=25,
+        )
         before = snapshots(root)
         stdout, stderr = process.communicate(timeout=30)
         assert stderr.startswith(notice), stderr
@@ -245,9 +256,7 @@ def test_late_received_template_and_config_changes_cannot_execute(
         raw = trace.read_bytes()
         assert raw.count(b"execve(") >= 2 and b"DELAYED" in raw
     finally:
-        if process.poll() is None:
-            process.kill()
-        process.wait(timeout=5)
+        stop(process)
     assert not any(p.name.startswith(("renderer-", "docs-")) for p in cache.iterdir())
 
 
@@ -426,9 +435,7 @@ def test_actual_documentation_interruption_cleans_owned_output(root: Path) -> No
         os.kill(process.pid, signal.SIGTERM)
         stdout, stderr = process.communicate(timeout=15)
     finally:
-        if process.poll() is None:
-            process.kill()
-        process.wait(timeout=5)
+        stop(process)
     value = payload(
         subprocess.CompletedProcess(process.args, process.returncode, stdout, stderr), 3
     )
@@ -510,9 +517,12 @@ def test_actual_renderer_success_with_missing_output_is_refused(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
+    renderer_pid = -1
     try:
-        deadline = time.monotonic() + 25
-        while time.monotonic() < deadline:
+
+        def index_closed() -> bool:
+            """Change the rendered output once the renderer closes its written index."""
+            nonlocal renderer_pid
             lines = trace.read_text().splitlines() if trace.exists() else []
             closes = [
                 line
@@ -522,26 +532,26 @@ def test_actual_renderer_success_with_missing_output_is_refused(
                 and "/index.html>" in line
                 and "= 0" in line
             ]
-            if closes:
-                renderer_pid = int(closes[0].split()[0])
-                index = Path(closes[0].split("<", 1)[1].split(">", 1)[0])
-                directory = index.parent
-                assert directory.parent == cache and not directory.is_symlink()
-                assert index.is_file() and index.stat().st_size > 0
-                if fault == "missing-index":
-                    index.unlink()
-                elif fault == "private-directory":
-                    (directory / "internal").mkdir()
-                    (directory / "internal/retained-owner-record.txt").write_bytes(
-                        b"actual retained private output bytes"
-                    )
-                else:
-                    (directory / "internal").symlink_to(directory / "absent-private-target")
-                break
-            assert process.poll() is None, lines
-            time.sleep(0.001)
-        else:
-            raise AssertionError("Actual renderer index close was not observed.")
+            if not closes:
+                assert process.poll() is None, lines
+                return False
+            renderer_pid = int(closes[0].split()[0])
+            index = Path(closes[0].split("<", 1)[1].split(">", 1)[0])
+            directory = index.parent
+            assert directory.parent == cache and not directory.is_symlink()
+            assert index.is_file() and index.stat().st_size > 0
+            if fault == "missing-index":
+                index.unlink()
+            elif fault == "private-directory":
+                (directory / "internal").mkdir()
+                (directory / "internal/retained-owner-record.txt").write_bytes(
+                    b"actual retained private output bytes"
+                )
+            else:
+                (directory / "internal").symlink_to(directory / "absent-private-target")
+            return True
+
+        poll_until(index_closed, "Actual renderer index close was not observed.", seconds=25)
         stdout, stderr = process.communicate(timeout=15)
         value = payload(
             subprocess.CompletedProcess(process.args, process.returncode, stdout, stderr), 2
@@ -570,9 +580,7 @@ def test_actual_renderer_success_with_missing_output_is_refused(
             for line in native_lines
         )
     finally:
-        if process.poll() is None:
-            process.kill()
-        process.wait(timeout=5)
+        stop(process)
     assert snapshots(root) == before
     assert not any(path.name.startswith("docs-") for path in cache.iterdir())
 
@@ -617,19 +625,24 @@ def test_real_cache_link_after_configuration_read_is_refused(
         start_new_session=True,
     )
     try:
-        deadline = time.monotonic() + 25
-        while time.monotonic() < deadline:
+
+        def configuration_read() -> bool:
+            """Replace the tool cache with a link once the renderer has read its configuration."""
             lines = trace.read_text().splitlines() if trace.exists() else []
-            if any(
+            if not any(
                 "close(" in line and str(configuration) in line and "= 0" in line for line in lines
             ):
-                cache.rename(held)
-                cache.symlink_to(held, target_is_directory=True)
-                break
-            assert process.poll() is None, lines
-            time.sleep(0.001)
-        else:
-            raise AssertionError("Actual original renderer configuration read was not observed.")
+                assert process.poll() is None, lines
+                return False
+            cache.rename(held)
+            cache.symlink_to(held, target_is_directory=True)
+            return True
+
+        poll_until(
+            configuration_read,
+            "Actual original renderer configuration read was not observed.",
+            seconds=25,
+        )
         stdout, stderr = process.communicate(timeout=25)
         value = payload(
             subprocess.CompletedProcess(process.args, process.returncode, stdout, stderr), 2
@@ -646,12 +659,8 @@ def test_real_cache_link_after_configuration_read_is_refused(
         assert b"DELAYED" in raw and os.fsencode(configuration) in raw
         assert os.fsencode(cache) in raw and b"S_IFLNK" in raw
     finally:
-        if process.poll() is None:
-            os.killpg(process.pid, signal.SIGKILL)
-        process.wait(timeout=5)
-        if held.exists():
-            cache.unlink()
-            held.rename(cache)
+        stop(process, group=True)
+        restore(held, cache, replace=True)
     assert snapshots(root) == before
     assert cache.is_dir() and not cache.is_symlink() and not held.exists()
 

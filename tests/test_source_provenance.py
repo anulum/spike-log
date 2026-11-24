@@ -22,7 +22,16 @@ import pytest
 from local_scaffold.limits import MAX_CAPTURE
 from local_scaffold.provenance import analyse_reuse
 from local_scaffold.reports import Fault
-from tests.conftest import SOURCE, change, payload, run_guard, snapshots, source_python
+from tests.conftest import (
+    SOURCE,
+    change,
+    payload,
+    poll_until,
+    run_guard,
+    snapshots,
+    source_python,
+    stop,
+)
 from tests.test_atomic_publication import actual_strace as actual_strace
 
 
@@ -436,19 +445,23 @@ except Fault as fault:
     )
     tracee: int | None = None
     try:
-        deadline = time.monotonic() + 12
-        while time.monotonic() < deadline:
+
+        def document_closed() -> bool:
+            """Record the tracee once it closes its first read of the document."""
+            nonlocal tracee
             lines = trace.read_text().splitlines() if trace.exists() else []
             closes = [line for line in lines if "close(" in line and str(document) in line]
-            if closes:
-                tracee = int(closes[0].split()[0])
-                break
-            assert process.poll() is None, lines
-            time.sleep(0.001)
-        else:
-            raise AssertionError(
-                "Actual original VALIDATION.md first native read was not observed."
-            )
+            if not closes:
+                assert process.poll() is None, lines
+                return False
+            tracee = int(closes[0].split()[0])
+            return True
+
+        poll_until(
+            document_closed,
+            "Actual original VALIDATION.md first native read was not observed.",
+            seconds=12,
+        )
         assert tracee is not None
         if case == "source-bytes":
             document.write_bytes(original + b"\nActual received input changed.\n")
@@ -456,15 +469,19 @@ except Fault as fault:
             cache.rename(held)
             cache.symlink_to(held, target_is_directory=True)
         else:
-            deadline = time.monotonic() + 12
-            while time.monotonic() < deadline:
+
+            def producer_stopped() -> bool:
+                """Report the kernel's SIGSTOP of the producer after its second close."""
                 lines = trace.read_text().splitlines()
-                if any("SIGSTOP" in line and "SI_KERNEL" in line for line in lines):
-                    break
-                assert process.poll() is None, lines
-                time.sleep(0.001)
-            else:
-                raise AssertionError("Actual post-producer second-close SIGSTOP was not observed.")
+                stopped = any("SIGSTOP" in line and "SI_KERNEL" in line for line in lines)
+                assert stopped or process.poll() is None, lines
+                return stopped
+
+            poll_until(
+                producer_stopped,
+                "Actual post-producer second-close SIGSTOP was not observed.",
+                seconds=12,
+            )
             time.sleep(9)
             os.kill(tracee, signal.SIGCONT)
         stdout, stderr = process.communicate(timeout=20)
@@ -491,14 +508,7 @@ except Fault as fault:
             assert any("SIGSTOP" in line and "SI_KERNEL" in line for line in lines)
             assert any("SIGCONT" in line for line in lines)
     finally:
-        if process.poll() is None:
-            if tracee is not None:
-                try:
-                    os.kill(tracee, signal.SIGCONT)
-                except ProcessLookupError:
-                    pass
-            process.kill()
-        process.wait(timeout=5)
+        stop(process, resume=tracee)
         document.write_bytes(original)
         if held.exists():
             cache.unlink()

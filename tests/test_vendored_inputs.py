@@ -63,10 +63,10 @@ def private_locations(directory: Path) -> dict[str, list[str]]:
     found: dict[str, list[str]] = {}
     for record in sorted(directory.glob("*.json")):
         texts = _strings(cast(Json, json.loads(record.read_bytes())))
-        bad = [text for text in texts if PRIVATE.search(text) or text.startswith("/")]
-        if bad:
-            found[record.name] = bad
-    return found
+        found[record.name] = [
+            text for text in texts if PRIVATE.search(text) or text.startswith("/")
+        ]
+    return {name: bad for name, bad in found.items() if bad}
 
 
 def test_vendored_records_name_no_private_location() -> None:

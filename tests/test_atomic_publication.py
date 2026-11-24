@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from tests.conftest import SOURCE, payload, run_guard, snapshots, source_python
+from tests.conftest import SOURCE, payload, require_native, run_guard, snapshots, source_python
 
 GOLDEN = (
     b'{"capabilities": [], "claims": [], "evidence_maturity": "architecture_only", '
@@ -30,9 +30,9 @@ GOLDEN = (
 def actual_strace() -> Path:
     """Require the genuine pinned Ubuntu fixture; absence never simulates success."""
     base = SOURCE / ".tool-cache/native-fixtures/strace-6.8-0ubuntu2"
-    executable = base / "extracted/usr/bin/strace"
-    if not executable.is_file():
-        pytest.exit("Required native strace fixture is unavailable.", returncode=3)
+    executable = require_native(
+        base / "extracted/usr/bin/strace", "Required native strace fixture is unavailable."
+    )
     assert not any(path.is_symlink() for path in (executable, *executable.parents[:-1]))
     assert hashlib.sha256(executable.read_bytes()).hexdigest() == (
         "28f957c227012de0b18d1bd7fff2d396cb693ea60ed8013be68de071e84b5001"

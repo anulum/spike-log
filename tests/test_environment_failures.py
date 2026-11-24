@@ -18,12 +18,20 @@ import sys
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from time import monotonic, sleep
 from typing import cast
 
 import pytest
 
-from tests.conftest import SOURCE, payload, snapshots, source_python
+from tests.conftest import (
+    SOURCE,
+    payload,
+    poll_until,
+    require_native,
+    restore,
+    snapshots,
+    source_python,
+    stop,
+)
 from tests.producer_environments import producer_environment
 from tests.test_atomic_publication import actual_strace as actual_strace
 
@@ -361,10 +369,8 @@ def test_actual_complete_producer_graph_refusals(
             )
         finally:
             if case == "missing-transitive":
-                if (held / package.name).exists():
-                    (held / package.name).rename(package)
-                if (held / distribution.name).exists():
-                    (held / distribution.name).rename(distribution)
+                restore(held / package.name, package)
+                restore(held / distribution.name, distribution)
                 held.rmdir()
             elif case == "missing-direct":
                 (held / packaging.name).rename(packaging)
@@ -420,15 +426,19 @@ def test_actual_producer_metadata_disappears_after_graph_read(
             stderr=subprocess.PIPE,
         )
         try:
-            deadline = monotonic() + 10
-            while monotonic() < deadline:
+
+            def metadata_read() -> bool:
+                """Report the producer's first native read of its METADATA."""
                 lines = trace.read_text().splitlines() if trace.exists() else []
-                if any("close(" in line and str(metadata) in line for line in lines):
-                    break
-                assert process.poll() is None, lines
-                sleep(0.001)
-            else:
-                raise AssertionError("Actual producer METADATA first native read was not observed.")
+                observed = any("close(" in line and str(metadata) in line for line in lines)
+                assert observed or process.poll() is None, lines
+                return observed
+
+            poll_until(
+                metadata_read,
+                "Actual producer METADATA first native read was not observed.",
+                seconds=10,
+            )
             metadata.rename(held)
             stdout, stderr = process.communicate(timeout=30)
             record = payload(
@@ -451,11 +461,8 @@ def test_actual_producer_metadata_disappears_after_graph_read(
             assert "ENOENT" in opens[1] and "DELAYED" in opens[1], opens
             assert held.read_bytes() == original and not metadata.exists()
         finally:
-            if process.poll() is None:
-                process.kill()
-            process.wait(timeout=5)
-            if held.exists():
-                held.rename(metadata)
+            stop(process)
+            restore(held, metadata)
         assert metadata.read_bytes() == original
         qualify_complete_graph(genuine_graph_python)
 
@@ -482,11 +489,10 @@ def actual_unsupported_python(request: pytest.FixtureRequest) -> Path:
     """Qualify each genuine unsupported CPython and its two real fixture producers."""
     version, build, archive_digest, python_digest = cast(tuple[str, str, str, str], request.param)
     base = SOURCE / (".tool-cache/native-fixtures/cpython-" + version)
-    python = base / "guard-environment-uv/bin/python"
-    if not python.is_file():
-        pytest.exit(
-            "Required genuine unsupported-interpreter fixture is unavailable.", returncode=3
-        )
+    python = require_native(
+        base / "guard-environment-uv/bin/python",
+        "Required genuine unsupported-interpreter fixture is unavailable.",
+    )
     assert not any(path.is_symlink() for path in python.parents[:-1])
     assert (
         python.resolve()

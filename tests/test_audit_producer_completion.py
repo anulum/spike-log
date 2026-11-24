@@ -22,7 +22,7 @@ from pathlib import Path
 import pytest
 
 from local_scaffold.limits import MAX_CAPTURE
-from tests.conftest import payload, source_python
+from tests.conftest import close_descriptor, payload, source_python, stop
 from tests.test_atomic_publication import actual_strace as actual_strace
 
 
@@ -147,9 +147,7 @@ def test_real_audit_completion_never_admits_a_failed_attempt(
                 time.sleep(0.01)
             stdout, stderr = child.communicate(timeout=5)
         finally:
-            if child.poll() is None:
-                os.killpg(child.pid, signal.SIGKILL)
-                child.wait()
+            stop(child, group=True, timeout=None)
     assert acted and process is not None
     result = subprocess.CompletedProcess(command, child.returncode, stdout, stderr)
     report = payload(result, 2)
@@ -316,11 +314,8 @@ def test_real_corrupted_audit_pipe_preserves_diagnostic_exhaustion(
                 time.sleep(0.01)
             child.wait(timeout=5)
         finally:
-            if writer is not None:
-                os.close(writer)
-            if child.poll() is None:
-                os.killpg(child.pid, signal.SIGKILL)
-                child.wait()
+            close_descriptor(writer)
+            stop(child, group=True, timeout=None)
             if held.exists():
                 held.rename(configuration)
     assert acted and original is not None and process is not None

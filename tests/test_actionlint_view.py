@@ -10,6 +10,7 @@
 
 import fcntl
 import subprocess
+from contextlib import ExitStack
 from pathlib import Path
 from typing import cast
 
@@ -125,8 +126,8 @@ sys.exit(result)
 def test_invalid_host_has_no_view(root: Path) -> None:
     """A refused raw inventory cannot be normalised into a passing producer input."""
     change(root, "workflow-policy.json", ("platform",), "github_enterprise_server")
-    with pytest.raises(Fault), actionlint_view(root):
-        raise AssertionError("Invalid raw input unexpectedly yielded a view")
+    with pytest.raises(Fault), ExitStack() as stack:
+        stack.enter_context(actionlint_view(root))
     assert not list((root / ".tool-cache").glob("actionlint-view-*"))
 
 
