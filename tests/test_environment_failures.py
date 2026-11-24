@@ -673,16 +673,28 @@ def test_public_cli_actual_unhandled_stat_fault_is_safe(
     )
     probe = tmp_path / "actual_original_public_owned_entry.native-trace"
     result = subprocess.run(
-        [str(actual_strace), "-qq", "-s", "4096", "-o", str(probe), "-e", "trace=lstat", *command],
+        [
+            str(actual_strace),
+            "-qq",
+            "-s",
+            "4096",
+            "-o",
+            str(probe),
+            "-e",
+            "trace=lstat,newfstatat",
+            *command,
+        ],
         cwd=SOURCE,
         capture_output=True,
         timeout=30,
     )
     payload(result, 0)
-    calls = [line for line in probe.read_bytes().splitlines() if line.startswith(b"lstat(")]
-    ordinal = next(
-        index for index, line in enumerate(calls, start=1) if os.fsencode(target) in line
-    )
+    lines = probe.read_bytes().splitlines()
+    # An interpreter built against a current glibc reaches lstat through newfstatat.
+    first = next(line for line in lines if os.fsencode(target) in line)
+    syscall = first.split(b"(", 1)[0].decode()
+    calls = [line for line in lines if line.startswith(syscall.encode() + b"(")]
+    ordinal = calls.index(first) + 1
     trace = tmp_path / "actual_public_owned_entry_EIO.native-trace"
     result = subprocess.run(
         [
@@ -693,9 +705,9 @@ def test_public_cli_actual_unhandled_stat_fault_is_safe(
             "-o",
             str(trace),
             "-e",
-            "trace=lstat",
+            "trace=" + syscall,
             "-e",
-            "inject=lstat:error=EIO:when=" + str(ordinal),
+            "inject=" + syscall + ":error=EIO:when=" + str(ordinal),
             *command,
         ],
         cwd=SOURCE,

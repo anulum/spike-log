@@ -191,7 +191,9 @@ result['descriptors_before']=before
 result['descriptors_after']=len(list(Path('/proc/self/fd').iterdir()))
 print(json.dumps(result),flush=True)
 """
-    syscall = "lstat" if stage == "checked" else "openat"
+    # read_bytes makes one stat-family call on the watched directory: lstat, or newfstatat
+    # with AT_SYMLINK_NOFOLLOW for an interpreter built against a current glibc.
+    syscall = "lstat,newfstatat" if stage == "checked" else "openat"
     watched = inside if stage == "checked" else parent.parent
     command = [
         str(actual_strace),
@@ -200,7 +202,7 @@ print(json.dumps(result),flush=True)
         "-o",
         str(trace),
         "-e",
-        "trace=lstat,openat",
+        "trace=lstat,newfstatat,openat",
         "-P",
         str(watched),
         "-e",

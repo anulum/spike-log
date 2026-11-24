@@ -119,7 +119,11 @@ def test_actual_partial_tool_preflight(
 
 
 def test_actual_proc_availability_kernel_denial(root: Path) -> None:
-    """An owned child receives real ENOENT from its kernel stat capability check."""
+    """An owned child receives real ENOENT from its kernel stat capability check.
+
+    The filter refuses the whole stat family (stat, lstat, newfstatat and statx), because an
+    interpreter built against a current glibc reaches stat through newfstatat.
+    """
     program = """import ctypes,sys
 from pathlib import Path
 sys.path.insert(0,sys.argv[1])
@@ -129,8 +133,8 @@ class Filter(ctypes.Structure):
     _fields_=[('code',ctypes.c_ushort),('jt',ctypes.c_ubyte),('jf',ctypes.c_ubyte),('k',ctypes.c_uint)]
 class Program(ctypes.Structure):
     _fields_=[('length',ctypes.c_ushort),('filters',ctypes.POINTER(Filter))]
-filters=(Filter*4)(Filter(0x20,0,0,0),Filter(0x15,0,1,4),Filter(0x06,0,0,0x50002),Filter(0x06,0,0,0x7fff0000))
-program=Program(4,filters)
+filters=(Filter*7)(Filter(0x20,0,0,0),Filter(0x15,4,0,4),Filter(0x15,3,0,6),Filter(0x15,2,0,262),Filter(0x15,1,0,332),Filter(0x06,0,0,0x7fff0000),Filter(0x06,0,0,0x50002))
+program=Program(7,filters)
 libc=ctypes.CDLL(None,use_errno=True)
 assert libc.prctl(38,1,0,0,0)==0
 assert libc.prctl(22,2,ctypes.byref(program),0,0)==0
