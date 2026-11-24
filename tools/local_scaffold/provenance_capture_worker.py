@@ -88,7 +88,11 @@ def capture_once(
         kind = record.get("source_kind")
         if kind is not None:
             if not isinstance(kind, str) or kind not in LOCAL_KINDS:
-                raise Fault("configuration_invalid", "local-source", 4)
+                # No real input reaches this refusal while dependency-provenance.json is pinned to
+                # PROVENANCE_SHA256 above: every source_kind of the pinned baseline is a local kind,
+                # which test_every_pinned_baseline_source_kind_is_a_local_kind asserts. It guards a
+                # future pin.
+                raise Fault("configuration_invalid", "local-source", 4)  # pragma: no cover
             if artifacts is None or owner is None:
                 raise Fault("input_unavailable", str(record["name"]), 3)
     try:

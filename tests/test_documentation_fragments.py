@@ -127,3 +127,20 @@ def test_public_guard_refuses_encoded_site_identifier(root: Path) -> None:
         for reason in reasons
     )
     assert snapshots(root) == before
+
+
+def test_public_guard_refuses_a_changed_fragment_hook(root: Path) -> None:
+    """A received fragment hook whose bytes differ from the reviewed hook is refused unrendered."""
+    hook = root / "tools/local_scaffold/documentation_fragments.py"
+    hook.write_text(hook.read_text() + "\n# A received change to the reviewed hook.\n")
+    before = snapshots(root)
+    report = payload(run_guard("documentation", root), 2)
+    reasons = report["reasons"]
+    assert isinstance(reasons, list)
+    assert any(
+        isinstance(reason, dict)
+        and reason["code"] == "documentation.renderer-failure"
+        and reason["location"] == "tools/local_scaffold/documentation_fragments.py"
+        for reason in reasons
+    )
+    assert snapshots(root) == before

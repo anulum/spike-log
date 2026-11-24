@@ -18,6 +18,9 @@ from typing import Literal, cast
 
 import pytest
 
+from local_scaffold.policy import PROVENANCE_SHA256
+from local_scaffold.provenance_capture_worker import _registry_response
+from local_scaffold.provenance_local import LOCAL_KINDS
 from local_scaffold.reports import Fault, validate_child
 from tests.conftest import SOURCE, payload, source_python
 from tests.test_atomic_publication import actual_strace as actual_strace
@@ -102,6 +105,7 @@ def test_native_worker_api_and_closed_scope(reproduction_root: Path) -> None:
         ("baseline", 2, "source_identity_mismatch"),
         ("incomplete", 3, "input_unavailable"),
         ("missing-parent", 3, "input_unavailable"),
+        ("no-roots", 3, "input_unavailable"),
         ("missing-root", 3, "root_unavailable"),
         ("file-root", 3, "root_unavailable"),
     ],
@@ -133,11 +137,13 @@ def test_native_worker_input_refusals(
         name = ".tool-cache/missing-parent/inputs"
     elif case == "missing-root":
         root = root / "missing"
-    else:
+    elif case == "file-root":
         root = root / "repository-domain.json"
     result = payload(
         subprocess.run(
-            source_python("-c", WORKER_PROGRAM, str(root), name),
+            source_python(
+                "-c", WORKER_PROGRAM, str(root), name, *(() if case == "no-roots" else ROOTS)
+            ),
             cwd=SOURCE,
             capture_output=True,
             timeout=30,
@@ -281,3 +287,19 @@ def test_worker_bounded_diagnostics(reproduction_root: Path) -> None:
     assert len(reasons) == 256 and reasons[-1]["code"] == "diagnostic_budget_exceeded"
     assert path.read_bytes() == before
     assert not (reproduction_root / ".tool-cache/inputs").exists()
+
+
+def test_registry_refusal_of_an_absent_version_is_unavailable() -> None:
+    """The real registry's refusal of a version it does not hold reports the source unavailable."""
+    with pytest.raises(Fault) as raised:
+        _registry_response("packaging", "0.0.0.dev0")
+    assert (raised.value.code, raised.value.exit_code) == ("tool_unavailable", 3)
+
+
+def test_every_pinned_baseline_source_kind_is_a_local_kind() -> None:
+    """The pinned baseline names only local kinds, the invariant the worker's kind refusal guards."""
+    original = (SOURCE / "dependency-provenance.json").read_bytes()
+    assert hashlib.sha256(original).hexdigest() == PROVENANCE_SHA256
+    packages = cast(list[dict[str, object]], json.loads(original)["packages"])
+    kinds = {record["source_kind"] for record in packages if "source_kind" in record}
+    assert kinds and kinds <= set(LOCAL_KINDS)

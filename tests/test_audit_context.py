@@ -16,7 +16,9 @@ from time import monotonic, sleep
 
 import pytest
 
+from local_scaffold.audit_context import policy_digest
 from local_scaffold.inputs import Json
+from local_scaffold.reports import Fault
 from tests.conftest import (
     SOURCE,
     adverse_audit_receipt,
@@ -288,3 +290,12 @@ sys.exit(report.emit(True))
             "dependency_alignment.incompatible-patch.",
         }
     ]
+
+
+def test_policy_digest_refuses_a_tooling_tree_without_python_sources(tmp_path: Path) -> None:
+    """A trusted installation whose tools tree holds no Python source has nothing to bind."""
+    (tmp_path / "tools/local_scaffold").mkdir(parents=True)
+    (tmp_path / "tools/README.txt").write_text("No Python source.\n")
+    with pytest.raises(Fault) as raised:
+        policy_digest(tmp_path)
+    assert raised.value.code == "resource_limit"

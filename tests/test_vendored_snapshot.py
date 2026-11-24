@@ -11,12 +11,15 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 from pathlib import Path
 from typing import cast
 
 import pytest
 
 from local_scaffold.inputs import Json
+from local_scaffold.provenance_sources import load
+from local_scaffold.reports import Fault
 from tests.conftest import SOURCE, payload, run_guard
 
 SNAPSHOT = "vendor/provenance-inputs"
@@ -90,3 +93,15 @@ def test_gates_refuse_an_unpinned_snapshot_response(root: Path, gate: str, case:
     assert (code, SNAPSHOT + "/" + name) in [
         (reason["code"], reason["location"]) for reason in reasons
     ]
+
+
+def test_first_version_snapshot_refuses_local_source_records(tmp_path: Path) -> None:
+    """A first-version snapshot cannot carry the local-source records only the second defines."""
+    snapshot = tmp_path / "provenance-inputs"
+    shutil.copytree(SOURCE / "vendor/provenance-inputs", snapshot)
+    index = json.loads((snapshot / "inputs.json").read_bytes())
+    index["input_schema"] = "spike_log.dependency-source-inputs.v1"
+    (snapshot / "inputs.json").write_text(json.dumps(index, sort_keys=True, indent=2) + "\n")
+    with pytest.raises(Fault) as raised:
+        load(snapshot)
+    assert (raised.value.code, raised.value.exit_code) == ("configuration_invalid", 4)

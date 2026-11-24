@@ -32,6 +32,9 @@ SOURCE_INPUTS = Path(os.environ.get("SPIKE_LOG_TEST_ENVIRONMENT_SOURCE", str(SOU
 UNSUPPORTED_PYTHON = (
     SOURCE / ".tool-cache/native-fixtures/cpython-3.13.15/extracted/python/bin/python3.13"
 )
+UNSUPPORTED_ENVIRONMENT = (
+    SOURCE / ".tool-cache/native-fixtures/cpython-3.13.15/guard-environment-uv/bin/python"
+)
 
 
 @dataclass(frozen=True)
@@ -108,10 +111,10 @@ def arguments(inputs: EnvironmentInputs) -> list[str]:
 def invoke(
     inputs: EnvironmentInputs, *extra: str, instrument: bool = True, python: str = sys.executable
 ) -> subprocess.CompletedProcess[bytes]:
-    """Run the real public script, measured as an owned child when it uses this interpreter."""
+    """Run the real public script under ``python``, measured as an owned child unless not instrumented."""
     script = [str(SOURCE / "tools/check_environment_inputs.py"), *arguments(inputs), *extra]
-    if instrument and python == sys.executable:
-        command = source_python("-B", "-I", *script)
+    if instrument:
+        command = source_python("-B", "-I", *script, executable=python)
     else:
         command = [python, "-B", "-I", *script]
     return subprocess.run(
@@ -342,12 +345,16 @@ def test_boolean_api_budget_refuses(inputs: EnvironmentInputs) -> None:
 
 
 def test_actual_unsupported_interpreter_refuses_before_any_write(inputs: EnvironmentInputs) -> None:
-    """The pinned genuine unsupported interpreter refuses before bootstrap writes."""
+    """The pinned genuine unsupported interpreter refuses before bootstrap writes.
+
+    It runs from its guard environment, the same pinned binary with the measurement installed.
+    """
     assert hashlib.sha256(UNSUPPORTED_PYTHON.read_bytes()).hexdigest() == (
         "bb4d05c1f88e8568985e8704afe1822e82700a54bad9317c05c8eb96d3186701"
     )
+    assert UNSUPPORTED_ENVIRONMENT.resolve() == UNSUPPORTED_PYTHON.resolve()
     before = snapshot(inputs.root)
-    result = invoke(inputs, python=str(UNSUPPORTED_PYTHON))
+    result = invoke(inputs, python=str(UNSUPPORTED_ENVIRONMENT))
     assert result.returncode == 2, (result.stdout, result.stderr)
     assert (
         json.loads(result.stdout)["reasons"][0]["code"] == "dependency_alignment.incompatible-patch"

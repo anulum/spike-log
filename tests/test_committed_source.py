@@ -160,10 +160,15 @@ def test_native_git_does_not_execute_received_fsmonitor(copied_owner: Path) -> N
 
 
 def test_actual_nongit_owner_refuses(tmp_path: Path) -> None:
-    """A real existing directory with no owning Git repository cannot establish a commit."""
+    """A real existing directory with no owning Git repository cannot establish a commit.
+
+    Its Git pointer names a directory that does not exist, so Git stops there instead of
+    discovering an enclosing checkout, such as the clone that holds the test's tool cache.
+    """
     manifest, files = original_source()
     owner = tmp_path / "not-a-git-owner"
     owner.mkdir()
+    (owner / ".git").write_text("gitdir: " + str(tmp_path / "absent-git-directory") + "\n")
     with pytest.raises(Fault) as error:
         verify_committed_source(owner, manifest, files)
-    assert error.value.exit_code == 2
+    assert (error.value.code, error.value.exit_code) == ("source_identity_mismatch", 2)
