@@ -22,10 +22,10 @@ ASSETS: Final = {
 
 ACTIONS: Final = {
     "actions/checkout": "3d3c42e5aac5ba805825da76410c181273ba90b1",
-    "actions/setup-python": "5fda3b95a4ea91299a34e894583c3862153e4b97",
-    "github/codeql-action": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
-    "github/codeql-action/init": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
-    "github/codeql-action/analyze": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+    "actions/setup-python": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+    "github/codeql-action": "1bd86f2fdb4b86187fa4059f16f31a3202acc9ea",
+    "github/codeql-action/init": "1bd86f2fdb4b86187fa4059f16f31a3202acc9ea",
+    "github/codeql-action/analyze": "1bd86f2fdb4b86187fa4059f16f31a3202acc9ea",
 }
 
 
