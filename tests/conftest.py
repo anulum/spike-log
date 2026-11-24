@@ -68,14 +68,42 @@ def source_python(*arguments: str, executable: str | None = None) -> list[str]:
             assert script.read_bytes() == program
         remaining = [str(script), *remaining[2:]]
     launcher = """import os,pathlib,runpy,sys
-from coverage import Coverage
+from coverage import Coverage,CoverageData
 configuration=sys.argv[1]
 arguments=sys.argv[2:]
 root=pathlib.Path(configuration).parent
 settings=Coverage(config_file=configuration)
+names=settings.get_option('run:source')
 data_file=os.environ.get('COVERAGE_FILE') or str(root/settings.get_option('run:data_file'))
-source=[str(root/name) for name in settings.get_option('run:source')]
-coverage=Coverage(config_file=configuration,data_file=data_file,source=source,data_suffix=True)
+copies={pathlib.Path.cwd().resolve()}
+if arguments[0]!='-m':
+    script=pathlib.Path(arguments[0]).resolve()
+    copies.update(p for p in script.parents if (p/'pyproject.toml').is_file())
+copies=[copy for copy in copies if not root.is_relative_to(copy)]
+copies.sort(key=lambda copy:len(copy.parts),reverse=True)
+source=[str(base/name) for base in (root,*copies) for name in names if (base/name).is_dir()]
+class Measured(Coverage):
+    def save(self):
+        measured=self.get_data()
+        merged=CoverageData(basename=data_file,suffix=True)
+        for name in measured.measured_files():
+            path=pathlib.Path(name)
+            copy=next((copy for copy in copies if path.is_relative_to(copy)),None)
+            target=path if copy is None else root/path.relative_to(copy)
+            if copy is not None:
+                try:
+                    same=target.read_bytes()==path.read_bytes()
+                except OSError:
+                    same=False
+                if not same:
+                    continue
+            if measured.has_arcs():
+                merged.add_arcs({str(target):measured.arcs(name) or []})
+            else:
+                merged.add_lines({str(target):measured.lines(name) or []})
+        merged.write()
+coverage=Measured(config_file=configuration,data_file=None,source=source)
+coverage.set_option('run:data_file',data_file)
 coverage.set_option('run:disable_warnings',['no-data-collected'])
 coverage.start()
 try:

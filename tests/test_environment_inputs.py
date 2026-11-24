@@ -25,7 +25,7 @@ from check_environment_inputs import main
 from local_scaffold.bootstrap_bindings import SOURCE_PINS
 from local_scaffold.bootstrap_inputs import verify
 from local_scaffold.reports import Fault
-from tests.conftest import SOURCE
+from tests.conftest import SOURCE, source_python
 from tests.test_provenance_local import INPUTS, OWNER
 
 SOURCE_INPUTS = Path(os.environ.get("SPIKE_LOG_TEST_ENVIRONMENT_SOURCE", str(SOURCE)))
@@ -113,10 +113,12 @@ def arguments(inputs: EnvironmentInputs) -> list[str]:
 def invoke(
     inputs: EnvironmentInputs, *extra: str, instrument: bool = True, python: str = sys.executable
 ) -> subprocess.CompletedProcess[bytes]:
-    """Run the real public script, retaining separate native child coverage when requested."""
-    command = [python, "-B"]
+    """Run the real public script, measured as an owned child or into a requested separate output."""
+    script = [str(SOURCE / "tools/check_environment_inputs.py"), *arguments(inputs), *extra]
     if instrument and COVERAGE_OUTPUT:
-        command += [
+        command = [
+            python,
+            "-B",
             "-m",
             "coverage",
             "run",
@@ -124,11 +126,14 @@ def invoke(
             "--parallel-mode",
             "--source=" + COVERAGE_SOURCES,
             "--data-file=" + COVERAGE_OUTPUT,
+            *script,
         ]
+    elif instrument and python == sys.executable:
+        command = source_python("-B", "-I", *script)
     else:
-        command += ["-I"]
+        command = [python, "-B", "-I", *script]
     return subprocess.run(
-        [*command, str(SOURCE / "tools/check_environment_inputs.py"), *arguments(inputs), *extra],
+        command,
         cwd=SOURCE,
         capture_output=True,
         timeout=30,
