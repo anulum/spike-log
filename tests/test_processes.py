@@ -10,6 +10,7 @@
 
 import asyncio
 import gc
+import subprocess
 import sys
 import warnings
 from pathlib import Path
@@ -20,6 +21,8 @@ from local_scaffold.orchestration import Role, run_plan, verify
 from local_scaffold.policy import ROLES
 from local_scaffold.processes import ProcessObservation, ProcessResult, run_process
 from local_scaffold.reports import Fault, Report, validate_child
+from tests.conftest import SOURCE, source_python
+from tests.test_atomic_publication import actual_strace as actual_strace
 
 
 @pytest.mark.parametrize("runner", [False, True])
@@ -188,3 +191,78 @@ def test_missing_root_refuses_before_configured_role_execution(tmp_path: Path) -
     assert (error.value.code, error.value.exit_code) == ("root_unavailable", 3)
     assert report.checks == []
     assert not root.exists() and list(tmp_path.iterdir()) == []
+
+
+CHILD = (
+    "import os,sys,time;"
+    "open(sys.argv[1] + '.partial', 'w').write(str(os.getpid()));"
+    "os.rename(sys.argv[1] + '.partial', sys.argv[1]);"
+    "time.sleep(5)"
+)
+"""Publish the child's PID completely or not at all, then sleep five seconds."""
+INTERRUPTED_PROGRAM = (
+    "import signal,sys\n"
+    "from pathlib import Path\n"
+    "sys.path.insert(0, " + repr(str(SOURCE / "tools")) + ")\n"
+    "from local_scaffold.cli import interrupted\n"
+    "from local_scaffold.processes import run_process\n"
+    "signal.signal(signal.SIGTERM, interrupted)\n"
+    "try:\n"
+    "    result = run_process([sys.executable, '-I', '-c', " + repr(CHILD) + ", sys.argv[2]],"
+    " Path(sys.argv[1]), 60)\n"
+    "except KeyboardInterrupt:\n"
+    "    print('interrupted', signal.getsignal(signal.SIGTERM) is interrupted,"
+    " signal.getsignal(signal.SIGINT) is signal.default_int_handler)\n"
+    "else:\n"
+    "    print('completed', result.exit_code)\n"
+)
+"""Install the CLI's handler, run CHILD through run_process, and report how the call ended."""
+
+
+@pytest.mark.parametrize(
+    ("syscall", "when", "signum"),
+    [
+        *(("epoll_ctl", str(number), "SIGTERM") for number in range(1, 9)),
+        ("pidfd_open", "1", "SIGTERM"),
+        ("pipe2", "1", "SIGTERM"),
+        ("pipe2", "2", "SIGTERM"),
+        ("pipe2", "3", "SIGTERM"),
+        ("kill", "1", "SIGTERM"),
+        ("epoll_ctl", "2+", "SIGTERM"),
+        ("epoll_ctl", "3", "SIGINT"),
+        ("epoll_ctl", "5", "SIGINT"),
+    ],
+)
+def test_actual_interruption_at_any_loop_point_ends_cleanly(
+    actual_strace: Path, tmp_path: Path, syscall: str, when: str, signum: str
+) -> None:
+    """A real signal anywhere in the loop's startup, run or teardown ends the call cleanly.
+
+    The pinned strace traces only the calling program and injects the signal at the chosen
+    call: the loop's self-pipe, the child's pipes, pidfd and exit registrations, its
+    removal after the child's exit, the group cleanup, every later loop registration, and
+    SIGINT at a startup and a teardown point. Each call ends long before its deadline with
+    the interruption reported, nothing on stderr, the caller's handlers restored and no
+    surviving child.
+    """
+    child = tmp_path / "child.pid"
+    trace = tmp_path / "interruption.native-trace"
+    result = subprocess.run(
+        [
+            str(actual_strace),
+            "-qq",
+            "-o",
+            str(trace),
+            "-e",
+            "trace=epoll_ctl,pidfd_open,pipe2,kill",
+            "-e",
+            "inject=" + syscall + ":signal=" + signum + ":when=" + when,
+            *source_python("-c", INTERRUPTED_PROGRAM, str(tmp_path), str(child)),
+        ],
+        capture_output=True,
+        timeout=30,
+    )
+    assert (result.returncode, result.stdout, result.stderr) == (0, b"interrupted True True\n", b"")
+    assert "--- " + signum + " " in trace.read_text()
+    if child.exists():
+        assert not Path("/proc", child.read_text()).exists()
