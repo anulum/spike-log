@@ -20,11 +20,16 @@ from tests.conftest import SOURCE, clone_dependency, payload, run_guard, snapsho
 from tests.test_atomic_publication import actual_strace as actual_strace
 
 
-def test_real_fresh_producer_and_offline_admission(root: Path) -> None:
-    """Produce through the genuine pinned CLI and consume its actual complete result twice."""
-    store = SOURCE / ".tool-cache/security-admissions"
-    result = run_guard("dependency_alignment", SOURCE, "--produce-audit")
-    record = payload(result, 0)
+def test_real_fresh_producer_and_offline_admission(audited_clone: Path) -> None:
+    """Produce through the genuine pinned CLI and consume its actual complete result twice.
+
+    The owned installation owns its admission store and audit, so the production never
+    rewrites the repository's own store, which every concurrently running check reads.
+    """
+    shared = SOURCE / ".tool-cache/security-admissions/HEAD.json"
+    shared_head = shared.read_bytes()
+    store = audited_clone / ".tool-cache/security-admissions"
+    record = payload(clone_dependency(audited_clone, "--produce-audit"), 0)
     assert record["scope"] == "audit_produce"
     head_bytes = (store / "HEAD.json").read_bytes()
     head = json.loads(head_bytes)
@@ -43,17 +48,17 @@ def test_real_fresh_producer_and_offline_admission(root: Path) -> None:
     for name in ("audit_sha256", "stdout_sha256", "stderr_sha256"):
         data = (store / "objects" / (receipt[name] + ".json")).read_bytes()
         assert hashlib.sha256(data).hexdigest() == receipt[name]
-    actual_audit = (SOURCE / ".tool-cache/security/pip-audit.json").read_bytes()
+    actual_audit = (audited_clone / ".tool-cache/security/pip-audit.json").read_bytes()
     assert hashlib.sha256(actual_audit).hexdigest() == receipt["audit_sha256"]
     assert len(json.loads(actual_audit)["dependencies"]) == 104
-    (root / ".tool-cache/security/pip-audit.json").write_bytes(actual_audit)
-    before = snapshots(root)
-    first = run_guard("dependency_alignment", root)
-    second = run_guard("dependency_alignment", root)
+    before = snapshots(audited_clone)
+    first = clone_dependency(audited_clone)
+    second = clone_dependency(audited_clone)
     payload(first, 0)
     payload(second, 0)
-    assert first.stdout == second.stdout and snapshots(root) == before
+    assert first.stdout == second.stdout and snapshots(audited_clone) == before
     assert (store / "HEAD.json").read_bytes() == head_bytes
+    assert shared.read_bytes() == shared_head
 
 
 def test_foreign_root_cannot_run_or_admit_a_producer(root: Path) -> None:

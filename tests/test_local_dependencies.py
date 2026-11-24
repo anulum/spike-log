@@ -22,7 +22,7 @@ import pytest
 from local_scaffold.inputs import Json
 from local_scaffold.local_dependencies import check_local_dependency
 from local_scaffold.reports import Report
-from tests.conftest import SOURCE, payload, run_guard, source_python
+from tests.conftest import SOURCE, clone_dependency, payload, run_guard, source_python
 from tests.test_environment_failures import genuine_graph_lock, qualify_complete_graph
 from tests.test_environment_failures import genuine_graph_python as genuine_graph_python
 
@@ -74,11 +74,20 @@ def test_original_local_record_disagreements_refuse(case: str) -> None:
 
 
 @pytest.mark.parametrize("case", ("missing", "changed", "link"))
-def test_actual_trusted_local_wheel_failure_refuses_and_recovers(case: str) -> None:
-    """Alter only an owned cached entry; keep the shared original inode intact and restore it."""
+def test_actual_trusted_local_wheel_failure_refuses_and_recovers(
+    audited_clone: Path, case: str
+) -> None:
+    """Alter only an owned cached entry; keep the shared original inode intact and restore it.
+
+    The entry belongs to an owned installation, which first admits its own fresh audit and
+    whose checks read its own inputs, so the repository's own wheel, which every
+    concurrently running check reads, never changes.
+    """
+    payload(clone_dependency(audited_clone, "--produce-audit"), 0)
     record = local_records()[0]
     artifact = cast(dict[str, Json], record["source_artifact"])
-    wheel = SOURCE / ".tool-cache/environment-inputs" / cast(str, artifact["filename"])
+    shared = SOURCE / ".tool-cache/environment-inputs" / cast(str, artifact["filename"])
+    wheel = audited_clone / ".tool-cache/environment-inputs" / cast(str, artifact["filename"])
     held = wheel.with_name(wheel.name + ".retained-negative")
     assert not held.exists()
     original = wheel.read_bytes()
@@ -88,13 +97,14 @@ def test_actual_trusted_local_wheel_failure_refuses_and_recovers(case: str) -> N
             wheel.write_bytes(original[:-1])
         elif case == "link":
             wheel.symlink_to(held.name)
-        payload(run_guard("dependency_alignment", SOURCE), 3 if case == "missing" else 2)
+        payload(clone_dependency(audited_clone), 3 if case == "missing" else 2)
+        assert shared.read_bytes() == original
     finally:
         if os.path.lexists(wheel):
             wheel.unlink()
         held.rename(wheel)
-    assert wheel.read_bytes() == original
-    payload(run_guard("dependency_alignment", SOURCE), 0)
+    assert wheel.read_bytes() == original and wheel.stat().st_ino == shared.stat().st_ino
+    payload(clone_dependency(audited_clone), 0)
 
 
 def test_genuine_local_distribution_absence_refuses(genuine_graph_python: Path) -> None:
